@@ -343,6 +343,11 @@ JNIEXPORT void API JNICALL ${jniPrefix}randReset_1${uniqueId}
     Verilated::randReset(val);
 }
 
+JNIEXPORT void API JNICALL ${jniPrefix}randSeed_1${uniqueId}
+          (JNIEnv *, jobject, Wrapper_${uniqueId} *handle, jint seed){
+    Verilated::randSeed(seed);
+}
+
 JNIEXPORT jboolean API JNICALL ${jniPrefix}eval_1${uniqueId}
   (JNIEnv *, jobject, Wrapper_${uniqueId} *handle){
    handle->top.eval();
@@ -714,6 +719,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |public class VerilatorNative implements IVerilatorNative {
          |    public long newHandle(String name, int seed) { return newHandle_${uniqueId}(name, seed);}
          |    public boolean eval(long handle) { return eval_${uniqueId}(handle);}
+         |    public void rand_seed(long handle, int seed) { randSeed_${uniqueId}(handle, seed);}
          |    public void rand_reset(long handle, int value) { randReset_${uniqueId}(handle, value);}
          |    public int get_time_precision(long handle) { return getTimePrecision_${uniqueId}(handle);}
          |    public void sleep(long handle, long cycles) { sleep_${uniqueId}(handle, cycles);}
@@ -733,6 +739,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |
          |    public native long newHandle_${uniqueId}(String name, int seed);
          |    public native boolean eval_${uniqueId}(long handle);
+         |    public native void randSeed_${uniqueId}(long handle, int seed);
          |    public native void randReset_${uniqueId}(long handle, int value);
          |    public native int getTimePrecision_${uniqueId}(long handle);
          |    public native void sleep_${uniqueId}(long handle, long cycles);
