@@ -5,6 +5,7 @@ public interface IVerilatorNative {
     public boolean eval(long handle);
     public void rand_seed(long handle, int seed);
     public void rand_reset(long handle, int value);
+    public int get_time_unit(long handle);
     public int get_time_precision(long handle);
     public void sleep(long handle, long cycles);
     public long getU64(long handle, int id);

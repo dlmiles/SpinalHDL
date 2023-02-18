@@ -264,6 +264,7 @@ public:
 	  #endif
     string name;
     int32_t time_precision;
+    int32_t time_unit;
 
     Wrapper_${uniqueId}(const char * name){
       simHandle${uniqueId} = this;
@@ -294,6 +295,7 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       #endif
       this->name = name;
       this->time_precision = ${if (useTimePrecision) "Verilated::timeprecision()" else "VL_TIME_PRECISION" };
+      this->time_unit = ${if (useTimePrecision) "Verilated::timeunit()" else "VL_TIME_UNIT" };
     }
 
     virtual ~Wrapper_${uniqueId}(){
@@ -370,6 +372,11 @@ JNIEXPORT jboolean API JNICALL ${jniPrefix}eval_1${uniqueId}
   (JNIEnv *, jobject, Wrapper_${uniqueId} *handle){
    handle->top.eval();
    return Verilated::gotFinish();
+}
+
+JNIEXPORT jint API JNICALL ${jniPrefix}getTimeUnit_1${uniqueId}
+  (JNIEnv *, jobject, Wrapper_${uniqueId} *handle){
+  return handle->time_unit;
 }
 
 JNIEXPORT jint API JNICALL ${jniPrefix}getTimePrecision_1${uniqueId}
@@ -749,6 +756,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |    public boolean eval(long handle) { return eval_${uniqueId}(handle);}
          |    public void rand_seed(long handle, int seed) { randSeed_${uniqueId}(handle, seed);}
          |    public void rand_reset(long handle, int value) { randReset_${uniqueId}(handle, value);}
+         |    public int get_time_unit(long handle) { return getTimeUnit_${uniqueId}(handle);}
          |    public int get_time_precision(long handle) { return getTimePrecision_${uniqueId}(handle);}
          |    public void sleep(long handle, long cycles) { sleep_${uniqueId}(handle, cycles);}
          |    public long getU64(long handle, int id) { return getU64_${uniqueId}(handle, id);}
@@ -769,6 +777,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |    public native boolean eval_${uniqueId}(long handle);
          |    public native void randSeed_${uniqueId}(long handle, int seed);
          |    public native void randReset_${uniqueId}(long handle, int value);
+         |    public native int getTimeUnit_${uniqueId}(long handle);
          |    public native int getTimePrecision_${uniqueId}(long handle);
          |    public native void sleep_${uniqueId}(long handle, long cycles);
          |    public native long getU64_${uniqueId}(long handle, int id);
