@@ -45,6 +45,7 @@ case class SpinalVerilatorBackendConfig[T <: Component](
                                                          waveDepth         : Int = 0,
                                                          optimisationLevel : Int = 2,
                                                          simulatorFlags    : ArrayBuffer[String] = ArrayBuffer[String](),
+                                                         runFlags          : ArrayBuffer[String] = ArrayBuffer[String](),
                                                          withCoverage      : Boolean,
                                                          timePrecision     : TimeNumber = null
 )
@@ -154,6 +155,7 @@ object SpinalVerilatorSim {
 
   def apply[T <: Component](backend : VerilatorBackend, seed : Int) : SimVerilator = {
     val sim = new SimVerilator(backend, backend.instanciate("test1", seed))
+    sim.commandArgs(backend.config.runFlags.toArray)
     sim.userData = backend.config.signals
     sim
   }
@@ -995,6 +997,7 @@ case class SpinalSimConfig(
           waveDepth = _waveDepth,
           optimisationLevel = _optimisationLevel,
           simulatorFlags = _simulatorFlags,
+          runFlags = _runFlags,
           withCoverage = _withCoverage,
           timePrecision = _timePrecision
         )
@@ -1004,6 +1007,7 @@ case class SpinalSimConfig(
         new SimCompiled(report){
           override def newSimRaw(name: String, seed: Int): SimRaw = {
             val raw = new SimVerilator(backend, backend.instanciate(name, seed))
+            raw.commandArgs(backend.config.runFlags.toArray)
             raw.userData = backend.config.signals
             raw
           }

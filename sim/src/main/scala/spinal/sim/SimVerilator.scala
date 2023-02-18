@@ -109,5 +109,6 @@ class SimVerilator(backend : VerilatorBackend,
   override def isBufferedWrite : Boolean = false
   override def enableWave(): Unit = backend.nativeInstance.enableWave(handle)
   override def disableWave(): Unit =  backend.nativeInstance.disableWave(handle)
+  def commandArgs(args: Array[String]): Unit = backend.nativeInstance.commandArgs(handle, args)
 }
 
