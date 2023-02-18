@@ -16,5 +16,6 @@ public interface IVerilatorNative {
     public void deleteHandle(long handle);
     public void enableWave(long handle);
     public void disableWave(long handle);
+    public void commandArgs(long handle, String[] args);
 }
 

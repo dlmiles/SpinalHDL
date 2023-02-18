@@ -33,6 +33,7 @@ class VerilatorBackendConfig{
   var waveFormat             : WaveFormat = WaveFormat.NONE
   var waveDepth:Int          = 1 // 0 => all
   var simulatorFlags         = ArrayBuffer[String]()
+  var runFlags               = ArrayBuffer[String]()
   var withCoverage           = false
   var timePrecision: String  = null
 }
@@ -424,6 +425,34 @@ JNIEXPORT void API JNICALL ${jniPrefix}disableWave_1${uniqueId}
   handle->waveEnabled = false;
 }
 
+JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
+  (JNIEnv * env, jobject obj, Wrapper_${uniqueId} * handle, jobjectArray args){
+  const char *empty[] = { nullptr };
+  const char **argv = nullptr;
+  int argc = 0;
+  jint size = 0;
+  if(args) {
+    size = env->GetArrayLength(args);
+    if(size > 0) {
+      argv = new const char*[size+1];
+      for(jint i = 0; i < size; i++) {
+        jobject ele = env->GetObjectArrayElement(args, i);
+        if(ele)
+          argv[argc++] = env->GetStringUTFChars((jstring)ele, 0);
+      }
+      argv[argc] = nullptr;
+    }
+  }
+  Verilated::commandArgs(argc, (char**)(argc>0) ? argv : empty);
+  if(argv) {
+    for(jint i = 0; i < size; i++) {
+      jobject ele = env->GetObjectArrayElement(args, i);
+      env->ReleaseStringUTFChars((jstring)ele, argv[i]);
+    }
+    delete[] argv;
+  }
+}
+
 #ifdef __cplusplus
 }
 #endif
@@ -694,6 +723,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}disableWave_1${uniqueId}
          |    public void deleteHandle(long handle) { deleteHandle_${uniqueId}(handle);}
          |    public void enableWave(long handle) { enableWave_${uniqueId}(handle);}
          |    public void disableWave(long handle) { disableWave_${uniqueId}(handle);}
+         |    public void commandArgs(long handle, String[] args) { commandArgs_${uniqueId}(handle, args);}
          |
          |
          |    public native long newHandle_${uniqueId}(String name, int seed);
@@ -711,6 +741,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}disableWave_1${uniqueId}
          |    public native void deleteHandle_${uniqueId}(long handle);
          |    public native void enableWave_${uniqueId}(long handle);
          |    public native void disableWave_${uniqueId}(long handle);
+         |    public native void commandArgs_${uniqueId}(long handle, String[] args);
          |
          |    static{
          |      System.load("${new File(s"${workspacePath}/${workspaceName}").getAbsolutePath.replace("\\","\\\\")}/${workspaceName}_$uniqueId.${if(isWindows) "dll" else (if(isMac) "dylib" else "so")}");
