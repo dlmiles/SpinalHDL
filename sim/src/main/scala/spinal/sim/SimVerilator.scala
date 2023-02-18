@@ -122,5 +122,6 @@ class SimVerilator(backend : VerilatorBackend,
   override def disableWave(): Unit =  backend.nativeInstance.disableWave(handle)
   def commandArgs(args: Array[String]): Unit = backend.nativeInstance.commandArgs(handle, args)
   def finish(): Unit = backend.nativeInstance.finish(handle)
+  def topFinal(): Unit = backend.nativeInstance.topFinal(handle)
 }
 
