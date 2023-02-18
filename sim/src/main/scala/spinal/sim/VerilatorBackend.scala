@@ -95,6 +95,20 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
                 WaveFormat.NONE
               }
 
+  def encodeName(name: String): String = {
+    // See verilator/src/V3Ast.cpp:86   AstNode::encodeName(const string&)
+    def encodeChar(c: Char): String = {
+      if (c.toInt > 255)
+        return ""
+      c.toShort.formatted("__0%02x")
+    }
+
+    name.zipWithIndex.map {
+      case s@(0, _) => if (Character.isAlphabetic(s._1)) s._1.toString else encodeChar(s._1)
+      case s@(_, _) => if (Character.isAlphabetic(s._1) || Character.isDigit(s._1) || s._1 == '_') s._1.toString else encodeChar(s._1)
+    }.mkString("")
+  }
+
   def genWrapperCpp(useTimePrecision: Boolean = true): Unit = {
     val jniPrefix = "Java_" + s"wrapper_${workspaceName}".replace("_", "_1") + "_VerilatorNative_"
     val wrapperString = s"""
@@ -279,7 +293,7 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       else if(signal.dataType.width <= 64) "QData"
       else "WData"
       val enforcedCast = if(signal.dataType.width > 64) "(WData*)" else ""
-      val signalReference = s"top.${signal.path.mkString("->")}"
+      val signalReference = s"top->${signal.path.map(encodeName).mkString("->")}"
       val memPatch = if(signal.dataType.isMem) "[0]" else ""
 
       s"      signalAccess[$id] = new ${typePrefix}SignalAccess($enforcedCast $signalReference$memPatch ${if(signal.dataType.width > 64) s" , ${signal.dataType.width}, ${if(signal.dataType.isInstanceOf[SIntDataType]) "true" else "false"}" else ""});\n"
