@@ -105,6 +105,7 @@ class SimVerilator(backend : VerilatorBackend,
   def randSeed(seed : Int) : Unit = backend.nativeInstance.rand_seed(handle, seed)
   def randReset(value : Int) : Unit = backend.nativeInstance.rand_reset(handle, value)
   override def eval() : Boolean = backend.nativeInstance.eval(handle)
+  def getTimeUnit(): Int = backend.nativeInstance.get_time_unit(handle)
   override def getTimePrecision(): Int = backend.nativeInstance.get_time_precision(handle)
   override def sleep(cycles : Long) = backend.nativeInstance.sleep(handle, cycles)
   override def end() = backend.nativeInstance.deleteHandle(handle)
