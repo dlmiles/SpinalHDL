@@ -542,6 +542,9 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     override def buffer[T](f: => T) = f
   }
 
+  val verilatorBinFilename = if(System.getenv("VERILATOR_BIN") != null) System.getenv("VERILATOR_BIN")
+                            else (if(isWindows) "verilator_bin.exe" else "verilator")
+
 //     VL_THREADED
   def compileVerilator(): Unit = {
     val java_home = System.getProperty("java.home")
@@ -588,8 +591,6 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 
     val rtlIncludeDirsArgs = config.rtlIncludeDirs.map(e => s"-I${new File(e).getAbsolutePath}")
       .map('"' + _.replace("\\","/") + '"').mkString(" ")
-
-    val verilatorBinFilename = if(isWindows) "verilator_bin.exe" else "verilator"
 
     // when changing the verilator script, the hash generation (below) must also be updated
     val verilatorScript = s""" set -e ;
