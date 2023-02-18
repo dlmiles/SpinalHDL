@@ -102,6 +102,7 @@ class SimVerilator(backend : VerilatorBackend,
   override def getBigInt(signal : Signal) : BigInt = { getBigIntMem(signal, 0) }
   override def setBigInt(signal : Signal, value : BigInt) : Unit = { setBigIntMem(signal, value, 0) }
 
+  def randSeed(seed : Int) : Unit = backend.nativeInstance.rand_seed(handle, seed)
   def randReset(value : Int) : Unit = backend.nativeInstance.rand_reset(handle, value)
   override def eval() : Boolean = backend.nativeInstance.eval(handle)
   override def getTimePrecision(): Int = backend.nativeInstance.get_time_precision(handle)

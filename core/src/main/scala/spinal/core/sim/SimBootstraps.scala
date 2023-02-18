@@ -155,6 +155,7 @@ object SpinalVerilatorSim {
 
   def apply[T <: Component](backend : VerilatorBackend, seed : Int) : SimVerilator = {
     val sim = new SimVerilator(backend, backend.instanciate("test1", seed))
+    sim.randSeed(seed)
     sim.randReset(2)
     sim.commandArgs(backend.config.runFlags.toArray)
     sim.userData = backend.config.signals
@@ -1008,6 +1009,7 @@ case class SpinalSimConfig(
         new SimCompiled(report){
           override def newSimRaw(name: String, seed: Int): SimRaw = {
             val raw = new SimVerilator(backend, backend.instanciate(name, seed))
+            raw.randSeed(seed)
             raw.randReset(2)
             raw.commandArgs(backend.config.runFlags.toArray)
             raw.userData = backend.config.signals
