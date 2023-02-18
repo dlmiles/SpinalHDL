@@ -656,6 +656,11 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
   }
 }
 
+JNIEXPORT void API JNICALL ${jniPrefix}finish_1${uniqueId}
+  (JNIEnv * env, jobject obj, Wrapper_${uniqueId} * handle){
+  VL_FINISH_MT("", 0, "*JNI*");
+}
+
 #ifdef __cplusplus
 }
 #endif
@@ -1131,6 +1136,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |    public void enableWave(long handle) { enableWave_${uniqueId}(handle);}
          |    public void disableWave(long handle) { disableWave_${uniqueId}(handle);}
          |    public void commandArgs(long handle, String[] args) { commandArgs_${uniqueId}(handle, args);}
+         |    public void finish(long handle) { finish_${uniqueId}(handle);}
          |
          |
          |    public native long newHandle_${uniqueId}(String name, int seed);
@@ -1152,6 +1158,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |    public native void enableWave_${uniqueId}(long handle);
          |    public native void disableWave_${uniqueId}(long handle);
          |    public native void commandArgs_${uniqueId}(long handle, String[] args);
+         |    public native void finish_${uniqueId}(long handle);
          |
          |    static{
          |      System.load("${new File(s"${workspacePath}/${workspaceName}").getAbsolutePath.replace("\\","\\\\")}/${workspaceName}_$uniqueId.${if(isWindows) "dll" else (if(isMac) "dylib" else "so")}");
