@@ -1,12 +1,13 @@
 package spinal.sim
 
-import java.io.{File, PrintWriter}
+import java.io.{File, FileNotFoundException, IOException, PrintWriter}
 
 import javax.tools.JavaFileObject
 import net.openhft.affinity.impl.VanillaCpuLayout
 import org.apache.commons.io.FileUtils
 import java.security.MessageDigest
 
+import java.nio.charset.StandardCharsets
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -546,6 +547,59 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
                             else (if(isWindows) "verilator_bin.exe" else "verilator")
 
 //     VL_THREADED
+  def resolveVerilatorVersion(): (String, BigDecimal) = {
+    var versionDeci: BigDecimal = null
+    var versionString: String = null
+    val fileName = "verilator_version.txt"
+    val verilatorVersionCacheFile = if(cachePath != null) new File(cachePath, fileName) else null
+    if (verilatorVersionCacheFile != null && cacheEnabled) {
+      var read: FileInputStream = null
+      try {
+        read = new FileInputStream(verilatorVersionCacheFile)
+        versionString = new String(read.readAllBytes(), StandardCharsets.UTF_8)
+        read.close()
+      } catch { // best effort as fallback next will just invoke process
+        case _: FileNotFoundException => {}
+        case _: SecurityException => {}
+      } finally try {
+        if (read != null) read.close()
+      } catch {
+        case _: IOException => {}
+      }
+    }
+    var haveFreshData = false
+    if (versionString == null) { // invoke process
+      val verilatorVersionProcess = Process(Seq(verilatorBinFilename, "--version"), new File(workspacePath))
+      versionString = verilatorVersionProcess.lineStream.mkString("\n") // blocks and throws an exception if exit status != 0
+      haveFreshData = true
+    }
+    versionDeci = BigDecimal(versionString.split(" ")(1))
+    if (verilatorVersionCacheFile != null && cacheEnabled && haveFreshData) {
+      var writer: java.io.FileWriter = null
+      var verilatorVersionCacheTmpFile: File = null
+      try {
+        val cacheDir = new File(cachePath)  // cachePath!=null when verilatorVersionCacheFile != null
+        cacheDir.mkdirs()
+        verilatorVersionCacheTmpFile = File.createTempFile(fileName, ".tmp", cacheDir)
+        writer = new java.io.FileWriter(verilatorVersionCacheTmpFile /*, StandardCharsets.UTF_8*/) // JDK11+
+        writer.write(versionString)
+        writer.flush()
+        writer.close()
+        // this will fail on windows if the target exists, which means it won't update it
+        if(verilatorVersionCacheTmpFile.renameTo(verilatorVersionCacheFile))  verilatorVersionCacheTmpFile = null
+      } catch { // best effort as fallback next will just invoke process
+        case e: FileNotFoundException => println(s"${e.getClass.getName}: ${e.getMessage}")
+        case e: SecurityException => println(s"${e.getClass.getName}: ${e.getMessage}")
+      } finally try {
+        if (verilatorVersionCacheTmpFile != null) verilatorVersionCacheTmpFile.delete()
+        if (writer != null) writer.close()
+      } catch {
+        case _: IOException => {}
+      }
+    }
+    (versionString, versionDeci)
+  }
+
   def compileVerilator(): Unit = {
     val java_home = System.getProperty("java.home")
     assert(java_home != "" && java_home != null, "JAVA_HOME need to be set")
@@ -592,6 +646,8 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     val rtlIncludeDirsArgs = config.rtlIncludeDirs.map(e => s"-I${new File(e).getAbsolutePath}")
       .map('"' + _.replace("\\","/") + '"').mkString(" ")
 
+    val (verilatorVersion, verilatorVersionDeci) = resolveVerilatorVersion()
+
     // when changing the verilator script, the hash generation (below) must also be updated
     val verilatorScript = s""" set -e ;
        | ${verilatorBinFilename}
@@ -631,10 +687,6 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     val workspaceDir = new File(s"${workspacePath}/${workspaceName}")
     var workspaceCacheDir: File = null
     var hashCacheDir: File = null
-
-    val verilatorVersionProcess = Process(Seq(verilatorBinFilename, "--version"), new File(workspacePath))
-    val verilatorVersion = verilatorVersionProcess.lineStream.mkString("\n") // blocks and throws an exception if exit status != 0
-    val verilatorVersionDeci = BigDecimal(verilatorVersion.split(" ")(1))
 
     if (cacheEnabled) {
       // calculate hash of verilator version+options and source file contents
