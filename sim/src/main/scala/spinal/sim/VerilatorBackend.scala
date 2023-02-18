@@ -545,9 +545,16 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     dirtyCache;
   }
 
-  class Logger extends ProcessLogger {
-    override def err(s: => String): Unit = { if(!s.startsWith("ar: creating ")) println(s) }
-    override def out(s: => String): Unit = {}
+  class Logger(verbose: Boolean = true) extends ProcessLogger {
+    override def err(s: => String): Unit = {
+      if (s == null || s.isBlank)
+        return
+      if(verbose || !s.startsWith("ar: creating ")) println(s) }
+    override def out(s: => String): Unit = {
+      if(s == null || s.isBlank)
+        return
+      if(verbose) println(s)
+    }
     override def buffer[T](f: => T) = f
   }
 
