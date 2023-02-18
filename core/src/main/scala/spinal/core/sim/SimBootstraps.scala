@@ -159,7 +159,7 @@ object SpinalVerilatorSim {
   }
 
   def apply[T <: Component](backend : VerilatorBackend, seed : Int) : SimVerilator = {
-    val sim = new SimVerilator(backend, backend.instanciate("test1", seed))
+    val sim = new SimVerilatorProxy(backend, backend.instanciate("test1", seed))
     sim.tryRandSeed(seed)  // best effort
     sim.randReset(2)
     sim.commandArgs(backend.config.runFlags.toArray)
@@ -1020,7 +1020,7 @@ case class SpinalSimConfig(
         println(f"[Progress] Verilator compilation done in $deltaTime%1.3f ms")
         new SimCompiled(report){
           override def newSimRaw(name: String, seed: Int): SimRaw = {
-            val raw = new SimVerilator(backend, backend.instanciate(name, seed))
+            val raw = new SimVerilatorProxy(backend, backend.instanciate(name, seed))
             raw.tryRandSeed(seed)  // best effort
             raw.randReset(2)
             raw.commandArgs(backend.config.runFlags.toArray)
