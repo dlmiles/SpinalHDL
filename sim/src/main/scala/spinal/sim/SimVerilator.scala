@@ -117,3 +117,177 @@ class SimVerilator(backend : VerilatorBackend,
   def topFinal(): Unit = backend.nativeInstance.topFinal(handle)
 }
 
+class SimVerilatorProxy(backend: VerilatorBackend,
+                        handle: Long) extends SimVerilator(backend, handle) {
+
+  val verbose = false;
+  override def getIntMem(signal: Signal,
+                         index: Long): Int = {
+    val rc = super.getIntMem(signal, index)
+    if(verbose)
+      println(s"SimVerilator#getIntMem($signal, $index) = $rc")
+    rc
+  }
+
+  override def setIntMem(signal: Signal,
+                value: Int,
+                index: Long): Unit = {
+    if(verbose)
+      println(s"SimVerilator#setIntMem($signal, $value, $index)")
+    super.setIntMem(signal, value, index)
+  }
+
+  override def getLongMem(signal: Signal,
+                          index: Long): Long = {
+    val rc = super.getLongMem(signal, index)
+    if (verbose)
+      println(s"SimVerilator#getLongMem($signal, $index) = $rc")
+    rc
+  }
+
+  override def setLongMem(signal: Signal,
+                          value: Long,
+                          index: Long): Unit = {
+    if (verbose)
+      println(s"SimVerilator#setLongMem($signal, $value, $index)")
+    super.setLongMem(signal, value, index)
+  }
+
+  override def getBigIntMem(signal: Signal,
+                            index: Long) = {
+    val rc = super.getBigIntMem(signal, index)
+    if (verbose)
+      println(s"SimVerilator#getBigIntMem($signal, $index) = $rc")
+    rc
+  }
+
+  override def setBigIntMem(signal: Signal,
+                            value: BigInt,
+                            index: Long): Unit = {
+    if (verbose)
+      println(s"SimVerilator#setBigIntMem($signal, $value, $index)")
+    super.setBigIntMem(signal, value, index)
+  }
+
+  override def getInt(signal: Signal): Int = {
+    val rc = super.getInt(signal)
+    if (verbose)
+      println(s"SimVerilator#getInt($signal) = $rc")
+    rc
+  }
+
+  override def setInt(signal: Signal, value: Int): Unit = {
+    if (verbose)
+      println(s"SimVerilator#setInt($signal, $value)")
+    super.setInt(signal, value)
+  }
+
+  override def getLong(signal: Signal): Long = {
+    val rc = super.getLong(signal)
+    if (verbose)
+      println(s"SimVerilator#getLong($signal) = $rc")
+    rc
+  }
+
+  override def setLong(signal: Signal, value: Long): Unit = {
+    if (verbose)
+      println(s"SimVerilator#setLong($signal, $value)")
+    super.setLong(signal, value)
+  }
+
+  override def getBigInt(signal: Signal): BigInt = {
+    val rc = super.getBigInt(signal)
+    if (verbose)
+      println(s"SimVerilator#getBigInt($signal) = $rc")
+    rc
+  }
+
+  override def setBigInt(signal: Signal, value: BigInt): Unit = {
+    if (verbose)
+      println(s"SimVerilator#setBigInt($signal, $value)")
+    super.setBigInt(signal, value)
+  }
+
+  override def eval(): Boolean = {
+    val rc = super.eval()
+    if (verbose)
+      println(s"SimVerilator#eval() = $rc")
+    rc
+  }
+
+  override def randSeed(seed: Int): Unit = {
+    if (verbose)
+      println(s"SimVerilator#randSeed($seed)")
+    super.randSeed(seed)
+  }
+
+  override def randReset(value: Int): Unit = {
+    if (verbose)
+      println(s"SimVerilator#randReset($value)")
+    super.randReset(value)
+  }
+
+  override def getTimeUnit(): Int = {
+    val rc = super.getTimeUnit()
+    if (verbose)
+      println(s"SimVerilator#getTimeUnit() = $rc")
+    rc
+  }
+
+  override def getTimePrecision(): Int = {
+    val rc = super.getTimePrecision()
+    if (verbose)
+      println(s"SimVerilator#getTimePrecision() = $rc")
+    rc
+  }
+
+  override def sleep(cycles: Long) = {
+    if (verbose)
+      println(s"SimVerilator#sleep($cycles)")
+    super.sleep(cycles)
+  }
+
+  override def end() = {
+    if (verbose)
+      println(s"SimVerilator#end()")
+    super.end()
+  }
+
+  override def isBufferedWrite: Boolean = {
+    val rc = super.isBufferedWrite
+    if (verbose)
+      println(s"SimVerilator#isBufferedWrite() = $rc")
+    rc
+  }
+
+  override def enableWave(): Unit = {
+    if (verbose)
+      println(s"SimVerilator#enableWave()")
+    super.enableWave()
+  }
+
+  override def disableWave(): Unit = {
+    if (verbose)
+      println(s"SimVerilator#disableWave()")
+    super.disableWave()
+  }
+
+  override def commandArgs(args: Array[String]): Unit = {
+    if (verbose)
+      println(s"SimVerilator#commandArgs(${args.mkString("\"", "\", \"", "\"")})")
+    super.commandArgs(args)
+  }
+
+  override def finish(): Unit = {
+    if (verbose)
+      println(s"SimVerilator#finish()")
+    super.finish()
+  }
+
+  override def topFinal(): Unit = {
+    if (verbose)
+      println(s"SimVerilator#topFinal()")
+    super.topFinal()
+  }
+
+}
