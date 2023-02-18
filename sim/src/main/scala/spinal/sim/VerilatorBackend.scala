@@ -706,8 +706,8 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     val cflagsVerilatorVersionInteger = verilatorVersionDeci.toString().replace(".", "")  // 4.034 => 4034
 
     // when changing the verilator script, the hash generation (below) must also be updated
-    val verilatorScript = s""" set -e ;
-       | ${verilatorBinFilename}
+    val verilatorScript = s"""set -e ;
+       |${verilatorBinFilename}
        | ${flags.map("-CFLAGS " + _).mkString(" ")}
        | ${flags.map("-LDFLAGS " + _).mkString(" ")}
        | -CFLAGS -I"$jdkIncludes" -CFLAGS -I"$jdkIncludes/${if(isWindows)"win32" else (if(isMac) "darwin" else "linux")}"
@@ -739,7 +739,10 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
                                      .map('"' + _.replace("\\","/") + '"')
                                      .mkString(" ")}
        | --exe $workspaceName/$wrapperCppName
-       | ${config.simulatorFlags.mkString(" ")}""".stripMargin.replace("\n", "")
+       | ${config.simulatorFlags.mkString(" ")}
+       | "$$@" > verilatorScript.out 2> verilatorScript.err;
+       | """.stripMargin.replace("\r", "").replace("\n ", " \\\n ")
+
 
 
     val workspaceDir = new File(s"${workspacePath}/${workspaceName}")
