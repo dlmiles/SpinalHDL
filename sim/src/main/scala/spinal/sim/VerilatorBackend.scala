@@ -544,10 +544,26 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 }
 #endif
      """
-    val outFile = new java.io.FileWriter(wrapperCppPath)
+
+    val wrapperCppFile = new File(wrapperCppPath)
+    val wrapperCppTmpFile = new File(wrapperCppPath + ".tmp")
+
+    val outFile = new java.io.FileWriter(wrapperCppTmpFile)
     outFile.write(wrapperString)
     outFile.flush()
     outFile.close()
+
+    if(wrapperCppFile.isFile && FileUtils.contentEquals(wrapperCppFile, wrapperCppTmpFile)) {
+      println(s"[info]  Generated ${wrapperCppFile.getName} no content change, preserving timestamp for incremental build")
+      if(!wrapperCppTmpFile.delete())
+        throw new IOException(s"unlink(${wrapperCppTmpFile}): failed")
+    } else {
+      if(wrapperCppFile.isFile && !wrapperCppFile.renameTo(new File(wrapperCppFile.getAbsolutePath + ".old")))
+        throw new IOException(s"rename(${wrapperCppFile}): failed")
+      println(s"[info]  Generated ${wrapperCppFile.getName} changed, updating")
+      if(!wrapperCppTmpFile.renameTo(wrapperCppFile))
+        throw new IOException(s"rename(${wrapperCppTmpFile}): failed")
+    }
 
     val exportMapString =
       s"""CODEABI_1.0 {
@@ -555,10 +571,25 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
          |    local: *;
          |};""".stripMargin
 
-    val exportmapFile = new java.io.FileWriter(s"${workspacePath}/${workspaceName}/libcode.version")
-    exportmapFile.write(exportMapString)
-    exportmapFile.flush()
-    exportmapFile.close()
+    val exportmapFile = new File(s"${workspacePath}/${workspaceName}/libcode.version")
+    val exportmapTmpFile = new File(exportmapFile.getAbsolutePath + ".tmp")
+
+    val writer = new java.io.FileWriter(exportmapTmpFile)
+    writer.write(exportMapString)
+    writer.flush()
+    writer.close()
+
+    if (exportmapFile.isFile && FileUtils.contentEquals(exportmapFile, exportmapTmpFile)) {
+      println(s"[info]  Generated ${exportmapFile.getName} no content change, preserving timestamp for incremental build")
+      if(!exportmapTmpFile.delete())
+        throw new IOException(s"unlink(${exportmapTmpFile}): failed")
+    } else {
+      if(exportmapFile.isFile && !exportmapFile.renameTo(new File(exportmapFile.getAbsolutePath + ".old")))
+        throw new IOException(s"rename(${exportmapFile}): failed")
+      println(s"[info]  Generated ${exportmapFile.getName} changed, updating")
+      if(!exportmapTmpFile.renameTo(exportmapFile))
+        throw new IOException(s"rename(${exportmapTmpFile}): failed")
+    }
   }
 
   class Logger extends ProcessLogger {
