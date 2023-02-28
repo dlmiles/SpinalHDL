@@ -839,6 +839,12 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 
     // when changing the verilator script, the hash generation (below) must also be updated
     val verilatorScript = s"""set -e ;
+       |# Script lines starting with an underscore, or -cc do not form part of the cache hash
+       |_workspacePath="${workspacePath}"
+       |_workspaceName="${workspaceName}"
+       |if [ "X$$VERILATOR_VERBOSE" != "X" ]; then
+       | cat "verilatorScript.sh" 2>/dev/null || true;
+       | fi;
        |${verilatorBinFilename}
        | ${flags.map("-CFLAGS " + _).mkString(" ")}
        | ${flags.map("-LDFLAGS " + _).mkString(" ")}
@@ -873,6 +879,13 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
        | --exe $workspaceName/$wrapperCppName
        | ${config.simulatorFlags.mkString(" ")}
        | "$$@" > verilatorScript.out 2> verilatorScript.err;
+       |rc=$$?;
+       |if [ "X$$VERILATOR_VERBOSE" != "X" ]; then
+       | [ -f "verilatorScript.out" ] && [ ! -s "verilatorScript.out" ] && rm -f "verilatorScript.out" || true;
+       | [ -f "verilatorScript.err" ] && [ ! -s "verilatorScript.out" ] && rm -f "verilatorScript.err" || true;
+       | echo "$$0: $${_workspacePath}/$${_workspaceName} EXIT $$rc";
+       | fi;
+       |exit $$rc;
        | """.stripMargin.replace("\r", "").replace("\n ", " \\\n ")
 
 
