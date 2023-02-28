@@ -771,6 +771,25 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 
     val cflagsVerilatorVersionInteger = verilatorVersionDeci.toString().replace(".", "")  // 4.034 => 4034
 
+    val cflags = ArrayBuffer[String]()
+    // We need to know the Verilator version here to setup -D defines because both our wrapper
+    //  and the verilated*.o need to be built with the same configured view of time source and
+    //  the symbols expected for linkage.
+    if(verilatorVersionDeci >= BigDecimal("4.200")) {
+      // The more recent Verilator versions reduce the amount of global state so that multiple
+      // simulations each potentially with a different sense of time can run in the same
+      // process space.  These defines reduce legacy methods that do not facilitate that.
+      cflags += "-DVL_TIME_CONTEXT";
+      cflags += "-DVL_TIME_STAMP64";
+    } else if(verilatorVersionDeci >= BigDecimal("4.034")) {
+      // Since this versions we have: vluint64_t vl_time_stamp64()
+      // Not much better than sc_time_stamp() but at least removes unnecessary use of FPU.
+      cflags += "-DVL_TIME_STAMP64";
+    } else {
+      // Older versions use the legacy: double sc_time_stamp()
+      // Which ends up being the default if we do not set these -D defines during build.
+    }
+
     // when changing the verilator script, the hash generation (below) must also be updated
     val verilatorScript = s"""set -e ;
        |${verilatorBinFilename}
@@ -783,6 +802,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
        | -LDFLAGS -std=c++11
        | -CFLAGS -D__VERILATOR_VERSION_INTEGER__=${cflagsVerilatorVersionInteger}000L
        | --autoflush  
+       | ${cflags.map("-CFLAGS " + _).mkString(" ")}
        | --output-split 5000
        | --output-split-cfuncs 500
        | --output-split-ctrace 500
