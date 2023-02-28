@@ -880,13 +880,16 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
         FileUtils.copyDirectory(workspaceCacheDir, workspaceDir)
       }
 
+      val makeBinFilename = if (System.getenv("MAKE") != null) System.getenv("MAKE")
+                            else (if (isWindows) "make.exe" else "make")
+
       val dirtyCache = genWrapperCpp(verilatorVersionDeci)
       val threadCount = SimManager.cpuCount
       if (!useCache) {
-        assert(s"make -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
+        assert(s"${makeBinFilename} -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
       } else {
         // do not remake Vtoplevel__ALL.a
-        assert(s"make -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk -o V${config.toplevelName}__ALL.a V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
+        assert(s"${makeBinFilename} -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk -o V${config.toplevelName}__ALL.a V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
       }
 
       if (cacheEnabled) {
