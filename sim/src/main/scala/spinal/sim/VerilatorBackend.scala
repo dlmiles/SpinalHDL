@@ -706,6 +706,17 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 
     val (verilatorVersion, verilatorVersionDeci) = resolveVerilatorVersion()
 
+    val cflags = ArrayBuffer[String]()
+    if(verilatorVersionDeci >= BigDecimal("4.200")) {
+      // From what I could understand from testing, our wrapper and the verilated*.o need to be built
+      // with these same defines so they are all configured to same symbols for 'time' source linkage.
+      // The more recent Verilator versions reduce the amount of global state so that multiple simulations
+      // each potentially with a different sense of time can run in the same process space.
+      // These defines reduce legacy methods that do not facilitate that.
+      cflags += "-DVL_TIME_CONTEXT";
+      cflags += "-DVL_TIME_STAMP64";
+    }
+
     // when changing the verilator script, the hash generation (below) must also be updated
     val verilatorScript = s"""set -e ;
        |${verilatorBinFilename}
@@ -717,6 +728,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
        | -CFLAGS -std=c++11
        | -LDFLAGS -std=c++11
        | --autoflush  
+       | ${cflags.map("-CFLAGS " + _).mkString(" ")}
        | --output-split 5000
        | --output-split-cfuncs 500
        | --output-split-ctrace 500
