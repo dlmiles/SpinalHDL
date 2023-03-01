@@ -626,12 +626,48 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     val java_home = System.getProperty("java.home")
     assert(java_home != "" && java_home != null, "JAVA_HOME need to be set")
     val jdk = java_home.replace("/jre","").replace("\\jre","")
-    val jdkIncludes = if(isWindows){
-      new File(s"${workspacePath}\\${workspaceName}").mkdirs()
-      FileUtils.copyDirectory(new File(s"$jdk\\include"), new File(s"${workspacePath}\\${workspaceName}\\jniIncludes"))
-      s"jniIncludes"
-    }else{
-      jdk + "/include"
+
+    val jniIncludes = ArrayBuffer[String]()
+//    if (isWindows) {
+//      new File(s"${workspacePath}\\${workspaceName}").mkdirs()
+//      FileUtils.copyDirectory(new File(s"$jdk\\include"), new File(s"${workspacePath}\\${workspaceName}\\jniIncludes"))
+//      jniIncludes += "jniIncludes"
+//    } else {
+      jniIncludes += jdk + File.separatorChar + "include"
+//    }
+
+    {
+      var found = false
+      val jniIncludeFile = new File(jdk, "include")
+      var osName = System.getProperty("os.name")
+      if(osName != null) {
+        osName = osName.toLowerCase
+        val jniIncludeOsNameFile = new File(jniIncludeFile, osName)
+        if (jniIncludeOsNameFile.isDirectory) {
+          jniIncludes += jniIncludeOsNameFile.getAbsolutePath // linux || freebsd
+          found = true
+        }
+      }
+      if(!found) {
+        Seq("darwin", "win32", "linux", "freebsd").foreach(dirName => {
+          // darwin (os.name="Mac OS X" || os.name="Darwin") || win32 (os.name="Windows 10" || os.name="Windows ??")
+          val jniIncludeOsWellKnownFile = new File(jniIncludeFile, dirName)
+          if (jniIncludeOsWellKnownFile.isDirectory) {
+            jniIncludes += jniIncludeOsWellKnownFile.getAbsolutePath
+            found = true
+          }
+        })
+      }
+      if(!found) {
+        jniIncludes += jdk + File.separatorChar + "include" + File.separatorChar + (if(isWindows) "win32" else (if(isMac) "darwin" else "linux")) // fallback to old method
+      }
+    }
+
+    def shellQuoteAndEscape(s: String): String = {
+      // A lot of escaping going on here, half of them are to get out of Scala and into the file, we want in the
+      //  verilatorScript.sh: -I"Directory\\ Name" which the shell will interpret and pass to verilator, which
+      //  will build the makefile to get -IDirectory\ Name
+      "\"" + s.replace(" ", "\\\\ ") + "\""
     }
 
     val arch = System.getProperty("os.arch")
@@ -675,7 +711,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
        |${verilatorBinFilename}
        | ${flags.map("-CFLAGS " + _).mkString(" ")}
        | ${flags.map("-LDFLAGS " + _).mkString(" ")}
-       | -CFLAGS -I"$jdkIncludes" -CFLAGS -I"$jdkIncludes/${if(isWindows)"win32" else (if(isMac) "darwin" else "linux")}"
+       | ${jniIncludes.map("-CFLAGS -I" + shellQuoteAndEscape(_)).mkString(" ")}
        | -CFLAGS -fvisibility=hidden
        | -LDFLAGS -fvisibility=hidden
        | -CFLAGS -std=c++11
