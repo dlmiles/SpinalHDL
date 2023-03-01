@@ -1075,6 +1075,21 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
         FileUtils.copyDirectory(workspaceCacheDir, workspaceDir)
       }
 
+      // #!/bin/sh
+      //#
+      //makeBinFilename="make.exe"
+      //threadCount="1"
+      //workspacePath="/path/to/foo/blah/project/simWorkspace/MyComponent"
+      //workspaceName="verilator"
+      //configToplevelName="Toplevel"
+      //
+      //${makeBinFilename} -j$threadCount VM_PARALLEL_BUILDS=1 \
+      //	-C "${workspacePath}/${workspaceName}" \
+      //	-f "V${configToplevelName}.mk" \
+      //	"V${configToplevelName}" \
+      //	"CURDIR=${workspacePath}/${workspaceName}" \
+      //	$@
+
       val makeBinFilename = if (System.getenv("MAKE") != null) System.getenv("MAKE")
                             else (if (isWindows) "make.exe" else "make")
 
