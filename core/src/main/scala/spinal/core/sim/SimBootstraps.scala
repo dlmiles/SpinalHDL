@@ -47,6 +47,7 @@ case class SpinalVerilatorBackendConfig[T <: Component](
                                                          simulatorFlags    : ArrayBuffer[String] = ArrayBuffer[String](),
                                                          runFlags          : ArrayBuffer[String] = ArrayBuffer[String](),
                                                          withCoverage      : Boolean,
+                                                         timeUnit          : TimeNumber = null,
                                                          timePrecision     : TimeNumber = null
 )
 
@@ -75,6 +76,10 @@ object SpinalVerilatorBackend {
     vconfig.optimisationLevel = optimisationLevel
     vconfig.simulatorFlags        = simulatorFlags
     vconfig.withCoverage  = withCoverage
+    vconfig.timeUnit = config.timeUnit match {
+      case null => null
+      case v => v.decomposeString
+    }
     vconfig.timePrecision = config.timePrecision match {
       case null => null
       case v => v.decomposeString
@@ -683,6 +688,7 @@ case class SpinalSimConfig(
                             var _bdSourcesPaths    : ArrayBuffer[String] = ArrayBuffer[String](),
                             var _xilinxDevice:String = "xc7vx485tffg1157-1",
                             var _simScript         : String = null,
+                            var _timeUnit          : TimeNumber = null,
                             var _timePrecision     : TimeNumber = null,
                             var _timeScale         : TimeNumber = null
   ){
@@ -871,6 +877,11 @@ case class SpinalSimConfig(
     this
   }
 
+  def withTimeUnit(timeUnit: TimeNumber): this.type = {
+    _timeUnit = timeUnit
+    this
+  }
+
   def withTimeScale(timeScale: TimeNumber): this.type = {
     _timeScale = timeScale
     this
@@ -1001,6 +1012,7 @@ case class SpinalSimConfig(
           simulatorFlags = _simulatorFlags,
           runFlags = _runFlags,
           withCoverage = _withCoverage,
+          timeUnit = _timeUnit,
           timePrecision = _timePrecision
         )
         val backend = SpinalVerilatorBackend(vConfig)
