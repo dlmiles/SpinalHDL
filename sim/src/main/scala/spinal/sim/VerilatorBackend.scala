@@ -35,6 +35,7 @@ class VerilatorBackendConfig{
   var simulatorFlags         = ArrayBuffer[String]()
   var runFlags               = ArrayBuffer[String]()
   var withCoverage           = false
+  var timeUnit: String       = null
   var timePrecision: String  = null
 }
 
@@ -518,9 +519,19 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
       case false => ""
     }
 
-    val timeScaleArgs = config.timePrecision match {
-      case null => ""
-      case _ => s"--timescale-override /${config.timePrecision.replace(" ", "")}"
+    val timeUnit = config.timeUnit match {
+      case null => null
+      case s: String => s.replace(" ", "")
+    }
+    val timePrecision = config.timePrecision match {
+      case null => null
+      case s: String => s.replace(" ", "")
+    }
+    val timeScaleArgs = (timeUnit, timePrecision) match {
+      case (null, null) => ""
+      case (_, null) => s"--timescale-override ${timeUnit}/"
+      case (null, _) => "--timescale-override \" /" + s"${timePrecision}" + "\""  // extra space is a verilator quirk in at least 5.006)
+      case (_, _) => s"--timescale-override ${timeUnit}/${timePrecision}"
     }
 
     val rtlIncludeDirsArgs = config.rtlIncludeDirs.map(e => s"-I${new File(e).getAbsolutePath}")
