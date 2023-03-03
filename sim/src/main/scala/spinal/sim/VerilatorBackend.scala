@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils
 import java.security.MessageDigest
 
 import java.nio.charset.StandardCharsets
+import java.util.regex.Pattern
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -121,7 +122,7 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
     }.mkString("")
   }
 
-  def genWrapperCpp(verilatorVersionDeci: BigDecimal): Unit = {
+  def genWrapperCpp(verilatorVersionDeci: BigDecimal): Boolean = {
     val useTimePrecision = verilatorVersionDeci >= BigDecimal("4.034");
     val jniPrefix = "Java_" + s"wrapper_${workspaceName}".replace("_", "_1") + "_VerilatorNative_"
     val wrapperString = s"""
@@ -545,6 +546,8 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 #endif
      """
 
+    var dirtyCache = false;
+
     val wrapperCppFile = new File(wrapperCppPath)
     val wrapperCppTmpFile = new File(wrapperCppPath + ".tmp")
 
@@ -563,6 +566,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
       println(s"[info]  Generated ${wrapperCppFile.getName} changed, updating")
       if(!wrapperCppTmpFile.renameTo(wrapperCppFile))
         throw new IOException(s"rename(${wrapperCppTmpFile}): failed")
+      dirtyCache = true;
     }
 
     val exportMapString =
@@ -589,7 +593,10 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
       println(s"[info]  Generated ${exportmapFile.getName} changed, updating")
       if(!exportmapTmpFile.renameTo(exportmapFile))
         throw new IOException(s"rename(${exportmapTmpFile}): failed")
+      dirtyCache = true;
     }
+
+    dirtyCache;
   }
 
   class Logger extends ProcessLogger {
@@ -653,6 +660,21 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
       }
     }
     (versionString, versionDeci)
+  }
+
+  // The -cc line contains generated paths /path/project/tmp/job_1/TOP.v that are unique for
+  //  this potentially parallel execution, the data content of the RTL sources is already included
+  //  in the hash already, so the exact path is unimportant, this will allow reuse of the objs
+  //  for the same TOP.v file by the cache.
+  val PATTERN_1 = Pattern.compile("^\\s*-cc\\s+.*$", Pattern.MULTILINE)
+
+  // This allows local shell variables in the form ^_varName= to be omitted from cache hash
+  //  generation allowing an easy mechanism to exclude other auto-generated data.
+  val PATTERN_2 = Pattern.compile("^_[A-Za-z0-9_]+=.*$", Pattern.MULTILINE)
+
+  def transformScriptForCacheHash(s: String): String = {
+    val ss = PATTERN_1.matcher(s).replaceAll("")
+    PATTERN_2.matcher(ss).replaceAll("")
   }
 
   def compileVerilator(): Unit = {
@@ -756,21 +778,12 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 
       md.update(cachePath.getBytes())
       md.update(0.toByte)
-      md.update(flags.mkString(" ").getBytes())
-      md.update(0.toByte)
-      md.update(config.waveDepth.toString().getBytes())
-      md.update(0.toByte)
-      md.update(config.optimisationLevel.toString().getBytes())
-      md.update(0.toByte)
-      md.update(waveArgs.getBytes())
-      md.update(0.toByte)
-      md.update(covArgs.getBytes())
-      md.update(0.toByte)
-      md.update(config.toplevelName.getBytes())
-      md.update(0.toByte)
-      md.update(config.simulatorFlags.mkString(" ").getBytes())
+      md.update(verilatorBinFilename.getBytes())
       md.update(0.toByte)
       md.update(verilatorVersion.getBytes())
+      md.update(0.toByte)
+      md.update(transformScriptForCacheHash(verilatorScript).getBytes(StandardCharsets.UTF_8))
+      md.update(0.toByte)
 
       def hashFile(md: MessageDigest, file: File) = {
         val bis = new BufferedInputStream(new FileInputStream(file))
@@ -860,7 +873,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
         FileUtils.copyDirectory(workspaceCacheDir, workspaceDir)
       }
 
-      genWrapperCpp(verilatorVersionDeci)
+      val dirtyCache = genWrapperCpp(verilatorVersionDeci)
       val threadCount = SimManager.cpuCount
       if (!useCache) {
         assert(s"make -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
@@ -869,22 +882,32 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
         assert(s"make -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk -o V${config.toplevelName}__ALL.a V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
       }
 
-      FileUtils.copyFile(new File(s"${workspacePath}/${workspaceName}/V${config.toplevelName}${if(isWindows) ".exe" else ""}") , new File(s"${workspacePath}/${workspaceName}/${workspaceName}_$uniqueId.${if(isWindows) "dll" else (if(isMac) "dylib" else "so")}"))
-
       if (cacheEnabled) {
         // update cache
 
-        if (!useCache) {
+        if (!useCache || dirtyCache) {
+          // ideally want to sync file existence (delete from cacheDir files not now existing after make in workspaceDir)
+          // and to overwrite files with newer timestamps (overwrite cacheDir copy with updated workspaceDir copy when timestamp is newer)
           FileUtils.deleteQuietly(workspaceCacheDir)
 
           // copy only needed files to save disk space
           FileUtils.copyDirectory(workspaceDir, workspaceCacheDir, new FileFilter() {
-            def accept(file: File): Boolean = file.getName() == s"V${config.toplevelName}__ALL.a" || file.getName().endsWith(".mk") || file.getName().endsWith(".h")
+            def accept(file: File): Boolean = file.getName() == s"V${config.toplevelName}__ALL.a" || file.getName().endsWith(".mk") || file.getName().endsWith(".h") ||
+              (file.getName.endsWith(".o") &&
+                (file.getName.startsWith(s"V${config.toplevelName}__spinalWrapper") ||
+                file.getName.startsWith("verilated"))
+                ) ||
+              file.getName == s"V${config.toplevelName}" ||
+              file.getName == s"V${config.toplevelName}.exe" ||
+              file.getName.equals(wrapperCppName) ||
+              file.getName.equals("libcode.version")
           })
         }
 
         FileUtils.touch(hashCacheDir)
       }
+
+      FileUtils.copyFile(new File(s"${workspacePath}/${workspaceName}/V${config.toplevelName}${if (isWindows) ".exe" else ""}"), new File(s"${workspacePath}/${workspaceName}/${workspaceName}_$uniqueId.${if (isWindows) "dll" else (if (isMac) "dylib" else "so")}"))
     }
   }
 
