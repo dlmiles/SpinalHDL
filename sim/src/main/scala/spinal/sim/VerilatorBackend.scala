@@ -110,7 +110,8 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
     }.mkString("")
   }
 
-  def genWrapperCpp(useTimePrecision: Boolean = true): Unit = {
+  def genWrapperCpp(verilatorVersionDeci: BigDecimal): Unit = {
+    val useTimePrecision = verilatorVersionDeci >= BigDecimal("4.034");
     val jniPrefix = "Java_" + s"wrapper_${workspaceName}".replace("_", "_1") + "_VerilatorNative_"
     val wrapperString = s"""
 #include <stdint.h>
@@ -799,7 +800,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
         FileUtils.copyDirectory(workspaceCacheDir, workspaceDir)
       }
 
-      genWrapperCpp(verilatorVersionDeci >= BigDecimal("4.034"))
+      genWrapperCpp(verilatorVersionDeci)
       val threadCount = SimManager.cpuCount
       if (!useCache) {
         assert(s"make -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
