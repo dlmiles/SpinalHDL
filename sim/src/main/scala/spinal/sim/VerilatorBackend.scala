@@ -102,9 +102,20 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
       c.toShort.formatted("__0%02x")
     }
 
-    name.zipWithIndex.map {
-      case s@(0, _) => if (Character.isAlphabetic(s._1)) s._1.toString else encodeChar(s._1)
-      case s@(_, _) => if (Character.isAlphabetic(s._1) || Character.isDigit(s._1) || s._1 == '_') s._1.toString else encodeChar(s._1)
+    // rules are
+    // * isAlphabetic() [A-Za-z] are never encoded
+    // * isDigit() [0-9] is only encoded if it is the first character, C++ symbols can't start with a digit
+    // * underscore [_] is only encoded when found in pairs and only the 2nd of each pair is encoded
+    //    also note the underscore hex encoding is in uppercase, while all other encodings use
+    //    lowercase hex, this maybe important as C++ symbols as case sensitive
+    //      _foo => _foo,
+    //     __foo => ___05Ffoo,com
+    //    ___foo => ___05F_foo,
+    //   ____foo => ___05F___05Ffoo
+    // * all other 8bit characters are encoded
+    name.replace("__", "___05F").zipWithIndex.map {
+      case s@(0, _) => if (s._1 == '_' || Character.isAlphabetic(s._1)) s._1.toString else encodeChar(s._1)
+      case s@(_, _) => if (s._1 == '_' || Character.isAlphabetic(s._1) || Character.isDigit(s._1)) s._1.toString else encodeChar(s._1)
     }.mkString("")
   }
 
