@@ -772,13 +772,13 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
     val jdk = java_home.replace("/jre","").replace("\\jre","")
 
     val jniIncludes = ArrayBuffer[String]()
-//    if (isWindows) {
-//      new File(s"${workspacePath}\\${workspaceName}").mkdirs()
-//      FileUtils.copyDirectory(new File(s"$jdk\\include"), new File(s"${workspacePath}\\${workspaceName}\\jniIncludes"))
-//      jniIncludes += "jniIncludes"
-//    } else {
+    if (isWindows) {
+      new File(s"${workspacePath}\\${workspaceName}").mkdirs()
+      FileUtils.copyDirectory(new File(s"$jdk\\include"), new File(s"${workspacePath}\\${workspaceName}\\jniIncludes"))
+      jniIncludes += "jniIncludes"
+    } else {
       jniIncludes += jdk + File.separatorChar + "include"
-//    }
+    }
 
     {
       var found = false
@@ -793,6 +793,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
         }
       }
       if(!found) {
+        // Can include what we see exists
         Seq("darwin", "win32", "linux", "freebsd").foreach(dirName => {
           // darwin (os.name="Mac OS X" || os.name="Darwin") || win32 (os.name="Windows 10" || os.name="Windows ??")
           val jniIncludeOsWellKnownFile = new File(jniIncludeFile, dirName)
