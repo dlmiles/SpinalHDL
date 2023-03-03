@@ -96,7 +96,33 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
                 WaveFormat.NONE
               }
 
-  def genWrapperCpp(useTimePrecision: Boolean = true): Unit = {
+  def encodeName(name: String): String = {
+    // See verilator/src/V3Ast.cpp:86   AstNode::encodeName(const string&)
+    def encodeChar(c: Char): String = {
+      if (c.toInt > 255)
+        return ""
+      c.toShort.formatted("__0%02x")
+    }
+
+    // rules are
+    // * isAlphabetic() [A-Za-z] are never encoded
+    // * isDigit() [0-9] is only encoded if it is the first character, C++ symbols can't start with a digit
+    // * underscore [_] is only encoded when found in pairs and only the 2nd of each pair is encoded
+    //    also note the underscore hex encoding is in uppercase, while all other encodings use
+    //    lowercase hex, this maybe important as C++ symbols as case sensitive
+    //      _foo => _foo,
+    //     __foo => ___05Ffoo,com
+    //    ___foo => ___05F_foo,
+    //   ____foo => ___05F___05Ffoo
+    // * all other 8bit characters are encoded
+    name.replace("__", "___05F").zipWithIndex.map {
+      case s@(0, _) => if (s._1 == '_' || Character.isAlphabetic(s._1)) s._1.toString else encodeChar(s._1)
+      case s@(_, _) => if (s._1 == '_' || Character.isAlphabetic(s._1) || Character.isDigit(s._1)) s._1.toString else encodeChar(s._1)
+    }.mkString("")
+  }
+
+  def genWrapperCpp(verilatorVersionDeci: BigDecimal): Unit = {
+    val useTimePrecision = verilatorVersionDeci >= BigDecimal("4.034");
     val jniPrefix = "Java_" + s"wrapper_${workspaceName}".replace("_", "_1") + "_VerilatorNative_"
     val wrapperString = s"""
 #include <stdint.h>
@@ -800,7 +826,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
         FileUtils.copyDirectory(workspaceCacheDir, workspaceDir)
       }
 
-      genWrapperCpp(verilatorVersionDeci >= BigDecimal("4.034"))
+      genWrapperCpp(verilatorVersionDeci)
       val threadCount = SimManager.cpuCount
       if (!useCache) {
         assert(s"make -j$threadCount VM_PARALLEL_BUILDS=1 -C ${workspacePath}/${workspaceName} -f V${config.toplevelName}.mk V${config.toplevelName} CURDIR=${workspacePath}/${workspaceName}".!  (new Logger()) == 0, "Verilator C++ model compilation failed")
