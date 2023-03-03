@@ -123,7 +123,6 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
   }
 
   def genWrapperCpp(verilatorVersionDeci: BigDecimal): Boolean = {
-    val useTimePrecision = verilatorVersionDeci >= BigDecimal("4.034");
     val jniPrefix = "Java_" + s"wrapper_${workspaceName}".replace("_", "_1") + "_VerilatorNative_"
     val wrapperString = s"""
 #include <stdint.h>
@@ -291,31 +290,78 @@ public:
 };
 
 class Wrapper_${uniqueId};
-thread_local Wrapper_${uniqueId} *simHandle${uniqueId};
 
 #include <chrono>
 using namespace std::chrono;
 
+#if ((VERILATOR_VERSION_INTEGER >= 4200000L) && defined(VL_TIME_CONTEXT))
+ // In my testing on windows mingw-w64-x86_64-gcc when VL_TIME_CONTEXT was not defined
+ //  even though Verilator >= 4.200 it still insists on needing the global symbols
+ //  sc_time_stamp or vl_time_stamp64.  But with VL_TIME_CONTEXT defined they can be omitted.
+ //
+ // This #if section is a no-op as it is the expected default for current versions
+ //  most of the #ifdef's are to cover older versions of Verilator as best we can.
+#else  // No support for VerilatedContext before 4.200
+ #define EMIT_VL_TIME_STAMP64 1
+ #define EMIT_SC_TIME_STAMP 1
+ #define EMIT_THREAD_LOCAL_HANDLE 1
+#endif
+
+#if (VERILATOR_VERSION_INTEGER >= 4200000L)
+  // This based on version only, independent of the source of time
+  #define USE_VERILATED_CONTEXT 1
+#endif
+#ifdef USE_VERILATED_CONTEXT
+  #define VERILATED_CONTEXTP(contextp)  (contextp)->
+  #define VERILATED_COV(contextp)       (contextp)->coveragep()->
+#else
+  #define VERILATED_CONTEXTP(contextp)  Verilated::
+  #define VERILATED_COV(contextp)       VerilatedCov::
+#endif
+
+#define SIM_TIME(handle) ((handle)->time())
+#define SIM_TIMEINC(handle, v) ((handle)->timeInc(v))
+
 class Wrapper_${uniqueId}{
 public:
-    uint64_t time;
+#ifdef EMIT_THREAD_LOCAL_HANDLE
+    uint64_t _time;
+#endif
     high_resolution_clock::time_point lastFlushAt;
     uint32_t timeCheck;
     bool waveEnabled;
-    V${config.toplevelName} top;
+    V${config.toplevelName} *top;
+#ifdef USE_VERILATED_CONTEXT
+    VerilatedContext *contextp;
+#endif
     ISignalAccess *signalAccess[${config.signals.length}];
-    #ifdef TRACE
+#ifdef TRACE
 	  Verilated${format.ext.capitalize}C tfp;
-	  #endif
+#endif
     string name;
     int32_t time_precision;
 #if ((VERILATOR_VERSION_INTEGER >= 4034000L) || defined(VL_TIME_UNIT))
     int32_t time_unit;
 #endif
 
-    Wrapper_${uniqueId}(const char * name){
-      simHandle${uniqueId} = this;
-      time = 0;
+    Wrapper_${uniqueId}(
+#ifdef USE_VERILATED_CONTEXT
+        VerilatedContext *contextp,
+#endif
+        V${config.toplevelName} *top,
+        const char * name){
+
+#ifdef USE_VERILATED_CONTEXT
+      this->contextp = contextp;
+#endif
+      this->top = top;
+
+#ifdef EMIT_THREAD_LOCAL_HANDLE
+      _time = 0;
+#endif
+#if (defined(USE_VERILATED_CONTEXT) && defined(VL_TIME_CONTEXT))
+      contextp->time(0);
+#endif
       timeCheck = 0;
       lastFlushAt = high_resolution_clock::now();
       waveEnabled = true;
@@ -326,7 +372,7 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       else if(signal.dataType.width <= 64) "QData"
       else "WData"
       val enforcedCast = if(signal.dataType.width > 64) "(WData*)" else ""
-      val signalReference = s"top.${signal.path.map(encodeName).mkString("->")}"
+      val signalReference = s"top->${signal.path.map(encodeName).mkString("->")}"
       val memPatch = if(signal.dataType.isMem) "[0]" else ""
 
       s"      signalAccess[$id] = new ${typePrefix}SignalAccess($enforcedCast $signalReference$memPatch ${if(signal.dataType.width > 64) s" , ${signal.dataType.width}, ${if(signal.dataType.isInstanceOf[SIntDataType]) "true" else "false"}" else ""});\n"
@@ -335,15 +381,20 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
 
       signalInits.mkString("")
     }
-      #ifdef TRACE
-      Verilated::traceEverOn(true);
-      top.trace(&tfp, 99);
+#ifdef TRACE
+      VERILATED_CONTEXTP(contextp)traceEverOn(true);
+      top->trace(&tfp, 99);
       tfp.open((std::string("${new File(config.vcdPath).getAbsolutePath.replace("\\","\\\\")}/${if(config.vcdPrefix != null) config.vcdPrefix + "_" else ""}") + name + ".${format.ext}").c_str());
-      #endif
+#endif
       this->name = name;
-      this->time_precision = ${if (useTimePrecision) "Verilated::timeprecision()" else "VL_TIME_PRECISION" };
-#if ((VERILATOR_VERSION_INTEGER >= 4034000L) || defined(VL_TIME_UNIT))
-      this->time_unit = ${if (useTimePrecision) "Verilated::timeunit()" else "VL_TIME_UNIT" };
+#if (VERILATOR_VERSION_INTEGER >= 4034000L)
+      this->time_precision = VERILATED_CONTEXTP(contextp)timeprecision();
+      this->time_unit = VERILATED_CONTEXTP(contextp)timeunit();
+#else
+      this->time_precision = VL_TIME_PRECISION;
+ #ifdef VL_TIME_UNIT
+      this->time_unit = VL_TIME_UNIT;  // VL_TIME_UNIT since v4.026
+ #endif
 #endif
     }
 
@@ -352,21 +403,56 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
           delete signalAccess[idx];
       }
 
-      #ifdef TRACE
-      if(waveEnabled) tfp.dump((vluint64_t)time);
+#ifdef TRACE
+      if(waveEnabled) tfp.dump((vluint64_t)SIM_TIME(this));
       tfp.close();
-      #endif
-      #ifdef COVERAGE
-      VerilatedCov::write((("${new File(config.vcdPath).getAbsolutePath.replace("\\","\\\\")}/${if(config.vcdPrefix != null) config.vcdPrefix + "_" else ""}") + name + ".dat").c_str());
-      #endif
+#endif
+#ifdef COVERAGE
+      VERILATED_COV(contextp)write((("${new File(config.vcdPath).getAbsolutePath.replace("\\","\\\\")}/${if(config.vcdPrefix != null) config.vcdPrefix + "_" else ""}") + name + ".dat").c_str());
+#endif
+
+      top = nullptr;
+#ifdef USE_VERILATED_CONTEXT
+      contextp = nullptr;
+#endif
     }
 
+#ifdef USE_VERILATED_CONTEXT
+    uint64_t time() {
+       return contextp->time();
+    }
+    void timeInc(uint64_t v) {
+       contextp->timeInc(v);
+    }
+#elif EMIT_THREAD_LOCAL_HANDLE
+    uint64_t time() {
+       return _time;
+    }
+    void timeInc(uint64_t v) {
+       _time += v;
+    }
+#else
+ #error "!USE_VERILATED_CONTEXT && !EMIT_THREAD_LOCAL_HANDLE defined, please report your version of Verilator and platform and toolchain"
+#endif
+
+    void final(){
+      top->final();
+    }
 };
 
-double sc_time_stamp () {
-  return simHandle${uniqueId}->time;
+#if (defined(EMIT_THREAD_LOCAL_HANDLE) || !defined(VL_TIME_CONTEXT))
+  thread_local Wrapper_${uniqueId} *simHandle${uniqueId};
+#endif
+#ifdef EMIT_VL_TIME_STAMP64
+uint64_t vl_time_stamp64() {
+  return SIM_TIME(simHandle${uniqueId});
 }
-
+#endif
+#ifdef EMIT_SC_TIME_STAMP
+double sc_time_stamp () {
+  return (double) SIM_TIME(simHandle${uniqueId});
+}
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -397,30 +483,49 @@ JNIEXPORT Wrapper_${uniqueId} * API JNICALL ${jniPrefix}newHandle_1${uniqueId}
     #else
     srand48(seedValue);
     #endif
-    const char* ch = env->GetStringUTFChars(name, 0);
-    Wrapper_${uniqueId} *handle = new Wrapper_${uniqueId}(ch);
-    env->ReleaseStringUTFChars(name, ch);
-    return handle;
-}
 
-JNIEXPORT void API JNICALL ${jniPrefix}randReset_1${uniqueId}
-      (JNIEnv *, jobject, Wrapper_${uniqueId} *handle, jint val){
-    Verilated::randReset(val);
+#ifdef USE_VERILATED_CONTEXT
+    VerilatedContext *contextp = new VerilatedContext;
+#endif
+    V${config.toplevelName} *top = new V${config.toplevelName}(
+#ifdef USE_VERILATED_CONTEXT
+      contextp
+#endif
+     );
+
+    const char* ch = env->GetStringUTFChars(name, 0);
+    Wrapper_${uniqueId} *handle = new Wrapper_${uniqueId}(
+#ifdef USE_VERILATED_CONTEXT
+      contextp,
+#endif
+      top,
+      ch);
+    env->ReleaseStringUTFChars(name, ch);
+
+#ifdef EMIT_THREAD_LOCAL_HANDLE
+    simHandle${uniqueId} = handle;
+#endif
+    return handle;
 }
 
 JNIEXPORT void API JNICALL ${jniPrefix}randSeed_1${uniqueId}
           (JNIEnv *env, jobject, Wrapper_${uniqueId} *handle, jint seed){
 #if (VERILATOR_VERSION_INTEGER >= 4012000L)
-    Verilated::randSeed(seed);
+    VERILATED_CONTEXTP(handle->contextp)randSeed(seed);
 #else
     throwUnsupportedOperationException(env, "randSeed(int)");
 #endif
 }
 
+JNIEXPORT void API JNICALL ${jniPrefix}randReset_1${uniqueId}
+      (JNIEnv *, jobject, Wrapper_${uniqueId} *handle, jint val){
+    VERILATED_CONTEXTP(handle->contextp)randReset(val);
+}
+
 JNIEXPORT jboolean API JNICALL ${jniPrefix}eval_1${uniqueId}
   (JNIEnv *, jobject, Wrapper_${uniqueId} *handle){
-   handle->top.eval();
-   return Verilated::gotFinish();
+   handle->top->eval();
+   return VERILATED_CONTEXTP(handle->contextp)gotFinish();
 }
 
 JNIEXPORT jint API JNICALL ${jniPrefix}getTimeUnit_1${uniqueId}
@@ -440,9 +545,9 @@ JNIEXPORT jint API JNICALL ${jniPrefix}getTimePrecision_1${uniqueId}
 
 JNIEXPORT void API JNICALL ${jniPrefix}sleep_1${uniqueId}
   (JNIEnv *, jobject, Wrapper_${uniqueId} *handle, uint64_t cycles){
-  #ifdef TRACE
+#ifdef TRACE
   if(handle->waveEnabled) {
-    handle->tfp.dump((vluint64_t)handle->time);
+    handle->tfp.dump((vluint64_t)SIM_TIME(handle));
   }
   handle->timeCheck++;
   if(handle->timeCheck > 10000){
@@ -454,8 +559,8 @@ JNIEXPORT void API JNICALL ${jniPrefix}sleep_1${uniqueId}
       handle->tfp.flush();
     }
   }
-  #endif
-  handle->time += cycles;
+#endif
+  SIM_TIMEINC(handle, cycles);
 }
 
 JNIEXPORT jlong API JNICALL ${jniPrefix}getU64_1${uniqueId}
@@ -479,8 +584,21 @@ JNIEXPORT void API JNICALL ${jniPrefix}setU64mem_1${uniqueId}
 }
 
 JNIEXPORT void API JNICALL ${jniPrefix}deleteHandle_1${uniqueId}
-  (JNIEnv *, jobject, Wrapper_${uniqueId} * handle){
+  (JNIEnv *env, jobject, Wrapper_${uniqueId} * handle){
+
+#ifdef USE_VERILATED_CONTEXT
+  VerilatedContext *contextp = handle->contextp;
+#endif
+  V${config.toplevelName} *top = handle->top;
   delete handle;
+  delete top;
+#ifdef USE_VERILATED_CONTEXT
+  delete contextp;
+#endif
+
+#ifdef EMIT_THREAD_LOCAL_HANDLE
+  simHandle${uniqueId} = nullptr;
+#endif
 }
 
 JNIEXPORT void API JNICALL ${jniPrefix}getAU8_1${uniqueId}
@@ -531,7 +649,9 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
       argv[argc] = nullptr;
     }
   }
-  Verilated::commandArgs(argc, (char**)(argc>0) ? argv : empty);
+
+  VERILATED_CONTEXTP(handle->contextp)commandArgs(argc, (char**)(argc>0) ? argv : empty);
+
   if(argv) {
     for(jint i = 0; i < size; i++) {
       jobject ele = env->GetObjectArrayElement(args, i);
