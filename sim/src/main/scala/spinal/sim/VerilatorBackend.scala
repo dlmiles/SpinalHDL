@@ -1,6 +1,6 @@
 package spinal.sim
 
-import java.io.{BufferedInputStream, File, FileFilter, FileInputStream, FileNotFoundException, FileReader, IOException, PrintWriter, Reader, StringReader}
+import java.io.{BufferedInputStream, File, FileFilter, FileInputStream, FileNotFoundException, IOException, PrintWriter}
 
 import javax.tools.JavaFileObject
 import net.openhft.affinity.impl.VanillaCpuLayout
@@ -12,10 +12,8 @@ import java.util.regex.Pattern
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 import sys.process._
 import scala.io.Source
-import scala.math.BigDecimal
 
 class VerilatorBackendConfig{
   var signals                = ArrayBuffer[Signal]()
