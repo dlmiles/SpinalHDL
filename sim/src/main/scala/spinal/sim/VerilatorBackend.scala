@@ -751,8 +751,16 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
     (versionString, versionDeci)
   }
 
-  val PATTERN_1 = Pattern.compile("^_[A-Za-z0-9_]+=.*$", Pattern.MULTILINE)
-  val PATTERN_2 = Pattern.compile("^\\s*-cc\\s+.*$", Pattern.MULTILINE)
+  // The -cc line contains generated paths /path/project/tmp/job_1/TOP.v that are unique for
+  //  this potentially parallel execution, the data content of the RTL sources is already included
+  //  in the hash already, so the exact path is unimportant, this will allow reuse of the objs
+  //  for the same TOP.v file by the cache.
+  val PATTERN_1 = Pattern.compile("^\\s*-cc\\s+.*$", Pattern.MULTILINE)
+
+  // This allows local shell variables in the form ^_varName= to be omitted from cache hash
+  //  generation allowing an easy mechanism to exclude other auto-generated data.
+  val PATTERN_2 = Pattern.compile("^_[A-Za-z0-9_]+=.*$", Pattern.MULTILINE)
+
   def transformScriptForCacheHash(s: String): String = {
     val ss = PATTERN_1.matcher(s).replaceAll("")
     PATTERN_2.matcher(ss).replaceAll("")
