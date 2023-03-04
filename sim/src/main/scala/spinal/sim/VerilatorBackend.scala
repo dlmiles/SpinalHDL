@@ -357,8 +357,12 @@ JNIEXPORT void API JNICALL ${jniPrefix}randReset_1${uniqueId}
 }
 
 JNIEXPORT void API JNICALL ${jniPrefix}randSeed_1${uniqueId}
-          (JNIEnv *, jobject, Wrapper_${uniqueId} *handle, jint seed){
+          (JNIEnv *env, jobject, Wrapper_${uniqueId} *handle, jint seed){
+#if (VERILATOR_VERSION_INTEGER >= 4012000L)
     Verilated::randSeed(seed);
+#else
+    throwUnsupportedOperationException(env, "randSeed(int)");
+#endif
 }
 
 JNIEXPORT jboolean API JNICALL ${jniPrefix}eval_1${uniqueId}

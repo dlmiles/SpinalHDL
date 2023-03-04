@@ -102,6 +102,14 @@ class SimVerilator(backend : VerilatorBackend,
   override def getBigInt(signal : Signal) : BigInt = { getBigIntMem(signal, 0) }
   override def setBigInt(signal : Signal, value : BigInt) : Unit = { setBigIntMem(signal, value, 0) }
 
+  def tryRandSeed(seed : Int) : Boolean = {
+    try {
+      randSeed(seed)
+      true
+    } catch {
+      case _ : UnsupportedOperationException => false
+    }
+  }
   def randSeed(seed : Int) : Unit = backend.nativeInstance.rand_seed(handle, seed)
   def randReset(value : Int) : Unit = backend.nativeInstance.rand_reset(handle, value)
   override def eval() : Boolean = backend.nativeInstance.eval(handle)
