@@ -282,7 +282,9 @@ public:
 	  #endif
     string name;
     int32_t time_precision;
+#if ((VERILATOR_VERSION_INTEGER >= 4034000L) || defined(VL_TIME_UNIT))
     int32_t time_unit;
+#endif
 
     Wrapper_${uniqueId}(const char * name){
       simHandle${uniqueId} = this;
@@ -313,7 +315,9 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       #endif
       this->name = name;
       this->time_precision = ${if (useTimePrecision) "Verilated::timeprecision()" else "VL_TIME_PRECISION" };
+#if ((VERILATOR_VERSION_INTEGER >= 4034000L) || defined(VL_TIME_UNIT))
       this->time_unit = ${if (useTimePrecision) "Verilated::timeunit()" else "VL_TIME_UNIT" };
+#endif
     }
 
     virtual ~Wrapper_${uniqueId}(){
@@ -393,8 +397,13 @@ JNIEXPORT jboolean API JNICALL ${jniPrefix}eval_1${uniqueId}
 }
 
 JNIEXPORT jint API JNICALL ${jniPrefix}getTimeUnit_1${uniqueId}
-  (JNIEnv *, jobject, Wrapper_${uniqueId} *handle){
+  (JNIEnv *env, jobject, Wrapper_${uniqueId} *handle){
+#if ((VERILATOR_VERSION_INTEGER >= 4034000L) || defined(VL_TIME_UNIT))
   return handle->time_unit;
+#else
+  throwUnsupportedOperationException(env, "timeunit()");
+  return INT32_MAX;
+#endif
 }
 
 JNIEXPORT jint API JNICALL ${jniPrefix}getTimePrecision_1${uniqueId}
