@@ -324,6 +324,19 @@ extern "C" {
 
 #define API __attribute__((visibility("default")))
 
+static void
+throwUnsupportedOperationException(JNIEnv *env, const char *prefix) {
+    char msg[256];
+    jclass cls = env->FindClass("java/lang/UnsupportedOperationException");
+    if(!cls)
+        return;
+    if(prefix == nullptr)
+        prefix = "API";
+    snprintf(msg, sizeof(msg), "%s not supported in C++ by %s version: %s",
+                               prefix, Verilated::productName(), Verilated::productVersion());
+    msg[sizeof(msg)-1] = 0;
+    env->ThrowNew(cls, msg); // throw new UnsupportedOperationException()
+}
 
 JNIEXPORT Wrapper_${uniqueId} * API JNICALL ${jniPrefix}newHandle_1${uniqueId}
   (JNIEnv * env, jobject obj, jstring name, jint seedValue){
