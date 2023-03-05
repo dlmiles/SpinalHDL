@@ -111,6 +111,23 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
 #endif
 #include "V${config.toplevelName}__Syms.h"
 
+#if (defined(__VERILATOR_VERSION_INTEGER__) && !defined(VERILATOR_VERSION_INTEGER))
+  // While VERILATOR_VERSION_INTEGER was available internally to the Verilator project
+  //  for a long time it was not exposed to the C preproc until v4.220.  Since during
+  //  wrapper generation we query the verilator version was pass our own
+  //  -D__VERILATOR_VERSION_INTEGER__=5006000L to cope with older versons before v4.220.
+
+  #define VERILATOR_VERSION_INTEGER __VERILATOR_VERSION_INTEGER__
+
+#elif (defined(__VERILATOR_VERSION_INTEGER__) && defined(VERILATOR_VERSION_INTEGER) && (__VERILATOR_VERSION_INTEGER__ != VERILATOR_VERSION_INTEGER))
+  // If you hit this, then the version of Verilator seen during wrapper generation
+  //  does not match the compile time version seen.  Undefine __VERILATOR_VERSION_INTEGER__
+  //  if you have some obsecure reason to still want continue building.
+
+  #error "__VERILATOR_VERSION_INTEGER__ != VERILATOR_VERSION_INTEGER (" ## __VERILATOR_VERSION_INTEGER__ ## " != " ## VERILATOR_VERSION_INTEGER ## " mismatch"
+
+#endif
+
 using namespace std;
 
 class ISignalAccess{
@@ -620,6 +637,8 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
 
     val (verilatorVersion, verilatorVersionDeci) = resolveVerilatorVersion()
 
+    val cflagsVerilatorVersionInteger = verilatorVersionDeci.toString().replace(".", "")  // 4.034 => 4034
+
     // when changing the verilator script, the hash generation (below) must also be updated
     val verilatorScript = s""" set -e ;
        | ${verilatorBinFilename}
@@ -630,6 +649,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
        | -LDFLAGS -fvisibility=hidden
        | -CFLAGS -std=c++11
        | -LDFLAGS -std=c++11
+       | -CFLAGS -D__VERILATOR_VERSION_INTEGER__=${cflagsVerilatorVersionInteger}000L
        | --autoflush  
        | --output-split 5000
        | --output-split-cfuncs 500
