@@ -2455,7 +2455,7 @@ object PlayMasterSlave{
   class RGBA extends Bundle{
     val r,g,b,a = UInt(8 bits)
 
-    override def clone: this.type = new RGBA().asInstanceOf[this.type]  //RGBA is not a "case class", To to be abble to clone it in the Handhsake, we need to implement this.
+    override def clone: this.type = new RGBA().asInstanceOf[this.type]  //RGBA is not a "case class", To to be able to clone it in the Handshake, we need to implement this.
   }
 
 
