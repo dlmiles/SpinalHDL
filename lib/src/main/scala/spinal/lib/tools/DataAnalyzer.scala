@@ -30,7 +30,7 @@ class DataAnalyzer(data: BaseType) {
 
     data.foreachStatements { st =>
       if (!(st.isInstanceOf[InitAssignmentStatement] || st.isInstanceOf[InitialAssignmentStatement])) {
-        st.foreachDrivingExpression { e =>
+        st.foreachDrivingExpression { e =>   // CHECKME IDE offer implification
           e match {
             case bt: BaseType => ret += bt
             case e            => ret ++= traceBaseTypeFromExpression(e)
