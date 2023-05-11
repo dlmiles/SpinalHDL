@@ -56,7 +56,7 @@ trait Dependable{
 }
 
 case class Lock() extends Dependable{
-  var retains = 0
+  var retains = 0   // CHECKME threadsafe? AtomicInt ?
   def retain() : Unit = retains += 1
   def release() : Unit = retains -= 1
   override def isDone: Boolean = retains == 0
