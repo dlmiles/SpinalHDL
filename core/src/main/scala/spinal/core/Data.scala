@@ -542,6 +542,7 @@ trait Data extends ContextUser with NameableByComponent with Assignable with Spi
         case (null,`in`)                          => this := that
         case (null,`out`)                         => that := this
         case _ if this.isAnalog && that.isAnalog  => this := that
+        // CHECKME: Are there 2 scenarios  'inout','inout' and _  maybe they have different errors/resolutions for the designer ?
         case _                                    => LocatedPendingError(s"DIRECTION MISMATCH, impossible to infer the connection direction between $this and $that ")
       }
     }

@@ -50,6 +50,7 @@ package object sim {
 
   private def btToSignal(manager: SimManager, bt: BaseNode) = {
     if(bt.algoIncrementale != -1){
+      // Improve simPublic tip?  make document reference ?
       SimError(s"INACCESSIBLE SIGNAL : $bt isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the SimConfig.compile({}).")
     }
 
@@ -72,6 +73,7 @@ package object sim {
       case Some(tag) => {
         for(i <- 0 until tag.mapping.size; mapping = tag.mapping(i)){
           if(mem.algoIncrementale != -1){
+            // Improve simPublic tip?  make document reference ?
             SimError(s"INACCESSIBLE SIGNAL : $mem isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the SimConfig.compile({}).")
           }
           val symbol = manager.raw.userData.asInstanceOf[ArrayBuffer[Signal]](mem.algoInt + i)
@@ -98,6 +100,7 @@ package object sim {
         var data = BigInt(0)
         for(i <- 0 until tag.mapping.size; mapping = tag.mapping(i)){
           if(mem.algoIncrementale != -1){
+            // Improve simPublic tip?  make document reference ?
             SimError(s"INACCESSIBLE SIGNAL : $mem isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the SimConfig.compile({}).")
           }
           val symbol = manager.raw.userData.asInstanceOf[ArrayBuffer[Signal]](mem.algoInt + i)
