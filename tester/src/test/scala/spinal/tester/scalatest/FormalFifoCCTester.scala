@@ -8,7 +8,7 @@ import spinal.lib.formal._
 import scala.language.postfixOps
 
 class FormalFifoCCTester extends SpinalFormalFunSuite {
-  def formalContext(pushPeriod: Int, popPeriod: Int, seperateReset: Boolean = false) = new Area {
+  def formalContext(pushPeriod: Int, popPeriod: Int, separateReset: Boolean = false) = new Area {
     val back2backCycles = 2
     val fifoDepth = 4
 
@@ -27,17 +27,17 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
 
     gclk.assumeClockTiming(pushClock, pushPeriod)
     gclk.assumeResetReleaseSync(pushClock)
-    if (!seperateReset) {
+    if (!separateReset) {
       gclk.keepBoolLeastCycles(reset, popPeriod)
     }
 
     gclk.assumeClockTiming(popClock, popPeriod)
-    if (seperateReset) {
+    if (separateReset) {
       gclk.assumeResetReleaseSync(popClock)
       gclk.alignAsyncResetStart(pushClock, popClock)
     }
 
-    val dut = FormalDut(new StreamFifoCC(cloneOf(inValue), fifoDepth, pushClock, popClock, !seperateReset))
+    val dut = FormalDut(new StreamFifoCC(cloneOf(inValue), fifoDepth, pushClock, popClock, !separateReset))
     gclk.assumeIOSync2Clock(pushClock, dut.io.push.valid)
     gclk.assumeIOSync2Clock(pushClock, dut.io.push.payload)
     gclk.assumeIOSync2Clock(popClock, dut.io.pop.ready)
@@ -59,7 +59,7 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
     }
 
     // back to back transaction cover test.
-    val popCheckDomain = if (seperateReset) popClock else popClock.copy(reset = reset)
+    val popCheckDomain = if (separateReset) popClock else popClock.copy(reset = reset)
     val popArea = new ClockingArea(popCheckDomain) {
       dut.io.pop.formalCovers(back2backCycles)
       dut.io.pop.formalAssertsMaster()
@@ -112,7 +112,7 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
 //     testMain(2, 11, true)
 //   }
 
-  def testNoLoss(pushPeriod: Int, popPeriod: Int, seperateReset: Boolean = false) = {
+  def testNoLoss(pushPeriod: Int, popPeriod: Int, separateReset: Boolean = false) = {
     val proveCycles = 8
     val coverCycles = 8
     val maxPeriod = Math.max(pushPeriod, popPeriod)
@@ -122,7 +122,7 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
       .withAsync
       .withDebug
       .doVerify(new Component {
-        val context = formalContext(pushPeriod, popPeriod, seperateReset)
+        val context = formalContext(pushPeriod, popPeriod, separateReset)
 
         val d1 = anyconst(cloneOf(context.inValue))
         val d1_in = RegInit(False)
