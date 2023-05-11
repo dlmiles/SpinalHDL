@@ -148,7 +148,7 @@ class StateMachine extends Area with StateMachineAccessor with ScalaLocated {
   var stateNextCand : enumDef.C = null
   /* Condition for transition */
   var transitionCond : Bool = null
-  override val wantExit  = False.allowPruning()
+  override val wantExit: Bool  = False.allowPruning()
   val wantStart = False
   val wantKill = False
   var autoStart = true
