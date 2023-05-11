@@ -3,6 +3,8 @@ package landa;
 import landa.SimManagedTest.Dut
 import spinal.core._
 
+import scala.language.postfixOps
+
 object TypeTests {
 
   class Dut extends Component {

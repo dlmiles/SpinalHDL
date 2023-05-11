@@ -3,6 +3,8 @@ package spinal.core
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.sim._
 
+import scala.language.postfixOps
+
 class XFixTest extends AnyFunSuite {
   test("UFix Mux") {
     case class MuxDut() extends Component {

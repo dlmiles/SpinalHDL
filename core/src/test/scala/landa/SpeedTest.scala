@@ -4,6 +4,8 @@ package landa
 import spinal.core._
 import spinal.core.sim._
 
+import scala.language.postfixOps
+
 object SpeedTest {
 
   import spinal.core._
