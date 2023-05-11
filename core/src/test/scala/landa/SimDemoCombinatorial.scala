@@ -1,6 +1,6 @@
 package landa
 
-import spinal.core.sim.{SimBaseTypePimper, _}
+import spinal.core.sim._
 import spinal.core._
 import spinal.sim._
 
