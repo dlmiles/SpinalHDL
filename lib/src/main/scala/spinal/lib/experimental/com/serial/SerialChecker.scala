@@ -26,7 +26,7 @@ class SerialCheckerPhysical(bitsWidth: Int) extends Bundle {
 
   def isBits = !isStart && !isEnd
 
-  override def clone(): this.type = new SerialCheckerPhysical(bitsWidth).asInstanceOf[this.type]
+  override def clone: this.type = new SerialCheckerPhysical(bitsWidth).asInstanceOf[this.type]
 }
 
 class SerialCheckerTx(bitsWidth: Int) extends Component {
