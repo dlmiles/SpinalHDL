@@ -1483,7 +1483,7 @@ abstract class BitVectorBitAccessFixed extends SubAccess with ScalaLocated {
        |""".stripMargin
   }
 
-  //  override def checkInferedWidth: Unit = {
+  //  override def checkInferredWidth: Unit = {
   //    if (bitId < 0 || bitId >= getBitVector.getWidth) {
   //      PendingError(s"Static bool extraction (bit ${bitId}) is outside the range (${getBitVector.getWidth - 1} downto 0) of ${getBitVector} at\n${getScalaLocationLong}")
   //    }
@@ -2046,7 +2046,7 @@ class BitAssignmentFixed() extends BitVectorAssignmentExpression with ScalaLocat
   override def opName: String = "x(index) <="
 
 
-  //  override def checkInferedWidth: Unit = {
+  //  override def checkInferredWidth: Unit = {
   //    if (bitId < 0 || bitId >= out.getWidth) {
   //      PendingError(s"Static bool extraction (bit ${bitId}) is outside the range (${out.getWidth - 1} downto 0) of ${out} at\n${getScalaLocationLong}")
   //    }
