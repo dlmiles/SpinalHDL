@@ -613,13 +613,13 @@ object PlayFifoVerilog{
   class Ram_1w_1r(wordWidth: Int, wordCount: Int) extends BlackBox {
 
     // SpinalHDL will lock at Generic classes to get attributes which
-    // should be used ad VHDL gererics / Verilog parameter
+    // should be used add VHDL generics / Verilog parameter
     val generic = new Generic {
       val wordCount = Ram_1w_1r.this.wordCount
       val wordWidth = Ram_1w_1r.this.wordWidth
     }
 
-    // Define io of the VHDL entiry / Verilog module
+    // Define io of the VHDL entity / Verilog module
     val io = new Bundle {
       val clk = in Bool()
       val wr = new Bundle {

@@ -399,7 +399,7 @@ class SpinalSimApbI2C extends SpinalSimFunSuite {
 
       // I2C Configuration
       apb.write(i2c.reg.sampling_clock, (dut.clockDomain.frequency.getValue / (10 MHz)).toBigInt) // sampling frequency 10 MHz
-      apb.write(i2c.reg.timeout, (dut.clockDomain.frequency.getValue * 2).toBigDecimal.toBigInt) // Timeout after 2 secondes
+      apb.write(i2c.reg.timeout, (dut.clockDomain.frequency.getValue * 2).toBigDecimal.toBigInt) // Timeout after 2 seconds
       apb.write(i2c.reg.tsu_data, 25)
 
 

@@ -92,7 +92,7 @@ class   MandelbrotCore(p: MandelbrotCoreParameters) extends Component {
   frameTaskSolver.io.frameTask <-< frameTaskFilterBypass.toStream
 
   // Force a initial frametask into the system.
-  // By this way, when the system is reseted, it draw directly something
+  // By this way, when the system is reset, it draws directly something
   frameTaskSolver.io.frameTask.valid init (True)
   frameTaskSolver.io.frameTask.start.x init (-1.0)
   frameTaskSolver.io.frameTask.start.y init (-1.0)

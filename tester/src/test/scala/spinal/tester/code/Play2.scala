@@ -1783,7 +1783,7 @@ object PlayPwm{
 
       counter := counter + upDownCount.asUInt
       outSyncReg := False
-      // Uper or equal comparator used for safety purposes
+      // Upper or equal comparator used for safety purposes
       when(counter >= io.control.period) {
         when(io.control.mode === nSingleEdge) {
           counter := 0
@@ -3102,7 +3102,7 @@ object PlayPll2{
 
     // Create an Area to manage all clocks and reset things
     val clkCtrl = new Area {
-      //Instanciate and drive the PLL
+      //Instantiate and drive the PLL
       val pll = new PLL
       pll.io.clkIn := io.clk100Mhz
 

@@ -138,15 +138,15 @@ object MyScalaProgramme3{
 class MyToplevel8() extends Component {
   val a = Bool() //Automatic a.setName("a")
   val logic1 = new Area{
-    val tmp = Bool() // Automaticaly tmp.setName("logic1_tmp")
+    val tmp = Bool() // Automatically tmp.setName("logic1_tmp")
   }
   def func1() = {
-    val tmp = Bool() //Unamed signal
+    val tmp = Bool() //Unnamed signal
   }
   def func2() = new Area {
     val tmp = Bool() //Automatic a.setCompositeName(this, "tmp")
   }
-  val logic2 = func2() // Automaticaly name logic2.tmp signal as "logic2_tmp"
+  val logic2 = func2() // Automatically name logic2.tmp signal as "logic2_tmp"
 }
 
 

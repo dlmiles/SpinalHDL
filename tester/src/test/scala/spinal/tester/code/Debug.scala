@@ -601,7 +601,7 @@ object Debug3 extends App{
             case e => e
           }
 
-          //Assign the swaped signal with the swap value (usefull for registers)
+          //Assign the swapped signal with the swap value (useful for registers)
           s match {
             case bt : UInt  =>
               bt.getTag(classOf[BypassTag]) match {

@@ -67,11 +67,11 @@ object I2cDemo extends App{
     apb.write(txAck, txValid | txEnable) //NACK
     apb.write(masterStatus, masterStart) //Start bit
 
-    while((apb.read(txAck) & txValid) != 0){dut.clockDomain.waitSampling(10)} //wait until NACK is transmited
+    while((apb.read(txAck) & txValid) != 0){dut.clockDomain.waitSampling(10)} //wait until NACK is transmitted
     for(i <- 0 to 1){
       apb.write(txData, txValid | txEnable | 0x10 + i) //Send payload
       apb.write(txAck, txValid | txEnable) //NACK
-      while((apb.read(txAck) & txValid) != 0){dut.clockDomain.waitSampling(10)} //wait until NACK is transmited
+      while((apb.read(txAck) & txValid) != 0){dut.clockDomain.waitSampling(10)} //wait until NACK is transmitted
     }
     apb.write(masterStatus, masterStop)
     while((apb.read(masterStatus) & masterIsBusy) != 0){dut.clockDomain.waitSampling(10)}
