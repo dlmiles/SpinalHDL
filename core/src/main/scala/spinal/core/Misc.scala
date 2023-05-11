@@ -573,12 +573,12 @@ object ContextSwapper{
   def outsideCondScope[T](that : => T) : T = {
     val t = AsyncThread.current
     t.allowSuspend = false
-    val body = Component.current.dslBody  // Get the head of the current component symboles tree (AST in other words)
+    val body = Component.current.dslBody  // Get the head of the current component symbol tree (AST in other words)
     val ctx = body.push()                 // Now all access to the SpinalHDL API will be append to it (instead of the current context)
-    val swapContext = body.swap()         // Empty the symbole tree (but keep a reference to the old content)
+    val swapContext = body.swap()         // Empty the symbol tree (but keep a reference to the old content)
     val ret = that                        // Execute the block of code (will be added to the recently empty body)
     ctx.restore()                         // Restore the original context in which this function was called
-    swapContext.appendBack()              // append the original symboles tree to the modified body
+    swapContext.appendBack()              // append the original symbol tree to the modified body
     t.allowSuspend = true
     ret                                   // return the value returned by that
   }

@@ -435,7 +435,7 @@ class PhaseAnalog extends PhaseNetlist{
 
       val toComb = mutable.LinkedHashSet[BaseType]()
 
-      //Generate all the statements associated to the seeds by aggreating consecutive bits connection and then flushing it into RTL
+      //Generate all the statements associated to the seeds by aggregating consecutive bits connection and then flushing it into RTL
       for(seed <- seeds){
         case class AggregateKey(bt : BaseType, scope : ScopeStatement)
         case class AggregateCtx(seedOffset : Int, otherOffset : Int)
@@ -518,7 +518,7 @@ class PhaseAnalog extends PhaseNetlist{
           }
         }
 
-        //Detect bitvector bits sequencial connections xxx(5 downto 2) => 3 bits
+        //Detect bitvector bits sequential connections xxx(5 downto 2) => 3 bits
         for(bitId <- 0 until widthOf(seed)){
           val flushes = ArrayBuffer[(AggregateKey, AggregateCtx)]()
           bitToIsland.get(seed -> bitId) match {
@@ -641,7 +641,7 @@ class PhaseAnalog extends PhaseNetlist{
 //          }
 //
 //          //redirect island assignments to target
-//          //drive isllands analogs from target as comb signal
+//          //drive island analogs from target as comb signal
 //          for(bt <- island if bt != target){
 //            val btStatements = ArrayBuffer[AssignmentStatement]()
 //            bt.foreachStatements(btStatements += _)
@@ -1263,7 +1263,7 @@ class PhaseInferEnumEncodings(pc: PhaseContext, encodingSwap: (SpinalEnumEncodin
       case _             =>
     }
 
-    //Prepear the feild
+    //Prepare the field
     nodesInferrable.foreach(node => {
       node.bootInferration()
     })
@@ -1315,10 +1315,10 @@ class PhaseInferEnumEncodings(pc: PhaseContext, encodingSwap: (SpinalEnumEncodin
       enums(senum.getDefinition) += senum.getEncoding
     })
 
-    //give a name to unnamed encodingss
+    //give a name to unnamed encodings
     val unnamedEncodings = enums.valuesIterator.flatten.toSeq.distinct.withFilter(_.isUnnamed).foreach(_.setName("anonymousEnc", Nameable.DATAMODEL_WEAK))
 
-    //Check that there is no encoding overlaping
+    //Check that there is no encoding overlapping
     for((senum,encodings) <- enums){
       for(encoding <- encodings) {
         val reserveds = mutable.Map[BigInt, ArrayBuffer[SpinalEnumElement[_]]]()
@@ -1412,7 +1412,7 @@ class PhaseInferWidth(pc: PhaseContext) extends PhaseMisc{
         case _ =>
       }
 
-      //Check in the width inferation is done, then check it and generate errors
+      //Check the width inference has completed, then check it and generate errors
       if (!somethingChange || iterationCounter == 10000) {
         val errors = mutable.ArrayBuffer[String]()
 
@@ -1603,7 +1603,7 @@ class PhaseCheckCrossClock() extends PhaseCheck{
         case None => {
           var sync = scala.collection.immutable.Set[Bool]()
 
-          //Collect all the directly syncronous Bool
+          //Collect all the directly synchronous Bool
           sync += that
           that.foreachTag {
             case tag : ClockSyncTag => sync += tag.a; sync += tag.b
@@ -1611,7 +1611,7 @@ class PhaseCheckCrossClock() extends PhaseCheck{
             case _ =>
           }
 
-          //Lock for driver inferation
+          //Lock for driver inference
           if (that.hasOnlyOneStatement && that.head.parentScope == that.rootScopeStatement && that.head.source.isInstanceOf[Bool] && that.head.source.asInstanceOf[Bool].isComb) {
             sync ++= getSyncronous(that.head.source.asInstanceOf[Bool])
           }
@@ -1863,7 +1863,7 @@ class PhaseRemoveUselessStuff(postClockPulling: Boolean, tagVitals: Boolean) ext
             s.foreachStatements(propagate)
           case s: AssignmentStatement =>
             s.walkExpression{ case e: Statement => propagate(e) case _ => }
-            s.walkParentTreeStatements(propagate) //Could be walkParentTreeStatementsUntilRootScope but then should symplify removed TreeStatements
+            s.walkParentTreeStatements(propagate) //Could be walkParentTreeStatementsUntilRootScope but then should simplify removed TreeStatements
           case s: WhenStatement =>
             s.walkExpression{ case e: Statement => propagate(e) case _ => }
           case s: SwitchStatement =>
@@ -2377,7 +2377,7 @@ class PhaseGetInfoRTL(prunedSignals: mutable.Set[BaseType], unusedSignals: mutab
     import pc._
 
     //    val targetAlgoId = GlobalData.get.algoId
-    //    Node.walk(walkNodesDefautStack,node => {node.algoId = targetAlgoId})
+    //    Node.walk(walkNodesDefaultStack,node => {node.algoId = targetAlgoId})
     walkStatements{
       case bt: BaseType if !bt.isVital && (!bt.isInstanceOf[BitVector] || bt.asInstanceOf[BitVector].inferredWidth != 0) && !bt.hasTag(unusedTag) && bt.isNamed && !bt.getName().startsWith(globalData.anonymSignalPrefix) =>
         prunedSignals += bt
@@ -2543,7 +2543,7 @@ class PhaseStdLogicVectorAtTopLevelIo() extends PhaseNetlist {
 //  override def impl(pc : PhaseContext): Unit = {
 //    import pc._
 //    var counter = 0
-//    Node.walk(walkNodesDefautStack,_ => counter = counter + 1)
+//    Node.walk(walkNodesDefaultStack,_ => counter = counter + 1)
 //    SpinalInfo(s"Graph has $counter nodes")
 //  }
 //}
@@ -2571,7 +2571,7 @@ class PhaseCreateComponent(gen: => Component)(pc: PhaseContext) extends PhaseNet
 //      assert(DslScopeStack.get != null, "The SpinalHDL context seems wrong, did you included the idslplugin in your scala build scripts ? This is a Scala compiler plugin, see https://github.com/SpinalHDL/SpinalTemplateSbt/blob/666dcbba79181659d0c736eb931d19ec1dc17a25/build.sbt#L13.")
     }
 
-//    //Ensure there is no prepop tasks remaining, as things can be quite aggresively context switched since the fiber update
+//    //Ensure there is no prepop tasks remaining, as things can be quite aggressively context switched since the fiber update
 //    var hadPrePop = true
 //    while(hadPrePop) {
 //      hadPrePop = false
@@ -2730,7 +2730,7 @@ object SpinalVhdlBoot{
         println("**********************************************************************************************\n")
         System.out.flush()
 
-        //Fill the ScalaLocated object which had trigger into the scalaLocatedCompoments
+        //Fill the ScalaLocated object which had trigger into the scalaLocatedComponents
         GlobalData.get.applyScalaLocated()
 
         return singleShot(config.copy(debugComponents = GlobalData.get.scalaLocatedComponents))(gen)
@@ -2859,7 +2859,7 @@ object SpinalVerilogBoot{
         println("**********************************************************************************************\n")
         System.out.flush()
 
-        //Fill the ScalaLocated object which had trigger into the scalaLocatedCompoments
+        //Fill the ScalaLocated object which had trigger into the scalaLocatedComponents
         GlobalData.get.applyScalaLocated()
         return singleShot(config.copy(debugComponents = GlobalData.get.scalaLocatedComponents))(gen)
       }

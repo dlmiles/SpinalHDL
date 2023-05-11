@@ -224,7 +224,7 @@ abstract class BitVector extends BaseType with Widthable {
   }
 
   /**
-    * Take lowerst n bits
+    * Take lowest n bits
     * @example {{{ val res = data10bits.take(4) }}}
     * @return data10bits(3 downto 0)
     */
@@ -236,7 +236,7 @@ abstract class BitVector extends BaseType with Widthable {
   def takeLow(n: Int): Bits = take(n)
 
   /**
-    * Drop lowerst n bits
+    * Drop lowest n bits
     * @example {{{ val res = data10bits.drop(4) }}}
     * @return data10bits(9 downto 4)
     */

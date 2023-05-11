@@ -66,7 +66,7 @@ class EngineContext {
 //        if(t.isDone) println(s"Done   $t")
         t.context = ScopeProperty.capture()
       }
-      //Ensure there is no prepop tasks remaining, as things can be quite aggresively context switched since the fiber update
+      //Ensure there is no prepop tasks remaining, as things can be quite aggressively context switched since the fiber update
       var hadPrePop = true
       while(hadPrePop) {
         hadPrePop = false

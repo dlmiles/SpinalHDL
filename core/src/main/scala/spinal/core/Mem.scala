@@ -635,7 +635,7 @@ class MemReadSync() extends MemPortStatement with WidthProvider with SpinalTagRe
 //  }
 //
 //  def sameAddressThan(write: MemWrite): Unit = {
-//    //Used by backed to symplify
+//    //Used by backed to simplify
 //    this.setInput(MemReadSync.getAddressId,write.getAddress)
 //  }
 

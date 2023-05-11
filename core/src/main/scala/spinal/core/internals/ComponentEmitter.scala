@@ -320,7 +320,7 @@ abstract class ComponentEmitter {
       }
     })
 
-    //Get all component outputs which are read internaly
+    //Get all component outputs which are read internally
     //And also fill some expressionToWrap from switch(xx)
 
     val clockDomains = mutable.LinkedHashSet[ClockDomain]()

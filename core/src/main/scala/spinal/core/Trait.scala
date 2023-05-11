@@ -855,11 +855,11 @@ trait Num[T <: Data] {
   def +^(right: T): T
   /** Safe Addition with saturation */
   def +| (right: T): T
-  /** Substraction */
+  /** Subtraction */
   def - (right: T): T
-  /** Safe Substraction with 1 bit expand*/
+  /** Safe Subtraction with 1 bit expand*/
   def -^ (right: T): T
-  /** Safe Substraction with saturation*/
+  /** Safe Subtraction with saturation*/
   def -| (right: T): T
   /** Multiplication */
   def * (right: T): T

@@ -67,7 +67,7 @@ object CyclesCount{
   * Base class for the Physical representation (Hertz, Time, ...)
   *
   * When formatting (e.g. via f-interpolation) one can use:
-  * - precision to specify precsion (e.g. "%.3f" for three digits past comma)
+  * - precision to specify precision (e.g. "%.3f" for three digits past comma)
   * - width to pad with space to a specified length (e.g. "%5f" to get at least 5 characters)
   * - left justified padding (e.g. "%-5f" to pad right to 5 characters)
   * - alternate to print w/o unit (e.g. "%#f")
