@@ -1,6 +1,6 @@
 package spinal.tester.temp
 import spinal.core._
-import spinal.lib._ 
+import spinal.lib._
 import spinal.lib.bus.amba4.axilite._
 import spinal.tester.code.temp._
 

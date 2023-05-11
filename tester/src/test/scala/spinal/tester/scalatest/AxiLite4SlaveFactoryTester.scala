@@ -2,7 +2,7 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import spinal.lib._
-import spinal.lib.bus.amba4.axilite.{AxiLite4SlaveFactory, AxiLite4, AxiLite4Config}
+import spinal.lib.bus.amba4.axilite.{AxiLite4, AxiLite4Config, AxiLite4SlaveFactory}
 
 import scala.language.postfixOps
 

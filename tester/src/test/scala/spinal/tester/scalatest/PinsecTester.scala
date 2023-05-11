@@ -1,6 +1,6 @@
 package spinal.tester.scalatest
 
-import org.scalatest.{Stepwise, Sequential, Suites}
+import org.scalatest.{Sequential, Stepwise, Suites}
 import spinal.core._
 import spinal.lib._
 import spinal.lib.com.jtag.Jtag
@@ -8,7 +8,7 @@ import spinal.lib.com.uart.Uart
 import spinal.lib.io.TriStateArray
 import spinal.lib.memory.sdram.sdr.IS42x320D
 import spinal.lib.{master, slave}
-import spinal.lib.soc.pinsec.{PinsecConfig, PinsecTimerCtrlExternal, Pinsec}
+import spinal.lib.soc.pinsec.{Pinsec, PinsecConfig, PinsecTimerCtrlExternal}
 
 import scala.language.postfixOps
 

@@ -2,7 +2,7 @@ package spinal.tester.code
 
 import spinal.core.formal._
 import spinal.core._
-import spinal.lib.{Stream, StreamFifo, Timeout, master, slave, CountOne}
+import spinal.lib.{CountOne, Stream, StreamFifo, Timeout, master, slave}
 
 import scala.language.postfixOps
 

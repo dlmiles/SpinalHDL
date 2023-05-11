@@ -10,7 +10,7 @@ import spinal.lib.bus.regif.{AccessType, BusInterface}
 
 import scala.collection.mutable
 import scala.language.postfixOps
-import scala.math.{BigInt}
+import scala.math.BigInt
 import scala.util.Random
 
 class RegIfTester extends Component {

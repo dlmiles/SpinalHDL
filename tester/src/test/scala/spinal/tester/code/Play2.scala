@@ -1,16 +1,16 @@
 package spinal.tester.code
 
 
-import java.io.{PrintWriter, ByteArrayOutputStream}
+import java.io.{ByteArrayOutputStream, PrintWriter}
 import java.util
 import spinal.core.internals.Operator.UInt.Add
 import spinal.core._
 import spinal.core.internals._
 import spinal.lib._
-import spinal.lib.bus.amba3.apb.{Apb3SlaveFactory, Apb3}
+import spinal.lib.bus.amba3.apb.{Apb3, Apb3SlaveFactory}
 import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config}
 import spinal.lib.bus.avalon._
-import spinal.lib.bus.amba4.axilite.{AxiLite4SpecRenamer, AxiLite4Config, AxiLite4}
+import spinal.lib.bus.amba4.axilite.{AxiLite4, AxiLite4Config, AxiLite4SpecRenamer}
 import spinal.lib.experimental.bus.neutral.NeutralStreamDma
 import spinal.lib.com.uart._
 import spinal.lib.eda.mentor.MentorDo
@@ -23,7 +23,7 @@ import spinal.lib.io.ReadableOpenDrain
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.language.postfixOps
-import scala.sys.process.{ProcessLogger, Process, ProcessIO}
+import scala.sys.process.{Process, ProcessIO, ProcessLogger}
 
 
 /**

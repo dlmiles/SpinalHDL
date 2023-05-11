@@ -6,7 +6,7 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.experimental.bus.sbl._
 import spinal.lib.com.uart._
-import spinal.lib.graphic.{RgbConfig, Rgb}
+import spinal.lib.graphic.{Rgb, RgbConfig}
 import spinal.lib.graphic.vga._
 
 import scala.language.postfixOps

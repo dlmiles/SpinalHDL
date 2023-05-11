@@ -2,7 +2,7 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import spinal.core.formal._
-import spinal.lib.{StreamFifo, History, OHToUInt}
+import spinal.lib.{History, OHToUInt, StreamFifo}
 import spinal.lib.formal._
 
 import scala.language.postfixOps

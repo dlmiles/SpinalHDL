@@ -4,13 +4,13 @@ package spinal.tester.code
 import spinal.core._
 import spinal.demo.mandelbrot._
 import spinal.lib._
-import spinal.lib.bus.amba3.apb.{Apb3SlaveFactory, Apb3, Apb3Config}
+import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config, Apb3SlaveFactory}
 import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config}
-import spinal.lib.bus.amba4.axilite.{AxiLite4SlaveFactory, AxiLite4Config, AxiLite4}
+import spinal.lib.bus.amba4.axilite.{AxiLite4, AxiLite4Config, AxiLite4SlaveFactory}
 import spinal.lib.bus.avalon.{AvalonMM, AvalonMMSlaveFactory}
 import spinal.lib.com.uart._
 import spinal.lib.cpu.riscv.impl.extension._
-import spinal.lib.cpu.riscv.impl.{InstructionCacheConfig, dynamic, sync, RiscvCoreConfig}
+import spinal.lib.cpu.riscv.impl.{InstructionCacheConfig, RiscvCoreConfig, dynamic, sync}
 import spinal.lib.graphic.Rgb
 import spinal.lib.misc.{Prescaler, Timer}
 
