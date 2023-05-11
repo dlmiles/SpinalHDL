@@ -236,6 +236,7 @@ package object sim {
     SimManagerContext.current.manager.schedule(timeToLong(delay))(body)
   }
 
+  // TYPO:  periodically
   def periodicaly(delay : Long)(body : => Unit) : Unit = {
     SimManagerContext.current.manager.schedule(delay){
       body

@@ -138,6 +138,7 @@ trait VerilogBase extends VhdlVerilogBase{
     s"[${bitCount - 1}:0]"
   }
 
+  // TYPO: getReEncodingFunction
   def getReEncodingFuntion(spinalEnum: SpinalEnum, source: SpinalEnumEncoding, target: SpinalEnumEncoding): String = {
     s"${globalPrefix}${spinalEnum.getName()}_${source.getName()}_to_${target.getName()}"
   }

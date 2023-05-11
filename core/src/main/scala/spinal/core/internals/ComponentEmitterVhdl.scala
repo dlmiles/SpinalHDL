@@ -829,6 +829,7 @@ class ComponentEmitterVhdl(
     }
   }
 
+  // TYPO: emitExpressionNoWrappedForFirstOne
   def emitExpressionNoWrappeForFirstOne(that: Expression): String = {
     dispatchExpression(that)
   }

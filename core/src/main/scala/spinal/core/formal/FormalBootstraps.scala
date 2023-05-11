@@ -33,6 +33,7 @@ import scala.io.Source
 import scala.util.Random
 import sys.process._
 
+// TYPO: FormalEngine
 trait FormalEngin {}
 trait FormalBackend {
   def doVerify(name: String = "formal"): Unit
@@ -91,12 +92,14 @@ case class SpinalFormalConfig(
     this
   }
 
+  // TYPO: withEngines
   def withEngies(engins: Seq[FormalEngin]): this.type = {
     _engines.clear()
     _engines ++= engins
     this
   }
 
+  // TYPO: addEngine
   def addEngin(engin: FormalEngin): this.type = {
     _engines ++= Seq(engin)
     this

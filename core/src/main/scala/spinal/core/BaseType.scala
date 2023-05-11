@@ -130,6 +130,7 @@ abstract class BaseType extends Data with DeclarationStatement with StatementDou
     false
   }
 
+  // TYPO: hasAssignment
   def hasAssignement : Boolean = !this.dlcIsEmpty
 
   def initialFrom(that: AnyRef, target: AnyRef = this) = {

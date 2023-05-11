@@ -124,6 +124,7 @@ object InputNormalize {
     }
   }
 
+  // TYPO: assignmentResizedOrUnfixedLit
   def assignementResizedOrUnfixedLit(assignement: AssignmentStatement): Expression = {
     val targetWidth = assignement.target.asInstanceOf[WidthProvider].getWidth
     val inputWidth  = assignement.source.asInstanceOf[WidthProvider].getWidth
@@ -245,6 +246,7 @@ trait EnumEncoded{
 
 trait InferableEnumEncoding{
   private[core] def encodingProposal(e: SpinalEnumEncoding): Boolean
+  // TYPO: Inference
   def bootInferration(): Unit
 }
 

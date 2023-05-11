@@ -97,6 +97,7 @@ class GlobalData(val config : SpinalConfig) {
   private var algoIncrementale = 1
   var toplevel : Component = null
 
+  // TYPO: allocateAlgoIncremental
   def allocateAlgoIncrementale(): Int = {
     assert(algoIncrementale != Integer.MAX_VALUE)
     algoIncrementale += 1
@@ -262,6 +263,7 @@ trait NameableByComponent extends Nameable with GlobalDataUser {
 trait Assignable {
   /* private[core] */var compositeAssign: Assignable = null
 
+  // TYPO: compositeAssignFrom
   /*private[core] */final def compositAssignFrom(that: AnyRef, target: AnyRef, kind: AnyRef)(implicit loc: Location): Unit = {
     if (compositeAssign != null) {
       compositeAssign.compositAssignFrom(that, target, kind)
@@ -761,6 +763,7 @@ trait SpinalTag {
   def moveToSyncNode        = false //When true, Spinal will automatically move the tag to the driving syncNode
   def duplicative           = false
   def driverShouldNotChange = false
+  // TYPO: canSimplifyHost
   def canSymplifyHost       = false
   def allowMultipleInstance = true // Allow multiple instances of the tag on the same object
   def ioTag                 = false // Propagate tag to IO
@@ -773,6 +776,7 @@ trait SpinalTag {
 
 class DefaultTag(val that: BaseType) extends SpinalTag
 object allowDirectionLessIoTag       extends SpinalTag
+// TYPO: unsetRegIfNoAssignmentTag
 object unsetRegIfNoAssignementTag    extends SpinalTag
 object allowAssignmentOverride       extends SpinalTag
 object allowOutOfRangeLiterals               extends SpinalTag{
@@ -823,6 +827,7 @@ object Driver {
 }
 
 //Avoid having case class matching
+// TYPO: OverriddenEqualsHashCode
 trait OverridedEqualsHashCode{
   override def equals(obj: scala.Any): Boolean = super.equals(obj)
   override def hashCode(): Int = super.hashCode()

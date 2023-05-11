@@ -29,6 +29,7 @@ import scala.collection.Seq
 object DataAssign
 object InitAssign
 object InitialAssign
+// TYPO VarAssignmentTag
 class VarAssignementTag(val from : Data) extends SpinalTag{
   var id = 0
 }
@@ -478,6 +479,7 @@ trait Data extends ContextUser with NameableByComponent with Assignable with Spi
   }
 
   /** Allow a register to be partially assigned */
+    // TYPO: allowPartiallyAssigned
   def allowPartialyAssigned(): this.type = {
     addTag(AllowPartialyAssignedTag)
   }

@@ -1597,6 +1597,7 @@ class PhaseCheckCrossClock() extends PhaseCheck{
     import pc._
 
     val solved = mutable.HashMap[Bool, immutable.Set[Bool]]()
+    // TYPO: getSynchronous
     def getSyncronous(that : Bool) : immutable.Set[Bool] = {
       solved.get(that) match {
         case Some(sync) => sync
@@ -1923,6 +1924,7 @@ class PhaseRemoveUselessStuff(postClockPulling: Boolean, tagVitals: Boolean) ext
       }
     })
 
+    // TYPO: removeEmptyChildren
     def removeEmptyChilds(c: Component): Unit ={
       val keep = ArrayBuffer[Component]()
       c.children.foreach { child =>
@@ -1980,6 +1982,7 @@ class PhaseRemoveIntermediateUnnameds(onlyTypeNode: Boolean) extends PhaseNetlis
 }
 
 
+// TYPO: PhaseCompleteSwitchCases
 class PhaseCompletSwitchCases extends PhaseNetlist{
 
   override def impl(pc: PhaseContext): Unit = {
@@ -2048,6 +2051,7 @@ class PhaseCheckIoBundle extends PhaseCheck{
   }
 }
 
+// TYPO: PhaseCheckHierarchy
 class PhaseCheckHiearchy extends PhaseCheck{
 
   override def impl(pc: PhaseContext): Unit = {
