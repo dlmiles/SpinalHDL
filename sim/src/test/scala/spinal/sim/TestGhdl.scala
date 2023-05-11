@@ -155,7 +155,7 @@ object TestGhdl4 extends App{
   }
   catch {
     case e: VpiException => {
-      println("catched exception")
+      println("caught exception")
       println(e.toString)
     }
   }
@@ -181,7 +181,7 @@ object TestGhdl5 extends App {
   }
   catch {
     case e: VpiException => {
-      println("catched exception")
+      println("caught exception")
       println(e.toString)
     }
   }

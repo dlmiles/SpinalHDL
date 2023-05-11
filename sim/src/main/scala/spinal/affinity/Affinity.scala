@@ -8,7 +8,7 @@ object Affinity {
     } catch{
       case _ : Throwable => if(!warningFired){
         warningFired = true
-        println("[Warning] net.openhft.affinity.Affinity.setAffinity isn't working (this reduce performances)\n")
+        println("[Warning] net.openhft.affinity.Affinity.setAffinity isn't working (this may reduce performance)\n")
       }
     }
   }
@@ -20,7 +20,7 @@ object Affinity {
     } catch{
       case _ : Throwable => if(!warningFired){
         warningFired = true
-        println("[Warning] net.openhft.affinity.Affinity.setAffinity isn't working (this reduce performances)\n")
+        println("[Warning] net.openhft.affinity.Affinity.setAffinity isn't working (this may reduce performance)\n")
       }
     }
   }

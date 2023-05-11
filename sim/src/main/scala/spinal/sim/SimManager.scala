@@ -320,7 +320,7 @@ class SimManager(val raw : SimRaw) {
       if(retains != 0){
         throw new SimFailure("Simulation ended while there was still some retains")
       } else {
-        throw new SimFailure("Simulation ended in a freeze state, there is nothing to squedule which can make time advance.")
+        throw new SimFailure("Simulation ended in a frozen state, there is nothing to schedule which can make time advance.")
       }
     } catch {
       case e : SimSuccess =>

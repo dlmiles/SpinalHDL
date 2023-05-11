@@ -137,7 +137,7 @@ Loader::initialize()
 
    
     if (!_simkernel_lib.load(_simkernel_libname)) {
-        std::cerr << "Could not load simulaiton kernel library (" << _simkernel_libname << ") :" << _simkernel_lib.error() << "\n";
+        std::cerr << "Could not load simulation kernel library (" << _simkernel_libname << ") :" << _simkernel_lib.error() << "\n";
         return false;
     }
 
