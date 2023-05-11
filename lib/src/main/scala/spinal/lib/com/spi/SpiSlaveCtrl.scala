@@ -3,7 +3,7 @@ package spinal.lib.com.spi
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3SlaveFactory}
-import spinal.lib.bus.misc.{BusSlaveFactoryAddressWrapper, BusSlaveFactory}
+import spinal.lib.bus.misc.{BusSlaveFactory, BusSlaveFactoryAddressWrapper}
 
 import scala.language.postfixOps
 

@@ -2,9 +2,9 @@ package spinal.lib.com.jtag.lattice.ecp5
 
 import spinal.core._
 import spinal.lib._
+import spinal.lib.com.jtag.JtagTapInstructionCtrl
 
 import scala.language.postfixOps
-import spinal.lib.com.jtag.{JtagTapInstructionCtrl}
 
 //══════════════════════════════════════════════════════════════════════════════
 // JtagTapInstruction Write / Read / JtagTapInstructionFlowFragmentPush

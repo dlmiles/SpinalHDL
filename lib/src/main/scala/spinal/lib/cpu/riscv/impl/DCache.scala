@@ -2,7 +2,7 @@ package spinal.lib.cpu.riscv.impl
 
 import spinal.core._
 import spinal.lib._
-import spinal.lib.bus.amba4.axi.{Axi4Shared, Axi4Config}
+import spinal.lib.bus.amba4.axi.{Axi4Config, Axi4Shared}
 import spinal.lib.bus.avalon.{AvalonMM, AvalonMMConfig}
 
 import scala.language.postfixOps

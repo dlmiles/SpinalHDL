@@ -5,7 +5,7 @@ import spinal.lib._
 import spinal.lib.bus.misc.BusSlaveFactory
 import spinal.lib.experimental.bus.neutral.NeutralStreamDma
 import spinal.lib.eda.altera.QSysify
-import spinal.lib.graphic.{RgbConfig, Rgb}
+import spinal.lib.graphic.{Rgb, RgbConfig}
 
 import scala.language.postfixOps
 

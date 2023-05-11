@@ -1,7 +1,7 @@
 package spinal.lib.com.i2c
 
 import spinal.core._
-import spinal.lib.bus.amba3.apb.{Apb3SlaveFactory, Apb3, Apb3Config}
+import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config, Apb3SlaveFactory}
 import spinal.lib.{master, slave}
 
 import scala.language.postfixOps

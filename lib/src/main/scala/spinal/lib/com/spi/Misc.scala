@@ -1,8 +1,8 @@
 package spinal.lib.com.spi
 
 import spinal.core._
-import spinal.lib.{BufferCC, master, IMasterSlave}
-import spinal.lib.io.{TriStateOutput, TriStateArray, TriState}
+import spinal.lib.{BufferCC, IMasterSlave, master}
+import spinal.lib.io.{TriState, TriStateArray, TriStateOutput}
 
 import scala.language.postfixOps
 

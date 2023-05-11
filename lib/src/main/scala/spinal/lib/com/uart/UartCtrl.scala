@@ -5,7 +5,7 @@ import UartStopType._
 import spinal.core._
 import spinal.lib.FragmentToBitsStates._
 import spinal.lib._
-import spinal.lib.bus.misc.{BusSlaveFactoryAddressWrapper, BusSlaveFactory}
+import spinal.lib.bus.misc.{BusSlaveFactory, BusSlaveFactoryAddressWrapper}
 
 import scala.language.postfixOps
 

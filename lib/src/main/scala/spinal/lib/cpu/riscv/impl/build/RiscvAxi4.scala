@@ -2,7 +2,7 @@ package spinal.lib.cpu.riscv.impl.build
 
 import spinal.core._
 import spinal.lib._
-import spinal.lib.bus.amba3.apb.{Apb3Config, Apb3}
+import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config}
 import spinal.lib.bus.amba4.axi.{Axi4ReadOnly, Axi4Shared}
 import spinal.lib.bus.avalon._
 import spinal.lib.cpu.riscv.impl._

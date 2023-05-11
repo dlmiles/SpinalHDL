@@ -3,12 +3,12 @@ package spinal.lib.cpu.riscv.impl
 import java.text.AttributedString
 import spinal.core._
 import spinal.lib._
-import spinal.lib.bus.amba3.ahblite.{AhbLite3Master, AhbLite3Config}
+import spinal.lib.bus.amba3.ahblite.{AhbLite3Config, AhbLite3Master}
 import spinal.lib.bus.avalon._
 import spinal.lib.bus.avalon._
 import spinal.lib.bus.amba4.axi._
 import spinal.lib.cpu.riscv.impl.Utils._
-import spinal.lib.cpu.riscv.impl.extension.{NativeDataBusExtension, NativeInstructionBusExtension, BarrelShifterLightExtension, CoreExtension}
+import spinal.lib.cpu.riscv.impl.extension.{BarrelShifterLightExtension, CoreExtension, NativeDataBusExtension, NativeInstructionBusExtension}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer

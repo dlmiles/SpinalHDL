@@ -1,7 +1,7 @@
 package spinal.lib.com.sio
 
 import spinal.core._
-import spinal.lib.{BufferCC, master, IMasterSlave}
+import spinal.lib.{BufferCC, IMasterSlave, master}
 import spinal.lib.io.TriStateArray
 
 import scala.language.postfixOps
