@@ -5,6 +5,8 @@ import spinal.core.formal._
 import spinal.lib.{StreamFifo, History, OHToUInt}
 import spinal.lib.formal._
 
+import scala.language.postfixOps
+
 class FormalFifoTester extends SpinalFormalFunSuite {
   test("fifo-verify all") {
     val initialCycles = 2

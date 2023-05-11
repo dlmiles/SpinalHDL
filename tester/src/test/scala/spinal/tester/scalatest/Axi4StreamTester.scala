@@ -6,6 +6,8 @@ import spinal.lib._
 import spinal.core.sim._
 import spinal.lib.bus.amba4.axis._
 
+import scala.language.postfixOps
+
 case class Axi4StreamEndianFixture[T <: Data](config: Axi4StreamConfig, outType: HardType[T]) extends Component {
   val io = new Bundle {
     val s_axis = slave(Axi4Stream(config))

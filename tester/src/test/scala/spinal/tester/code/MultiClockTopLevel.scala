@@ -3,6 +3,8 @@ package spinal.tester.code
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 //Define custom data types
 class MyDataType extends Bundle{
   val a = UInt(8 bit)

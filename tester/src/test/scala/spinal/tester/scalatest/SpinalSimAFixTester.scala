@@ -6,6 +6,7 @@ import spinal.core.sim._
 
 import java.math.MathContext
 import scala.collection.mutable
+import scala.language.postfixOps
 import scala.math.BigDecimal.RoundingMode
 import scala.util.Random
 

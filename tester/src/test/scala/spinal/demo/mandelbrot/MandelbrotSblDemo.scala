@@ -10,6 +10,8 @@ import spinal.lib.com.uart._
 import spinal.lib.graphic.{RgbConfig, Rgb}
 import spinal.lib.graphic.vga._
 
+import scala.language.postfixOps
+
 
 class MandelbrotSblDemo(frameAddressOffset: Int, p: MandelbrotCoreParameters, coreClk: ClockDomain, vgaMemoryClk: ClockDomain, vgaClk: ClockDomain) extends Component {
   val memoryBusConfig = SblConfig(30, 32)

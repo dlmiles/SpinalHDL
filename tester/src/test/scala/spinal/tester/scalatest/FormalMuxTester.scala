@@ -5,6 +5,8 @@ import spinal.core.formal._
 import spinal.lib._
 import spinal.lib.formal._
 
+import scala.language.postfixOps
+
 class FormalMuxTester extends SpinalFormalFunSuite {
   def formalmux(selWithCtrl: Boolean = false) = {
     FormalConfig

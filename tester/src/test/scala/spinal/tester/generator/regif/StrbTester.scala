@@ -9,6 +9,7 @@ import spinal.lib.bus.amba4.apb.sim.Apb4Driver
 import spinal.lib.bus.amba4.apb.{Apb4, Apb4Config}
 
 import scala.collection.immutable._
+import scala.language.postfixOps
 import scala.util.Random
 
 class RegIfTester(seed: Int = 0) extends Component with RegIfRef {

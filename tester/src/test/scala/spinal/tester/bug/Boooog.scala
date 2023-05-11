@@ -2,6 +2,8 @@ package spinal.tester.bug
 
 import spinal.core._
 import spinal.lib._
+
+import scala.language.postfixOps
 case class comms_engine_control() extends Bundle with IMasterSlave{
   val enable = Bool()
   val buffer_num = Bits(4 bits)

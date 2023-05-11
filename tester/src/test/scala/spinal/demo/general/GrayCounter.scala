@@ -1,6 +1,8 @@
 package spinal.demo.general
 import spinal.core._
 
+import scala.language.postfixOps
+
 object GrayCounter {
   def apply(n: Int, enable: Bool): UInt = {
     val gray = RegInit(U(0, n bit))

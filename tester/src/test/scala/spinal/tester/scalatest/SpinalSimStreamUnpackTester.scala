@@ -6,6 +6,7 @@ import spinal.lib._
 import spinal.core.sim._
 import spinal.lib.sim.{ScoreboardInOrder, StreamDriver, StreamMonitor}
 
+import scala.language.postfixOps
 import scala.util.Random
 
 class SpinalSimStreamUnpackTester extends SpinalAnyFunSuite {

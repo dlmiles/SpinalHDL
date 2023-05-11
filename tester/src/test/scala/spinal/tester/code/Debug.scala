@@ -19,6 +19,7 @@ import spinal.lib.sim.{StreamDriver, StreamMonitor}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 import scala.math.ScalaNumber
 import scala.util.Random
 

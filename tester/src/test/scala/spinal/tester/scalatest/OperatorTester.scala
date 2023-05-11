@@ -22,6 +22,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.tester.scalatest.OperatorTester.OperatorTester
 
+import scala.language.postfixOps
+
 object OperatorTester {
   object State extends SpinalEnum{
     val a,b,c = newElement

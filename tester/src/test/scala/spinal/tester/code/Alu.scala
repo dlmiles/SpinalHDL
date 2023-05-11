@@ -2,6 +2,8 @@ package spinal.tester.code
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 class Ranged{
   def of(size : Int) = {
 

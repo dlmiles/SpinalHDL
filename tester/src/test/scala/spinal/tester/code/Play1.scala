@@ -26,6 +26,7 @@ import spinal.lib.io.TriStateArray
 import scala.collection.immutable.HashSet
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 import scala.util.Random
 
 

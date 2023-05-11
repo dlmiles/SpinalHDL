@@ -7,6 +7,7 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.graphic.Rgb
 
+import scala.language.postfixOps
 import scala.util.Random
 
 class SpinalSimPhaseTester extends SpinalSimFunSuite{

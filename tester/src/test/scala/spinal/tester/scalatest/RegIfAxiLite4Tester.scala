@@ -9,6 +9,7 @@ import spinal.lib.bus.amba4.axilite.sim.{AxiLite4Driver, AxiLite4ReadOnlyMonitor
 import spinal.lib.bus.regif.{AccessType, BusInterface}
 
 import scala.collection.mutable
+import scala.language.postfixOps
 import scala.math.{BigInt}
 import scala.util.Random
 

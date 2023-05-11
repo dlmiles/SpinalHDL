@@ -3,6 +3,8 @@ package spinal.tester.code.temp
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 
 object AFixPlay extends App{
   SpinalVerilog(new Component{

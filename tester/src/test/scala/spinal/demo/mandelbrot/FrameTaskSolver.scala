@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.math.SIntMath
 
+import scala.language.postfixOps
+
 
 class FrameTaskSolver(p: MandelbrotCoreParameters) extends Component {
   val io = new Bundle {

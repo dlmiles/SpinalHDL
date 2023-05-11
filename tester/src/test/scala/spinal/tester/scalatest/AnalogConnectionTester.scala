@@ -6,6 +6,8 @@ import spinal.lib._
 import spinal.lib.io._
 import spinal.lib.blackbox.xilinx.s7.IOBUF
 
+import scala.language.postfixOps
+
 class PortBlackBox extends BlackBox {
   val write = in(Bool())
   val read = out(Bool())

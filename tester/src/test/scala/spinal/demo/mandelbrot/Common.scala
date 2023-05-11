@@ -2,6 +2,7 @@ package spinal.demo.mandelbrot
 
 import spinal.core._
 
+import scala.language.postfixOps
 import scala.util.Random
 
 //This class is used everywhere into the mandelbrot core as "generic" "construction" parameter

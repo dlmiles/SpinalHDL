@@ -10,6 +10,8 @@ import spinal.lib.memory.sdram.sdr.IS42x320D
 import spinal.lib.{master, slave}
 import spinal.lib.soc.pinsec.{PinsecConfig, PinsecTimerCtrlExternal, Pinsec}
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC32F_USER on 22/08/2016.
 */

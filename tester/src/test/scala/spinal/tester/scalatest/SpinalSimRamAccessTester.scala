@@ -4,6 +4,7 @@ import spinal.core._
 import spinal.lib._
 import spinal.core.sim._
 
+import scala.language.postfixOps
 import scala.util.Random
 
 class SpinalSimRamAccessTester extends SpinalSimFunSuite {

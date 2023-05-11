@@ -5,6 +5,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.core.sim._
 
+import scala.language.postfixOps
+
 class SpinalSimPackedBundleTester extends SpinalAnyFunSuite {
   test("pack legacy") {
     SimConfig.withWave

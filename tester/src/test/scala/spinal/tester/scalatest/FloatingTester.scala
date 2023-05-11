@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.experimental.math._
 
+import scala.language.postfixOps
+
 class FloatingTester extends Component {
   val io = new Bundle {
     val inp = in(Floating(8, 23))

@@ -3,6 +3,8 @@ package spinal.tester.code.p1
 import spinal.core._
 import spinal.core.fiber._
 
+import scala.language.postfixOps
+
 object MyScalaProgramme{
   def main(args: Array[String]) {
     println("Hello world")

@@ -5,6 +5,8 @@ import spinal.core.formal._
 import spinal.lib._
 import spinal.lib.formal._
 
+import scala.language.postfixOps
+
 class FormalForkTester extends SpinalFormalFunSuite {
   def formalfork (synchronous: Boolean = false, back2BackCheck: Boolean = false ) = {
     FormalConfig

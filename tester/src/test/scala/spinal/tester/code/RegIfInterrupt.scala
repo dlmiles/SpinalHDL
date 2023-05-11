@@ -7,6 +7,8 @@ import spinal.lib.bus.amba3.apb._
 import spinal.lib.bus.amba3.apb.sim.Apb3Driver
 import spinal.lib.bus.regif._
 
+import scala.language.postfixOps
+
 class RegFileIntrExample extends Component{
   val io = new Bundle{
     val apb = slave(Apb3(Apb3Config(16,32)))

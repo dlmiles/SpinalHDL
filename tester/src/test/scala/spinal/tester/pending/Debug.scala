@@ -3,6 +3,8 @@ package spinal.tester.pending
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 
 
 object MyEnum2{

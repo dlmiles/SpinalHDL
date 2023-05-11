@@ -11,6 +11,7 @@ import spinal.lib.sim._
 import spinal.sim._
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 import scala.util.Random
 
 

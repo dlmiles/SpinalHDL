@@ -11,6 +11,7 @@ import spinal.sim._
 import spinal.lib._
 
 import scala.collection.mutable.ListBuffer
+import scala.language.postfixOps
 
 
 trait I2CEvent

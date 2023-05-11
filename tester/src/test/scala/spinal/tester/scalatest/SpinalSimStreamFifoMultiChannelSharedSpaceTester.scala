@@ -9,6 +9,7 @@ import spinal.tester
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 import scala.util.Random
 
 class SpinalSimStreamFifoMultiChannelSharedSpaceTester extends SpinalAnyFunSuite {

@@ -5,6 +5,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba4.axi._
 
+import scala.language.postfixOps
+
 
 class Axi4SharedOnChipRamTester extends SpinalTesterCocotbBase {
   override def getName: String = "Axi4SharedOnChipRamTester"

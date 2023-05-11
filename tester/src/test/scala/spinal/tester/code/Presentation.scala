@@ -14,7 +14,7 @@ import spinal.lib.cpu.riscv.impl.{InstructionCacheConfig, dynamic, sync, RiscvCo
 import spinal.lib.graphic.Rgb
 import spinal.lib.misc.{Prescaler, Timer}
 
-
+import scala.language.postfixOps
 import scala.util.Random
 
 object C0 {

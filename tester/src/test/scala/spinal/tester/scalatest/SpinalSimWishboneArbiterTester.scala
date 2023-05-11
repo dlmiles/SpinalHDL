@@ -8,8 +8,10 @@ import spinal.lib._
 import spinal.lib.bus.wishbone._
 import spinal.lib.wishbone.sim._
 import spinal.lib.sim._
+
 import scala.util.Random
 import scala.collection.Seq
+import scala.language.postfixOps
 
 class WishboneArbiterComponent(config : WishboneConfig,size: Int) extends Component{
   val io = new Bundle{

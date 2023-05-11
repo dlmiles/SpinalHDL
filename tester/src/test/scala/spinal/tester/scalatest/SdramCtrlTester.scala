@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.memory.sdram._
 import spinal.lib.memory.sdram.sdr.{MT48LC16M16A2, SdramCtrl}
 
+import scala.language.postfixOps
+
 
 class SdramCtrlTesterCocotbBoot extends SpinalTesterCocotbBase {
   override def getName: String = "SdramCtrlTester"

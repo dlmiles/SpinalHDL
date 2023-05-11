@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.experimental.com.serial._
 
+import scala.language.postfixOps
+
 object SerdesSerialTester {
 
   class BundleA extends Bundle {

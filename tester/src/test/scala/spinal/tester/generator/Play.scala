@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.core.fiber._
 import spinal.lib.generator._
 
+import scala.language.postfixOps
+
 object Play extends App{
   SpinalVerilog(new Component {
     setDefinitionName("toplevel")

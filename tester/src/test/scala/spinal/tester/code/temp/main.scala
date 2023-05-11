@@ -4,6 +4,8 @@ import spinal.lib._
 import spinal.lib.bus.amba4.axilite._
 import spinal.tester.code.temp._
 
+import scala.language.postfixOps
+
 class ZynqTest extends Component {
   val io = new Bundle {
     val axi_slv = slave(AxiLite4(AxiLite4Config(addressWidth=4,

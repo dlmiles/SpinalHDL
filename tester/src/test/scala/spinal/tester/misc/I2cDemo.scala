@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.bus.amba3.apb.sim.Apb3Driver
 import spinal.lib.com.i2c.{Apb3I2cCtrl, I2cMasterMemoryMappedGenerics, I2cSlaveGenerics, I2cSlaveMemoryMappedGenerics}
 
+import scala.language.postfixOps
+
 object I2cDemo extends App{
   SimConfig.withWave.compile(new Apb3I2cCtrl(
     I2cSlaveMemoryMappedGenerics(

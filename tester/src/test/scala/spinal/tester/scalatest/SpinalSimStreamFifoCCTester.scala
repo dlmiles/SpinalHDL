@@ -8,6 +8,7 @@ import spinal.lib.StreamFifoCC
 import spinal.tester
 
 import scala.collection.mutable
+import scala.language.postfixOps
 import scala.util.Random
 
 class SpinalSimStreamFifoCCTester extends SpinalSimFunSuite {

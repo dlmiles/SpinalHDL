@@ -6,6 +6,8 @@ import spinal.lib._
 import spinal.lib.bus.amba3.apb.sim.Apb3Driver
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config, Apb3Decoder, Apb3SlaveFactory}
 
+import scala.language.postfixOps
+
 class PR990TesterDut extends Component {
     val io = new Bundle {
         val apb = slave(Apb3(Apb3Config(16, 32)))

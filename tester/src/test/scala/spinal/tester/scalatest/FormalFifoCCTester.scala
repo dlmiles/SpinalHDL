@@ -5,6 +5,8 @@ import spinal.core.formal._
 import spinal.lib._
 import spinal.lib.formal._
 
+import scala.language.postfixOps
+
 class FormalFifoCCTester extends SpinalFormalFunSuite {
   def formalContext(pushPeriod: Int, popPeriod: Int, seperateReset: Boolean = false) = new Area {
     val back2backCycles = 2

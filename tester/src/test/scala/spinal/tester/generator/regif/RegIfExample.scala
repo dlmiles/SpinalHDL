@@ -7,6 +7,8 @@ import spinal.lib.bus.amba4.apb._
 import spinal.lib.bus.regif.AccessType._
 import spinal.lib.bus.regif._
 
+import scala.language.postfixOps
+
 class RegIfExample extends Component {
   val io = new Bundle{
     val apb = slave(Apb3(Apb3Config(16,32)))

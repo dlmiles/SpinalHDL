@@ -3,6 +3,8 @@ package spinal.tester.scalatest
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 
+import scala.language.postfixOps
+
 
 class BBA(val cd : ClockDomain) extends BlackBox{
   val i = in(Bool)

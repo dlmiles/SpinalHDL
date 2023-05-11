@@ -15,6 +15,7 @@ import spinal.lib.memory.sdram.sdr.sim.SdramModel
 import spinal.lib.memory.sdram.xdr.phy.{Ecp5Sdrx2Phy, RtlPhy, RtlPhyInterface, SdrInferedPhy, XilinxS7Phy}
 import spinal.lib.sim.Phase
 
+import scala.language.postfixOps
 import scala.util.Random
 
 class SdrXdrCtrlPlusPhy(cp : CtrlParameter, pl : PhyLayout) extends Component{

@@ -8,6 +8,7 @@ import spinal.lib.memory.sdram.sdr.MT48LC16M16A2
 import java.io.{File, PrintWriter}
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 
 /**

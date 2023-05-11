@@ -22,6 +22,8 @@ import spinal.core._
 import spinal.lib.bus.amba3.apb.sim.Apb3Driver
 import spinal.lib.com.i2c._
 
+import scala.language.postfixOps
+
 
 class Apb3I2cSlaveTester extends SpinalTesterCocotbBase {
   override def getName: String = "Apb3I2cSlaveTester"

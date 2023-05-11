@@ -5,6 +5,7 @@ import spinal.lib._
 import spinal.core.sim._
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 class Cosup {
   val firstThing = Bool()

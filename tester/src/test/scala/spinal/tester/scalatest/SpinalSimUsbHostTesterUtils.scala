@@ -15,6 +15,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 import scala.collection.Seq
+import scala.language.postfixOps
 
 class UsbOhciTbTop(val p : UsbOhciParameter) extends Component {
   val ohci = UsbOhci(p, BmbParameter(

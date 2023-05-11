@@ -20,6 +20,8 @@ package spinal.tester.code
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC18F on 22.08.2014.
  */

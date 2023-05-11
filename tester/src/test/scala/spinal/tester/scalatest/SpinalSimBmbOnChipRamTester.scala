@@ -9,6 +9,7 @@ import spinal.lib.bus.bmb.{Bmb, BmbOnChipRam, BmbParameter}
 import spinal.lib.bus.bmb.sim.{BmbMasterAgent, BmbMemoryAgent, BmbMemoryTester, BmbRegionAllocator}
 import spinal.lib.bus.misc.SizeMapping
 
+import scala.language.postfixOps
 import scala.util.Random
 
 

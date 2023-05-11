@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.com.uart._
 
+import scala.language.postfixOps
+
 object SpinalLibTest {
 
   class BundleAA extends BundleA {

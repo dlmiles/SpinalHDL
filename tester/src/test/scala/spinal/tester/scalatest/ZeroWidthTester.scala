@@ -22,6 +22,7 @@ import spinal.core._
 import spinal.lib._
 
 import scala.io.Source
+import scala.language.postfixOps
 
 object ZeroWidthTester {
 

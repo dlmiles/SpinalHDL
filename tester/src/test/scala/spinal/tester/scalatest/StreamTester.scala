@@ -3,6 +3,8 @@ package spinal.tester.scalatest
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 
 object StreamTester{
   case class BundleA(aaa : Int) extends Bundle{

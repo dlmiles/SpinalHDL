@@ -5,6 +5,7 @@ import spinal.sim._
 import spinal.core._
 import spinal.core.sim._
 
+import scala.language.postfixOps
 import scala.util.Random
 
 

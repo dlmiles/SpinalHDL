@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.misc.pdm._
 
+import scala.language.postfixOps
+
 class PDMTester extends Component {
   val io = new Bundle {
     val enable = in Bool()

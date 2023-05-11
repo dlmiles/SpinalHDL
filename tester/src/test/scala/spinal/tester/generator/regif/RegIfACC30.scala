@@ -12,6 +12,8 @@ import spinal.lib.bus.regif.AccessType._
 import spinal.lib.bus.regif._
 import spinal.lib.bus.wishbone.Wishbone
 
+import scala.language.postfixOps
+
 
 class RegIfBasicAccessTest(busname: String) extends Component{
   this.setDefinitionName(s"RegIfBasicAccessTest_${busname}")

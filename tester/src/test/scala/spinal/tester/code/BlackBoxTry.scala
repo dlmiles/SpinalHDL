@@ -3,6 +3,8 @@ package spinal.tester.code
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC32F_USER on 20/06/2015.
  */

@@ -10,6 +10,7 @@ import spinal.tester
 import spinal.tester.scalatest
 
 import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
 import scala.util.Random
 
 object SpinalSimMiscTester{

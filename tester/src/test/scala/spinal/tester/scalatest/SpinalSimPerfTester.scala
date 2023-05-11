@@ -8,6 +8,7 @@ import spinal.tester.scalatest
 import spinal.tester.scalatest.SpinalSimVerilatorIoTest.SpinalSimVerilatorIoTestTop
 
 import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
 import scala.util.Random
 
 object SpinalSimPerfTester {

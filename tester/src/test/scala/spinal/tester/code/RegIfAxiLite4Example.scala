@@ -9,6 +9,8 @@ import spinal.core.sim._
 import spinal.sim._
 import spinal.lib.bus.amba4.axilite.sim.AxiLite4Driver
 
+import scala.language.postfixOps
+
 class Axi4liteRegIfExample extends Component {
   import spinal.lib.bus.amba4.axilite._
   val io = new Bundle {

@@ -5,6 +5,8 @@ import spinal.core._
 import spinal.core.sim._
 import spinal.sim._
 
+import scala.language.postfixOps
+
 object SpinalSimAccessSubComponents {
   class SubSub extends Component {
     val io = new Bundle {

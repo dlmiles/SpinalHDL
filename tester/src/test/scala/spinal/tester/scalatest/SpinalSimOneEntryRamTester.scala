@@ -5,6 +5,8 @@ import spinal.core.sim._
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 class SpinalSimOneEntryRamTester extends SpinalSimFunSuite{
   test("general") {
     SimConfig.doSim(new Component {

@@ -8,6 +8,8 @@ import spinal.lib._
 import spinal.lib.bus.wishbone._
 import spinal.lib.wishbone.sim._
 import spinal.lib.sim._
+
+import scala.language.postfixOps
 import scala.util.Random
 
 class WishboneSimpleSlave(config : WishboneConfig) extends Component{

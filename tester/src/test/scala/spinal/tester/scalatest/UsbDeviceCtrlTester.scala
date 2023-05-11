@@ -14,6 +14,7 @@ import spinal.lib.com.usb.udc.{UsbDeviceCtrl, UsbDeviceCtrlParameter}
 import spinal.lib.sim.MemoryRegionAllocator
 
 import scala.collection.mutable
+import scala.language.postfixOps
 import scala.util.Random
 
 case class UsbDeviceCtrlTesterTop() extends Component {

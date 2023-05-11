@@ -6,6 +6,8 @@ import spinal.lib._
 import spinal.lib.formal._
 import spinal.lib.bus.amba4.axi._
 
+import scala.language.postfixOps
+
 object Util {
   def size2Ratio(size: UInt): UInt = {
     val out = cloneOf(size)

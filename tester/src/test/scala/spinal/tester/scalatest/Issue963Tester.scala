@@ -1,10 +1,11 @@
 package spinal.tester.scalatest
 
 import org.scalatest.funsuite.AnyFunSuite
-
 import spinal.core._
 import spinal.lib._
 import spinal.core.sim._
+
+import scala.language.postfixOps
 
 // unit test for issue #963
 

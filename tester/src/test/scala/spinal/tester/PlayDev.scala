@@ -16,6 +16,7 @@ import spinal.lib.io.{InOutWrapper, TriState, TriStateArray}
 import spinal.lib.soc.pinsec.{Pinsec, PinsecConfig}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 import scala.reflect.ClassTag
 import scala.util.Random
 

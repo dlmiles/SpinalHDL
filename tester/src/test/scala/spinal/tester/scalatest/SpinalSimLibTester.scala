@@ -8,6 +8,7 @@ import spinal.lib.com.eth._
 import spinal.lib.sim.{FlowMonitor, StreamDriver, StreamMonitor, StreamReadyRandomizer}
 
 import scala.collection.mutable
+import scala.language.postfixOps
 import scala.util.Random
 
 class SpinalSimLibTester extends SpinalAnyFunSuite {

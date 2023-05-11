@@ -1,7 +1,6 @@
 package spinal.tester.scalatest
 
 import java.io.File
-
 import org.apache.commons.io.FileUtils
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
@@ -12,6 +11,7 @@ import spinal.lib.soc.pinsec.{Pinsec, PinsecConfig}
 import spinal.lib.{Delay, StreamFifo}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 import scala.sys.process._
 
 object CheckTester{

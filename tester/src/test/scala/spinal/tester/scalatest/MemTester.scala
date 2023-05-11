@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba3.ahblite._
 
+import scala.language.postfixOps
+
 
 
 object MemTester extends App{

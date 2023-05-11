@@ -9,6 +9,8 @@ import spinal.lib.bus.misc._
 import spinal.lib.bus.wishbone._
 import spinal.lib.wishbone.sim._
 import spinal.lib.sim._
+
+import scala.language.postfixOps
 import scala.util.Random
 
 class WishboneDecoderComponent(config : WishboneConfig,decodings : Seq[SizeMapping]) extends Component{

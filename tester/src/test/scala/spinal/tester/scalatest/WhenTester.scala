@@ -19,6 +19,8 @@
 package spinal.tester.scalatest
 
 import spinal.core._
+
+import scala.language.postfixOps
 class WhenTester extends Component {
   val io = new Bundle {
     val conds = in Vec(Bool(),8)

@@ -2,6 +2,8 @@ package spinal.tester.code
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 //Here is our DUT
 class LimitedCounter extends Component{
   //The value register will always be between [2:10]

@@ -23,6 +23,8 @@ package spinal.tester.scalatest
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 import spinal.tester.scalatest.RomTester.{RomTesterSymbols, RomTesterSymbolsSInt}
+
+import scala.language.postfixOps
 object RomTester {
 
   object MyEnum extends SpinalEnum{

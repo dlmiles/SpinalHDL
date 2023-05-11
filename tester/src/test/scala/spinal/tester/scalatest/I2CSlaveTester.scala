@@ -22,6 +22,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.com.i2c._
 
+import scala.language.postfixOps
+
 
 class I2cSlaveTester extends SpinalTesterCocotbBase {
   override def getName: String = "I2cSlaveTester"

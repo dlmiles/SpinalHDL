@@ -25,6 +25,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.io.{TriState, TriStateArray}
 
+import scala.language.postfixOps
+
 object InOutTester {
   def analogType = Bool()
   case class Bus() extends Bundle with IMasterSlave{

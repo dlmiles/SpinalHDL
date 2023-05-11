@@ -4,6 +4,8 @@ import spinal.core.formal._
 import spinal.core._
 import spinal.lib.{Stream, StreamFifo, Timeout, master, slave, CountOne}
 
+import scala.language.postfixOps
+
 object FormalFifo extends App {
   val Error = new AreaRoot {
     val DROP_PUSH = new Nameable {}

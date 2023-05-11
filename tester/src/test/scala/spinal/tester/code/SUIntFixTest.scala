@@ -2,6 +2,8 @@ package spinal.tester.code
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 class UIntFixTry extends Component {
   val a, b = in UInt (16 bits)
   val c = UInt()

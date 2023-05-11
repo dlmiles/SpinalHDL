@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.com.uart._
 import spinal.tester.scalatest.FixedPointTester.FixedPointTester
 
+import scala.language.postfixOps
+
 object FixedPointTester{
 
   case class BundleA(width : Int) extends Bundle{

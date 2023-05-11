@@ -3,6 +3,8 @@ package spinal.tester.scalatest
 import spinal.core._
 import spinal.demo.mandelbrot._
 
+import scala.language.postfixOps
+
 class MandelbrotTester(p : MandelbrotCoreParameters ) extends MandelbrotCore(p){
   print("miaou")
 }

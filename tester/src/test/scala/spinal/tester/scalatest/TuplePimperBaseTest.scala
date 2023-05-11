@@ -4,6 +4,8 @@ import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 import spinal.core.sim._
 
+import scala.language.postfixOps
+
 class TuplePimperBaseTest extends AnyFunSuite {
   test("tuple_assignment_matching") {
     SimConfig.compile(new Component {

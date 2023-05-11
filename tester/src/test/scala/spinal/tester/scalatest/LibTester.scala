@@ -7,6 +7,8 @@ import spinal.lib.com.uart._
 import spinal.lib.math.SIntMath
 import spinal.tester.scalatest.FixedPointTester.FixedPointTester
 
+import scala.language.postfixOps
+
 object LibTester{
 
 

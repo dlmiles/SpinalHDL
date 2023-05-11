@@ -5,6 +5,8 @@ import spinal.core.sim._
 import spinal.lib.dsptool._
 import spinal.core.RoundType._
 
+import scala.language.postfixOps
+
 class SIntRoundTest(roundType: RoundType, sym: Boolean) extends Component{
   val din = in SInt(16 bits)
   val d1_0  = out(din.fixTo(1  downto 0, roundType, sym))

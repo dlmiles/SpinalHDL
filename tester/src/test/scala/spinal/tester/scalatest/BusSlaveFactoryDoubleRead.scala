@@ -7,6 +7,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba3.apb._
 
+import scala.language.postfixOps
+
 
 object TestTopLevel {
 

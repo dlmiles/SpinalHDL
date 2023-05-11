@@ -2,6 +2,8 @@ package spinal.tester.code
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 class CounterWithParity(size : Int) extends Component{
   val io = new Bundle{
     val increment = in Bool()

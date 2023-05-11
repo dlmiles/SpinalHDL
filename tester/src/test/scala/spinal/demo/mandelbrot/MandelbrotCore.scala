@@ -3,6 +3,8 @@ package spinal.demo.mandelbrot
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 case class MandelbrotCoreConfig(p: MandelbrotCoreParameters) extends Bundle {
   val frameTaskFilterEnable = Bool()
 }

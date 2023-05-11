@@ -2,6 +2,8 @@ package spinal.tester.temp
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 class PwmModulator extends Component {
     val io = new Bundle {
         val duty = in UInt(8 bits);
