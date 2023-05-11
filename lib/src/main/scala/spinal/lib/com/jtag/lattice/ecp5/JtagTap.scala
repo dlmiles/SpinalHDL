@@ -74,7 +74,7 @@ class JtagTap(io: JtaggIo, instructionWidth: Int=8) extends Area
                                                     with JtagTapFunctions{
 
   assert( instructionWidth == 8,
-    """The ECP5 JTAGG implements only 8-Bit instruction width.\n
+    """The ECP5 JTAG implements only 8-Bit instruction width.\n
       |Only instructions 0x32 / 0x38 are for embedded jtag usage""".stripMargin)
 
   val instruction     = Bool() // 0-> 0x32 / 1-> 0x38
@@ -115,7 +115,7 @@ class JtagTap(io: JtaggIo, instructionWidth: Int=8) extends Area
     // to have a small (synthesised) area footprint we convert the 0x32 / 0x38 to a Bool
     // 0x32 : False / 0x38 : True
     assert( instructionId == 0x32 || instructionId == 0x38,
-    """The ECP5 JTAGG implements two user instructions: 0x32 / 0x38 for embedded jtag usage.\n
+    """The ECP5 JTAG implements two user instructions: 0x32 / 0x38 for embedded jtag usage.\n
       |use 0x32 or 0x38 as instructionId""".stripMargin)
 
     val idshort = if(instructionId == 0x38) 1 else 0 
@@ -131,7 +131,7 @@ class JtagTap(io: JtaggIo, instructionWidth: Int=8) extends Area
 
   // implement traits of JtagTapFunctions
   override def idcode(value: Bits)(instructionId: Int) : Area = {
-    assert(false, """sorry a custom JTAG idcode is not supported by the embedded jtagg controller\n
+    assert(false, """sorry a custom JTAG idcode is not supported by the embedded jtag controller\n
                    |Idcode always 0xE0\n
                    |delete the code ... = tap.idcode(...) it's not necessary\n""".stripMargin)
     null

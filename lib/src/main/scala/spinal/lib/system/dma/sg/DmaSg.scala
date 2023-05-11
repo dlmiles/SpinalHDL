@@ -137,8 +137,8 @@ object DmaSg{
     def canOutput = outputsPorts.nonEmpty
 
     assert(linkedListCapable || directCtrlCapable, "A DMA channel should be at least controllable via a linked list or direct access")
-    assert(!(!directCtrlCapable && selfRestartCapable), "Channel self restart is only available if direct controle is enabled")
-    assert(memoryToMemory || inputsPorts.nonEmpty || outputsPorts.nonEmpty, "A DMA channel require at least one opperation (m->m, m->s, s->m)")
+    assert(!(!directCtrlCapable && selfRestartCapable), "Channel self restart is only available if direct control is enabled")
+    assert(memoryToMemory || inputsPorts.nonEmpty || outputsPorts.nonEmpty, "A DMA channel require at least one operation (m->m, m->s, s->m)")
     val withProgressCounter = progressProbes || halfCompletionInterrupt || linkedListCapable && canInput
     val withProgressCounterM2s = progressProbes || halfCompletionInterrupt
 

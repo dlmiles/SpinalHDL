@@ -860,7 +860,7 @@ object LatencyAnalysis {
 
 
 
-    SpinalError("latencyAnalysis don't find any path")
+    SpinalError("latencyAnalysis did not find any path")
     -1
 //    val walked = mutable.Set[Expression]()
 //    var pendingStack = mutable.ArrayBuffer[Expression](to)
@@ -897,7 +897,7 @@ object LatencyAnalysis {
 //      false
 //    }
 //
-//    SpinalError("latencyAnalysis don't find any path")
+//    SpinalError("latencyAnalysis did not find any path")
 //    -1
   }
 }
