@@ -91,9 +91,11 @@ case class FixData(raw: Double,
   }
 
 //  def asInt: Int          = this.value / q.resolution toInt
+  // TYPO: asIntPositive  q.capacity
 //  def asIntPostive: Int   = if(rawIsNegative) q.capcity.toInt + this.asInt else this.asInt
 
   def asLong: Long        = this.value / q.resolution toLong
+  // TYPO: asLongPositive
   def asLongPostive: Long = if(value < 0) q.capcity.toLong + this.asLong else this.asLong
 
   def hex: String = s"%${q.alignHex}s".format(this.asLongPostive.toHexString).replace(' ','0')

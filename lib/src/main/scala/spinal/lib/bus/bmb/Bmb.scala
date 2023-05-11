@@ -79,6 +79,7 @@ case class BmbMasterParameter(idMapping : Seq[BmbMasterParameterIdMapping])
 case class BmbSlaveParameter(maximumPendingTransactionPerId : Int)
 
 object BmbParameter{
+  // TYPO: BurstAlignment
   object BurstAlignement {
     trait Kind{
       def allowByte : Boolean = false

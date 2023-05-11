@@ -11,6 +11,7 @@ import spinal.lib.bus.wishbone.{Wishbone, WishboneConfig, WishboneSlaveFactory}
 import scala.language.postfixOps
 
 object Clint{
+  // TYPO:  getWishboneConfig
   def getWisboneConfig() = WishboneConfig(
     addressWidth = addressWidth-2,
     dataWidth = 32

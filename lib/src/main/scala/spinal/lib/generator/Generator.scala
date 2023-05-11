@@ -56,6 +56,7 @@ class Generator extends Area { //TODO TagContainer
   }
 
   val dependencies = new DepdenciesFuncs()
+  // TYPO: DependenciesFuncs
   class DepdenciesFuncs {
     def += [T <: Generator](that : T) : Unit = {
       +=(that.generatorDone)

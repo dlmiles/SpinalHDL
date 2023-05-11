@@ -8,6 +8,7 @@ case object OFF  extends BOOLEAN { def value = "off"  }
 case object NONE extends BOOLEAN { def value = "None" }
 
 
+// TYPO: IO_STANDARD
 trait IO_STRANDARD { def value : String }
 case object STD_1_2V      extends IO_STRANDARD { def value = "1.2V" }
 case object STD_1_2V_HSTL extends IO_STRANDARD { def value = "1.2- V HSTL" }

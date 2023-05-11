@@ -58,6 +58,7 @@ case class ScoreboardInOrder[T]() {
     }
   }
 
+  // TYPO: checkEmptiness or checkEmpty
   def checkEmptyness(): Unit ={
     if(dut.nonEmpty || ref.nonEmpty){
       if(dut.nonEmpty){

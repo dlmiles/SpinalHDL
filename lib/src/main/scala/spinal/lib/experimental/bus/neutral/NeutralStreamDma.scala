@@ -15,6 +15,7 @@ object NeutralStreamDma {
                      memCmdCountMax : BigInt,
                      burstLengthMax : Int,
                      fifoSize : Int,
+                   // TYPO: pendingRequestMax
                      pendingRequetMax : Int,
                      ctrlRspClock : ClockDomain = null){
     val burstWidth = log2Up(burstLengthMax+1)

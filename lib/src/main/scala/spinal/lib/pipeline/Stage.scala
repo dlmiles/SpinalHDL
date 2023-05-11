@@ -138,6 +138,7 @@ class Stage(implicit _pip: Pipeline = null)  extends Area {
   def flushNext(cond : Bool) : Unit =  internals.request.flushNext += cond
   def removeIt(): Unit = ???
   def isValid: Bool = internals.input.valid
+  // TYPO: isFiring
   def isFireing: Bool = signalCache(this -> "isFireing")(isValid && isReady).setCompositeName(this, "isFireing")
   def isFirstCycle: Bool = {
     val wait = RegInit(False) setWhen(isValid) clearWhen(isReady || isFlushed)
@@ -193,6 +194,7 @@ class Stage(implicit _pip: Pipeline = null)  extends Area {
       key.stageable()//.setCompositeName(this, s"${key}_overloaded")
     })
   }
+  // TYPO: completed ?
   def resulting(key : StageableKey) : Data = {
     internals.stageableResultingToData.getOrElseUpdate(key, ContextSwapper.outsideCondScope{
       key.stageable()//.setCompositeName(this, s"${key}_overloaded")
