@@ -121,9 +121,12 @@ class VerilatorCacheTester extends SpinalAnyFunSuite {
       durationWithoutCacheTotal += testComponentA(verilatorCacheUsedChecker, n=3, x=0, shouldUseCache=false)
       durationWithoutCacheCount += 1
 
+      //val newestTimestamp = mostRecentTimestampInDirectory(dir)
       // now cache should be used
       durationWithCacheTotal += testComponentA(verilatorCacheUsedChecker, n=3, x=0, shouldUseCache=true)
       durationWithCacheCount += 1
+      //val fileCount = countFilesNewerThanTimestampInDirectory(dir, newestTimestamp)
+      //assert(2 == fileCount, "")
 
       // nothing changed, cache should be used again
       durationWithCacheTotal += testComponentA(verilatorCacheUsedChecker, n=3, x=0, shouldUseCache=true)
