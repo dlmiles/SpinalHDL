@@ -1286,7 +1286,7 @@ object PriorityMux{
     if (in.size == 1) {
       in.head._2
     } else {
-      Mux(in.head._1, in.head._2, apply(in.tail)) //Inttelij right code marked red
+      Mux(in.head._1, in.head._2, apply[T](in.tail)) // CHECKME IntelliJ had code red markers without [T]
     }
   }
   def apply[T <: Data](sel: Seq[Bool], in: Seq[T]): T = apply(sel zip in)
