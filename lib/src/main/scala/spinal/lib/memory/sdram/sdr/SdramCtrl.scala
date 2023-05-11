@@ -227,7 +227,7 @@ case class SdramCtrl[T <: Data](l : SdramLayout, t : SdramTimings, CAS : Int, co
             when(rsp.ready){
               banks(address.bank).active := False
             }
-          } elsewhen (!banks(address.bank).active) {
+          } elsewhen (!banks(address.bank).active) {    // CHECKME S2_13 red-marker unary_! does not take parameters
             rsp.task := ACTIVE
             val bank = banks(address.bank)
             bank.row := address.row
