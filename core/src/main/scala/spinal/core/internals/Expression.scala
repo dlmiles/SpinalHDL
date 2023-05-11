@@ -573,13 +573,13 @@ object Operator {
 
     abstract class Equal extends BinaryOperatorWidthableInputs with ScalaLocated with SpinalTagReady {
       override def getTypeObject = TypeBool
-      override def normalizeInputs: Unit
+      override def normalizeInputs: Unit      // CHECKME override keyword use error? which trait has this?
       override def simplifyNode: Expression = {SymplifyNode.binaryThatIfBoth(new BoolLiteral(true))(this)}
     }
 
     abstract class NotEqual extends BinaryOperatorWidthableInputs with ScalaLocated with SpinalTagReady {
       override def getTypeObject = TypeBool
-      override def normalizeInputs: Unit
+      override def normalizeInputs: Unit    // CHECKME override keyword use error? which trait has this?
       override def simplifyNode: Expression = {SymplifyNode.binaryThatIfBoth(new BoolLiteral(false))(this)}
     }
 
