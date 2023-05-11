@@ -7,6 +7,8 @@ import spinal.lib.FragmentToBitsStates._
 import spinal.lib._
 import spinal.lib.bus.misc.{BusSlaveFactoryAddressWrapper, BusSlaveFactory}
 
+import scala.language.postfixOps
+
 //All construction parameters of the UartCtrl
 case class UartCtrlGenerics( dataWidthMax: Int = 8,
                              clockDividerWidth: Int = 20, // !! baudrate = Fclk / (rxSamplePerBit*clockDividerWidth) !!

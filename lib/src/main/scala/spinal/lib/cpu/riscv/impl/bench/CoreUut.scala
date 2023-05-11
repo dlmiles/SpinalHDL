@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.cpu.riscv.impl._
 
+import scala.language.postfixOps
+
 object CoreUut{
   import spinal.lib.cpu.riscv.impl.extension._
 

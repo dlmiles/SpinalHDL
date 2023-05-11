@@ -8,6 +8,8 @@ import spinal.lib.experimental.bus.neutral.NeutralStreamDma
 import spinal.lib.eda.altera.QSysify
 import spinal.lib.graphic._
 
+import scala.language.postfixOps
+
 
 class AvalonMMVgaCtrl(cDma : NeutralStreamDma.Config,cColor : RgbConfig) extends Component{
   val io = new Bundle{

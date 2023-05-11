@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.avalon._
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC32F_USER on 23/04/2016.
  */

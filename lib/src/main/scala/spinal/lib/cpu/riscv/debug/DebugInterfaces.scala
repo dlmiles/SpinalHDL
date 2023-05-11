@@ -3,7 +3,9 @@ package spinal.lib.cpu.riscv.debug
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc._
+
 import scala.collection.Seq
+import scala.language.postfixOps
 
 object DebugUpdateOp extends SpinalEnum(binarySequential){
   val NOP, READ, WRITE, RESERVED = newElement()

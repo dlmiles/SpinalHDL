@@ -30,6 +30,8 @@ package spinal.lib.com.linecode
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 object Encoding8b10b {
 
   /*

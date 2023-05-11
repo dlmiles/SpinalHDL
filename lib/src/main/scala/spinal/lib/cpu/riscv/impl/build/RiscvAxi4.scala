@@ -7,8 +7,9 @@ import spinal.lib.bus.amba4.axi.{Axi4ReadOnly, Axi4Shared}
 import spinal.lib.bus.avalon._
 import spinal.lib.cpu.riscv.impl._
 import spinal.lib.eda.altera.{InterruptReceiverTag, QSysify, ResetEmitterTag}
-
 import cpu.riscv.impl.extension._
+
+import scala.language.postfixOps
 
 
 class RiscvAxi4(coreConfig : RiscvCoreConfig,iCacheConfig : InstructionCacheConfig, dCacheConfig : DataCacheConfig,debug : Boolean,interruptCount : Int) extends Component{

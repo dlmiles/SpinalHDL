@@ -28,6 +28,8 @@ package spinal.lib.fsm
 import spinal.core._
 import spinal.lib.com.uart._
 
+import scala.language.postfixOps
+
 object StateMachineStyle1 {
 
   class TopLevel extends Component {

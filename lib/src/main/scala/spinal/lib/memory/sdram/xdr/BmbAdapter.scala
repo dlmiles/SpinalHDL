@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.bmb.{Bmb, BmbAlignedSpliter, BmbAligner, BmbCmd, BmbLengthFixer}
 
+import scala.language.postfixOps
+
 object BmbAdapter{
   def corePortParameter(pp : BmbPortParameter, pl : PhyLayout) = CorePortParameter(
     contextWidth = {

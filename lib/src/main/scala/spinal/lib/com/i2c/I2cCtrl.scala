@@ -30,6 +30,8 @@ import spinal.lib._
 import spinal.lib.bus.misc.{BusSlaveFactory, BusSlaveFactoryAddressWrapper}
 import spinal.lib.fsm.{EntryPoint, State, StateMachine}
 
+import scala.language.postfixOps
+
 
 
 object I2cCtrl {

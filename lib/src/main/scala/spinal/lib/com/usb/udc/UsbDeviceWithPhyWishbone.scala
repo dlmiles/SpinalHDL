@@ -6,6 +6,8 @@ import spinal.lib.bus.bmb.BmbParameter
 import spinal.lib.bus.wishbone._
 import spinal.lib.com.usb.phy.{UsbDevicePhyNative, UsbPhyFsNativeIo}
 
+import scala.language.postfixOps
+
 case class UsbDeviceWithPhyWishbone(p : UsbDeviceCtrlParameter, phyCd : ClockDomain) extends Component {
 
   val bmbParameter = BmbParameter(

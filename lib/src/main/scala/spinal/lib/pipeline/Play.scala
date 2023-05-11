@@ -7,6 +7,7 @@ import spinal.lib.pipeline.Connection.M2S
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 
 

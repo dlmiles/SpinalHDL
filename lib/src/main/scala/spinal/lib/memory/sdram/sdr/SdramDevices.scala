@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.memory.sdram.SdramGeneration._
 import spinal.lib.memory.sdram.SdramLayout
 
+import scala.language.postfixOps
+
 object IS42x320D {
   def layout = SdramLayout(
     generation = SDR,

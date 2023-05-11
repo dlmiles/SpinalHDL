@@ -2,6 +2,8 @@ package spinal.lib.dsptool
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 /**Usage:
   * @example {{{ FixOff()
   *             val a = FixData(-3.785333,SQ(8,4)) }}}

@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.bus.bmb._
 import spinal.lib.memory.sdram.SdramLayout
 
+import scala.language.postfixOps
+
 object BmbSdramCtrl{
 //  def bmbCapabilities(layout : SdramLayout) = BmbParameter(
 //    addressWidth  = layout.byteAddressWidth,

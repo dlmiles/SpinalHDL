@@ -2,6 +2,8 @@ package spinal.lib.blackbox.anlogic.eagle
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 
 case class EG_LOGIC_BUFG() extends BlackBox{
   val o = out Bool()

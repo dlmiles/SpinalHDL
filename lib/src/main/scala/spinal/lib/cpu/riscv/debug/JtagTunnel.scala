@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.com.jtag._
 
+import scala.language.postfixOps
+
 
 class JtagTunnel(ctrl : JtagTapInstructionCtrl, instructionWidth : Int) extends Area with JtagTapFunctions{
   val shiftBuffer = Reg(Bits(instructionWidth + 7 + 1 bits))

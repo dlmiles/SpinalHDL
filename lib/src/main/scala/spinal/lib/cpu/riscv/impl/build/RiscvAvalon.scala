@@ -5,8 +5,9 @@ import spinal.lib._
 import spinal.lib.bus.avalon._
 import spinal.lib.cpu.riscv.impl._
 import spinal.lib.eda.altera.{InterruptTag, QSysify, ResetEmitterTag}
-
 import cpu.riscv.impl.extension._
+
+import scala.language.postfixOps
 
 class RiscvAvalon(coreConfig : RiscvCoreConfig,iCacheConfig : InstructionCacheConfig, dCacheConfig : DataCacheConfig,debug : Boolean,interruptCount : Int) extends Component{
   val iCached = iCacheConfig != null

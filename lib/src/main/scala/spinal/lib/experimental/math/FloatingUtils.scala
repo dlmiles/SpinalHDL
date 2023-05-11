@@ -2,6 +2,8 @@ package spinal.lib.experimental.math
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 /**
   * Returns absolute value of the floating point number
   */

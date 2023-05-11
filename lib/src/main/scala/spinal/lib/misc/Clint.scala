@@ -8,6 +8,8 @@ import spinal.lib.bus.bmb.{Bmb, BmbAccessCapabilities, BmbAccessParameter, BmbPa
 import spinal.lib.bus.misc.BusSlaveFactory
 import spinal.lib.bus.wishbone.{Wishbone, WishboneConfig, WishboneSlaveFactory}
 
+import scala.language.postfixOps
+
 object Clint{
   def getWisboneConfig() = WishboneConfig(
     addressWidth = addressWidth-2,

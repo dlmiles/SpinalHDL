@@ -3,6 +3,8 @@ package spinal.lib.com.eth
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 
 
 case class MacTxManagedStreamFifoCc[T <: Data](payloadType : HardType[T],

@@ -6,6 +6,8 @@ import spinal.lib._
 import spinal.lib.cpu.riscv.impl._
 import spinal.lib.cpu.riscv.impl.Utils._
 
+import scala.language.postfixOps
+
 class SimpleInterruptExtension(exceptionVector : Int) extends CoreExtension{
   val interruptUsage = scala.collection.mutable.HashMap[Int,(Bool,String,IrqUsage)]()
 

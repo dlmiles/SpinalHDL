@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3SlaveFactory}
 import spinal.lib.slave
 
+import scala.language.postfixOps
+
 case class MachineTimer() extends Component{
   val io = new Bundle{
     val bus = slave(Apb3(4, 32))

@@ -6,6 +6,8 @@ import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config, Apb3SlaveFactory}
 import spinal.lib.bus.bmb.{Bmb, BmbAccessCapabilities, BmbAccessParameter, BmbParameter, BmbSlaveFactory}
 import spinal.lib.bus.misc.BusSlaveFactory
 
+import scala.language.postfixOps
+
 object Gpio {
   case class Parameter(width : Int,                   //Number of pin
                        var input : Seq[Int] = null,   //List of pin id which can be inputs (null mean all)

@@ -3,6 +3,8 @@ package spinal.lib.misc.pdm
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 class PDMCore(width: Int) extends Component {
   val io = new Bundle {
     val enable = in Bool()

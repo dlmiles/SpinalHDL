@@ -7,6 +7,8 @@ import spinal.lib.com.usb.phy.UsbHubLsFs.CtrlCc
 import spinal.lib.com.usb.phy.{UsbLsFsPhy, UsbPhyFsNativeIo}
 import spinal.lib._
 
+import scala.language.postfixOps
+
 object UsbOhciWishbone extends App{
   var netlistDirectory = "."
   var netlistName = "UsbOhciWishbone"

@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.com.eth._
 import spinal.lib.fsm._
 
+import scala.language.postfixOps
+
 
 
 class UsbDataRxFsm(rx : Flow[Bits],

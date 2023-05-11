@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc.BusSlaveFactory
 
+import scala.language.postfixOps
+
 
 case class MacRxPreamble(dataWidth : Int) extends Component{
   val io = new Bundle {

@@ -3,6 +3,8 @@ package spinal.lib.experimental.com.serial
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 object SerialCheckerConst {
   def cMagic = B"xA5"
   def cStart = B"xD8"

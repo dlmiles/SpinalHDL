@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.{BufferCC, master, IMasterSlave}
 import spinal.lib.io.TriStateArray
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC32F_USER on 31/08/2017.
  */

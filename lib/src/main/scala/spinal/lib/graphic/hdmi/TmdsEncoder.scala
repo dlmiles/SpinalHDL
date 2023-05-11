@@ -3,6 +3,8 @@ package spinal.lib.graphic.hdmi
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 object TmdsEncoder{
   def apply(VD : UInt, CD : Bits, VDE : Bool, TMDS :Bits) : TmdsEncoder = {
     val ret = TmdsEncoder()

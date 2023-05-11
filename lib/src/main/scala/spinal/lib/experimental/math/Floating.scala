@@ -3,6 +3,8 @@ package spinal.lib.experimental.math
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 /**
   * Floating point value
   * @param exponentSize Size of the exponent field

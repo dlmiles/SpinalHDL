@@ -2,6 +2,8 @@ package spinal.lib
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 
 case class ReadRetLinked[T <: Data, T2 <: Data](readType: HardType[T], linkedType: HardType[T2]) extends Bundle {
   val value = readType()

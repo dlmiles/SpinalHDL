@@ -6,6 +6,8 @@ import spinal.lib.com.usb.UsbTimer
 import spinal.lib.fsm._
 import spinal.lib.io.TriState
 
+import scala.language.postfixOps
+
 
 
 case class UsbPhyFsNativeIo() extends Bundle with IMasterSlave {

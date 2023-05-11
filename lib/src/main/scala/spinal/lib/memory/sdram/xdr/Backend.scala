@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.memory.sdram.SdramGeneration
 
+import scala.language.postfixOps
+
 case class Backend(cpa: CoreParameterAggregate) extends Component {
   import cpa._
 

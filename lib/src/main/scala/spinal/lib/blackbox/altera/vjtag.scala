@@ -3,6 +3,8 @@ package spinal.lib.blackbox.altera
 import spinal.core._
 import spinal.lib.com.jtag.JtagTapInstructionCtrl
 import spinal.lib._
+
+import scala.language.postfixOps
 //define the VJTAG IO
 case class VJTAG(instructionWidth : Int) extends Bundle with IMasterSlave {
     val tck = Bool()					// output	JTAG test clock  (shared among all instances)

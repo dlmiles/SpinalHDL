@@ -5,6 +5,7 @@ import spinal.core.fiber.Engine
 import spinal.lib.master
 
 import scala.collection.mutable
+import scala.language.postfixOps
 
 object InOutWrapper {
   def apply[T <: Component](c : T) : T = {

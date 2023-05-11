@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.BufferCC
 import spinal.lib.blackbox.xilinx.s7.BUFG
 
+import scala.language.postfixOps
+
 
 trait ResetSensitivity
 object ResetSensitivity{

@@ -4,6 +4,8 @@ package spinal.lib.com.usb
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 class UsbTimer(counterTimeMax : Double, fsRatio : Double) extends  Area {
   val lowSpeed = Bool()
   val counter = Reg(UInt((log2Up(12e6 * fsRatio * counterTimeMax toInt) + 2) bits))

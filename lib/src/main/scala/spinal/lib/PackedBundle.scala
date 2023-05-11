@@ -3,6 +3,7 @@ package spinal.lib
 import spinal.core._
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 /** Similar to Bundle but with bit packing capabilities.
   * Use pack implicit functions to assign fields to bit locations

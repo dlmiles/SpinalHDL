@@ -6,6 +6,8 @@ import spinal.lib.blackbox.lattice.ecp5.ODDRX1F
 import spinal.lib.graphic.RgbConfig
 import spinal.lib.graphic.vga._
 
+import scala.language.postfixOps
+
 case class VgaToHdmiEcp5(vgaCd : ClockDomain, hdmiCd : ClockDomain) extends Component {
   val io = new Bundle {
     val vga = slave(Vga(RgbConfig(8,8,8)))

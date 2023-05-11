@@ -9,6 +9,7 @@ import spinal.sim.SimThread
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 import scala.collection.{Seq, mutable}
+import scala.language.postfixOps
 
 
 

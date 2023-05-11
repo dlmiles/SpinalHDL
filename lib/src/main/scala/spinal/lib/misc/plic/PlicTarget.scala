@@ -3,7 +3,9 @@ package spinal.lib.misc.plic
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc.BusSlaveFactory
+
 import scala.collection.Seq
+import scala.language.postfixOps
 
 
 case class PlicTarget(gateways : Seq[PlicGateway], priorityWidth : Int) extends Area{

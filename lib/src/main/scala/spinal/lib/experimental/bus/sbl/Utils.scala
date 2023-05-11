@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.experimental.bus.sbl._
 
+import scala.language.postfixOps
+
 
 case class SblReadDmaCmd(config: SblConfig) extends Bundle{
   val offset = UInt(config.addressWidth bit)

@@ -8,6 +8,7 @@ import spinal.lib.DoCmd.doCmd
 import spinal.lib.StreamFifo
 import spinal.lib.eda.bench.Report
 
+import scala.language.postfixOps
 import scala.sys.process._
 
 object LiberoFlow {

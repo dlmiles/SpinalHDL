@@ -15,6 +15,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 import scala.collection.Seq
+import scala.language.postfixOps
 
 object DmaSg{
   val ctrlAddressWidth = 16

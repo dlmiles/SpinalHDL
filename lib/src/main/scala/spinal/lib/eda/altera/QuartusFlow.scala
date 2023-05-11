@@ -7,6 +7,7 @@ import spinal.core._
 import spinal.lib.DoCmd.doCmd
 import spinal.lib.eda.bench.Report
 
+import scala.language.postfixOps
 import scala.sys.process._
 /**
  * Created by PIC32F_USER on 18/05/2016.

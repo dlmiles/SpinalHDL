@@ -4,6 +4,8 @@ import spinal.core._
 import Utils._
 import spinal.lib.Reverse
 
+import scala.language.postfixOps
+
 class Alu extends Component{
   val io = new Bundle{
     val func = in(ALU)

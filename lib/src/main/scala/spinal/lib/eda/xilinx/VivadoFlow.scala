@@ -8,6 +8,7 @@ import spinal.lib.eda.bench.{Report, Rtl}
 import java.io.File
 import java.nio.file.Paths
 import scala.io.Source
+import scala.language.postfixOps
 
 object VivadoFlow {
 

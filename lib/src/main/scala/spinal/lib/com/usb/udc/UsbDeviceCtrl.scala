@@ -11,6 +11,8 @@ import spinal.lib.com.usb.ohci.{OhciPortParameter, UsbOhci, UsbOhciParameter, Us
 import spinal.lib.eda.bench.{Bench, Rtl, XilinxStdTargets}
 import spinal.lib.fsm._
 
+import scala.language.postfixOps
+
 case class UsbDeviceCtrlParameter(addressWidth : Int,
                                   epCount : Int = 16){
   def lengthWidth = (addressWidth + 1) min 15

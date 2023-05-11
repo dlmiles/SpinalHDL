@@ -2,6 +2,8 @@ package spinal.lib.graphic
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 case class RgbConfig(rWidth : Int,gWidth : Int,bWidth : Int){
   def getWidth = rWidth + gWidth + bWidth
 }

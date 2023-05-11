@@ -3,6 +3,8 @@ package spinal.lib.pipeline
 import spinal.core._
 import spinal.lib.StreamFifoLowLatency
 
+import scala.language.postfixOps
+
 
 case class ConnectionPoint(valid : Bool, ready : Bool, payload : Seq[Data]) extends Nameable
 trait ConnectionLogic extends Nameable with OverridedEqualsHashCode {

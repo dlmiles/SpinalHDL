@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.idslplugin.Location
 import spinal.lib.IMasterSlave
 
+import scala.language.postfixOps
+
 case class TriState[T <: Data](dataType : HardType[T]) extends Bundle with IMasterSlave{
   val read,write : T = dataType()
   val writeEnable = Bool()

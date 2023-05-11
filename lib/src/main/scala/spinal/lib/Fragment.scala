@@ -3,6 +3,7 @@ package spinal.lib
 import spinal.core._
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 class FragmentFactory {
   def apply[T <: Data](fragmentType: HardType[T]): Fragment[T] = new Fragment(fragmentType)

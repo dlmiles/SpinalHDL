@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3SlaveFactory}
 import spinal.lib.bus.misc.BusSlaveFactory
 
+import scala.language.postfixOps
+
 case class InterruptCtrl(width : Int) extends Component{
   val io = new Bundle{
     val inputs = in Bits(width bits)

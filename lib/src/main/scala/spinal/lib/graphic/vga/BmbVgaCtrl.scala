@@ -13,6 +13,8 @@ import spinal.lib.bus.misc.SizeMapping
 import spinal.lib.com.uart.BmbUartCtrl
 import spinal.lib.graphic.hdmi.VgaToHdmiEcp5
 
+import scala.language.postfixOps
+
 
 
 object BmbVgaCtrl{

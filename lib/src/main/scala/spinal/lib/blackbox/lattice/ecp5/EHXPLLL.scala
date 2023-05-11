@@ -2,6 +2,8 @@ package spinal.lib.blackbox.lattice.ecp5
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 object EHXPLLLConfig {
 
   trait FeedbackType {

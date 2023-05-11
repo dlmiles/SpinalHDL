@@ -5,6 +5,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc.BusSlaveFactory
 
+import scala.language.postfixOps
+
 
 abstract class PlicGateway(val id : Int, priorityWidth : Int) extends Area{
   val ip : Bool

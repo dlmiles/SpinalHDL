@@ -6,7 +6,9 @@ import spinal.lib.blackbox.xilinx.s7.{BUFG, BUFIO, IDELAYCTRL, IDELAYE2, IOBUF, 
 import spinal.lib.bus.misc.BusSlaveFactory
 import spinal.lib.memory.sdram.SdramLayout
 import spinal.lib.memory.sdram.xdr.{PhyLayout, SdramXdrIo, SdramXdrPhyCtrl}
+
 import scala.collection.Seq
+import scala.language.postfixOps
 
 object XilinxS7Phy{
   def phyLayout(sl : SdramLayout, clkRatio : Int) = PhyLayout(

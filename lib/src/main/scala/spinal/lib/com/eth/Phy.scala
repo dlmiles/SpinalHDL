@@ -5,6 +5,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.io.TriState
 
+import scala.language.postfixOps
+
 case class PhyRx(dataWidth : Int) extends Bundle {
   val error = Bool()
   val data = Bits(dataWidth bits)

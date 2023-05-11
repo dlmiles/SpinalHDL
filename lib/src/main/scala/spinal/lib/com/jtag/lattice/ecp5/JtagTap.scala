@@ -3,6 +3,7 @@ package spinal.lib.com.jtag.lattice.ecp5
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
 import spinal.lib.blackbox.lattice.ecp5.{JtaggIo, JTAGG, JtaggGeneric}
 import spinal.lib.com.jtag.{JtagTapFunctions, JtagTapFactory, JtagTapInstructionCtrl}
 // import spinal.lib.com.jtag.{JtagInstructionWrapper}

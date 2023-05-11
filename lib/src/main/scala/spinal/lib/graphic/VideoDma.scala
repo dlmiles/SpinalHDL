@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba4.axi.{Axi4Config, Axi4ReadOnly}
 
+import scala.language.postfixOps
+
 case class VideoDmaMem[T <: Data](g: VideoDmaGeneric[T]) extends Bundle with IMasterSlave{
   val cmd = Stream(UInt(g.addressWidth bit))
   val rsp = Flow Fragment(Bits(g.dataWidth bit))

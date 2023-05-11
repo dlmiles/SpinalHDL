@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.bus.amba3.apb.{Apb3SlaveFactory, Apb3, Apb3Config}
 import spinal.lib.{master, slave}
 
+import scala.language.postfixOps
+
 
 object Apb3I2cCtrl{
   def getApb3Config = Apb3Config(

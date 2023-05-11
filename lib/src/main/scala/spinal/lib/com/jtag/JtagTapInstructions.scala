@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.blackbox.xilinx.s7.BSCANE2
 
+import scala.language.postfixOps
+
 // Created by PIC32F_USER on 05/04/2016.
 // Modified / Extended by HWEngineer 15/03/2020
 

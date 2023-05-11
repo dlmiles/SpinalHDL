@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.com.jtag.{Jtag, JtagTapFactory, JtagTapFunctions, JtagTapInstructionCtrl}
 
+import scala.language.postfixOps
+
 case class DebugTransportModuleParameter(addressWidth : Int,
                                          version : Int,
                                          idle : Int)

@@ -3,6 +3,8 @@ package spinal.lib.math
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 case class SignedDividerCmd(nWidth : Int, dWidth : Int) extends Bundle{
   val numerator = SInt(nWidth bit)
   val denominator = SInt(dWidth bit)

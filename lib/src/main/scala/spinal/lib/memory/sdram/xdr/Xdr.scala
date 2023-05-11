@@ -8,6 +8,8 @@ import spinal.lib.io.TriState
 import spinal.lib.memory.sdram.SdramLayout
 import spinal.lib.memory.sdram.sdr.SdramInterface
 
+import scala.language.postfixOps
+
 
 case class PhyLayout(sdram : SdramLayout,
                      phaseCount : Int, //How many DRAM clock per core clock

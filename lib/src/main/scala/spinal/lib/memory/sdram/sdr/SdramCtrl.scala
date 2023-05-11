@@ -5,6 +5,7 @@ import spinal.lib._
 import spinal.lib.bus.amba4.axi.Axi4Shared
 import spinal.lib.memory.sdram.SdramLayout
 
+import scala.language.postfixOps
 import scala.math.BigDecimal.RoundingMode
 
 

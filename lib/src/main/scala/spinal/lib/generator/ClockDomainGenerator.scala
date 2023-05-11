@@ -7,6 +7,7 @@ import spinal.lib.BufferCC
 import spinal.lib.blackbox.xilinx.s7.BUFG
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 
 trait ResetSensitivity

@@ -8,6 +8,8 @@ import spinal.lib._
 import spinal.lib.bus.bmb.Bmb
 import spinal.lib.bus.simple.PipelinedMemoryBus
 
+import scala.language.postfixOps
+
 
 case class SystemDebuggerRsp(c : SystemDebuggerConfig) extends Bundle{
   val error = Bool()

@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.bus.amba4.axilite._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 class AxiLite4Plic(sourceCount : Int, targetCount : Int) extends Component{
   val priorityWidth = 2
   val plicMapping = PlicMapping.sifive

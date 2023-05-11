@@ -2,6 +2,8 @@ package spinal.lib.experimental.bus.sbl
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 // SBL bus is a simple memory bus definition definition
 // master Stream(SblCmd(cfg))
 // master Stream(SblWriteCmd(cfg))    for write only

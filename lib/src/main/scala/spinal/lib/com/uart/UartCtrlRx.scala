@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.com.uart.UartStopType._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 object UartCtrlRxState extends SpinalEnum {
   val IDLE, START, DATA, PARITY, STOP = newElement()
 }

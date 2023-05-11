@@ -2,6 +2,8 @@ package spinal.lib.dsptool
 
 import spinal.core._
 
+import scala.language.postfixOps
+
 /**
   * Fixnum
   *

@@ -7,8 +7,9 @@ import spinal.lib.bus.amba3.apb.{Apb3Config, Apb3}
 import spinal.lib.bus.avalon._
 import spinal.lib.cpu.riscv.impl._
 import spinal.lib.eda.altera.{InterruptReceiverTag, QSysify, ResetEmitterTag}
-
 import cpu.riscv.impl.extension._
+
+import scala.language.postfixOps
 
 class RiscvAhbLite3(coreConfig : RiscvCoreConfig,iCacheConfig : InstructionCacheConfig, dCacheConfig : DataCacheConfig,debug : Boolean,interruptCount : Int,apb3Config : Apb3Config) extends Component{
   val iCached = iCacheConfig != null

@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3SlaveFactory}
 import spinal.lib.bus.misc.{BusSlaveFactoryAddressWrapper, BusSlaveFactory}
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC32F_USER on 02/08/2017.
  */

@@ -8,6 +8,8 @@ import spinal.lib.bus.bsb.{Bsb, BsbDownSizerAlignedMultiWidth, BsbInterconnectGe
 import spinal.lib.bus.misc.{BusSlaveFactory, SizeMapping}
 import spinal.lib.generator._
 
+import scala.language.postfixOps
+
 case class UIntToSigmaDeltaFirstOrder(inputWidth : Int)  extends Component{
   val io = new Bundle{
     val input = in UInt(inputWidth bits)

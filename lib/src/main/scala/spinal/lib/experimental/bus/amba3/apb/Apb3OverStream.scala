@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba3.apb.{Apb3, Apb3Config}
 
+import scala.language.postfixOps
+
 object Apb3OverStream {
   case class ApbCmd(config : Apb3Config) extends Bundle{
     val PADDR      = UInt(config.addressWidth bits)

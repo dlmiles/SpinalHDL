@@ -6,6 +6,7 @@ import spinal.lib.eda.bench.{AlteraStdTargets, Bench, Rtl, XilinxStdTargets}
 
 import scala.collection.Seq
 import scala.collection.mutable
+import scala.language.postfixOps
 
 trait StreamPipe {
   def apply[T <: Data](m: Stream[T]): Stream[T]

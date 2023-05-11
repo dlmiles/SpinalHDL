@@ -15,6 +15,7 @@ import spinal.lib.fsm.{State, StateMachine}
 import spinal.lib.io.TriState
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 case class XdrOutput(rate : Int) extends Bundle with IMasterSlave{
   val write = Bits(rate bits)

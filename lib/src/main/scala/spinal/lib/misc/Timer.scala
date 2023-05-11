@@ -3,6 +3,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc.BusSlaveFactory
 
+import scala.language.postfixOps
+
 
 case class Timer(width : Int) extends Component{
   val io = new Bundle {

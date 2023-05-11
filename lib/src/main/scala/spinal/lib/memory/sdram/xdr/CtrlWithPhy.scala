@@ -12,6 +12,7 @@ import spinal.lib.memory.sdram.sdr.sim.SdramModel
 import spinal.lib.memory.sdram.xdr.phy.SdrInferedPhy
 import spinal.lib.sim.Phase
 
+import scala.language.postfixOps
 import scala.util.Random
 
 

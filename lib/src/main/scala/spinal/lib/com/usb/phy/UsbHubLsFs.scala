@@ -3,6 +3,8 @@ package spinal.lib.com.usb.phy
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 
 object UsbHubLsFs{
   object RxKind extends SpinalEnum{

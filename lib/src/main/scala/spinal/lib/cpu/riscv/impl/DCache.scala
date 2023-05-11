@@ -8,6 +8,8 @@ import spinal.lib._
 import spinal.lib.bus.amba4.axi.{Axi4Shared, Axi4Config}
 import spinal.lib.bus.avalon.{AvalonMM, AvalonMMConfig}
 
+import scala.language.postfixOps
+
 
 case class DataCacheConfig( cacheSize : Int,
                             bytePerLine : Int,

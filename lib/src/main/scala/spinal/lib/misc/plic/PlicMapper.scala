@@ -3,7 +3,9 @@ package spinal.lib.misc.plic
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc.{BusSlaveFactory, AllMapping, SingleMapping}
+
 import scala.collection.Seq
+import scala.language.postfixOps
 
 /*
 The PLIC is the Platform Level Interrupt controller as defined by RISCV:

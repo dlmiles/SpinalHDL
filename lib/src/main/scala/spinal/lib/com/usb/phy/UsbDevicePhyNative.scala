@@ -6,6 +6,8 @@ import spinal.lib.com.usb.UsbTimer
 import spinal.lib.com.usb.udc.UsbDeviceCtrl.PhyIo
 import spinal.lib.fsm.{State, StateMachine}
 
+import scala.language.postfixOps
+
 case class UsbDevicePhyNative(sim : Boolean = false) extends Component{
   val io = new Bundle {
     val ctrl = slave(PhyIo())

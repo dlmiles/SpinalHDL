@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.fsm._
 
+import scala.language.postfixOps
+
 case class DebugModuleCpuConfig(xlen : Int,
                                 flen : Int,
                                 withFpuRegAccess : Boolean)

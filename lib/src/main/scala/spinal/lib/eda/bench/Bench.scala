@@ -7,6 +7,7 @@ import java.util.concurrent.ForkJoinPool
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 import scala.collection.Seq
+import scala.language.postfixOps
 
 /**
  * Created by PIC32F_USER on 16/07/2017.

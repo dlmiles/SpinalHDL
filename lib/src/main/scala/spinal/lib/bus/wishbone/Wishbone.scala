@@ -3,6 +3,8 @@ package spinal.lib.bus.wishbone
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 /** This class is used for configuring the Wishbone class
   * @param addressWidth size in bits of the address line
   * @param dataWidth size in bits of the data line

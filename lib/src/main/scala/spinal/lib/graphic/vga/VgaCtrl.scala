@@ -7,6 +7,8 @@ import spinal.lib.experimental.bus.neutral.NeutralStreamDma
 import spinal.lib.eda.altera.QSysify
 import spinal.lib.graphic.{RgbConfig, Rgb}
 
+import scala.language.postfixOps
+
 
 case class VgaTimingsHV(timingsWidth: Int) extends Bundle {
   val syncStart = UInt(timingsWidth bit)

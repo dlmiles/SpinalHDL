@@ -3,6 +3,8 @@ package spinal.lib.memory.sdram.xdr
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 case class TimingEnforcer(cpa : CoreParameterAggregate) extends Component{
   import cpa._
 

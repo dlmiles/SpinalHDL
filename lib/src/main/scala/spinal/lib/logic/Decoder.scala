@@ -6,6 +6,7 @@ import spinal.lib.KeepAttribute
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 
 class DecodingSpec[T <: BaseType](key : HardType[T]){

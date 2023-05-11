@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.wishbone._
 
+import scala.language.postfixOps
+
 //Interrupt 0 can't be used
 class WishbonePlic(sourceCount : Int, targetCount : Int) extends Component{
   val priorityWidth = 2

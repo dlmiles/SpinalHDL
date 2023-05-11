@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.io.{TriState, TriStateArray}
 import spinal.lib.memory.sdram._
 
+import scala.language.postfixOps
+
 case class SdramTimings(
   bootRefreshCount : Int, // Number of refresh command done in the boot sequence
   tPOW  : TimeNumber,     // Powerup time

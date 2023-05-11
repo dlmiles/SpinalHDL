@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.IMasterSlave
 import spinal.lib.cpu.riscv.impl.Utils.InstructionCtrl
 
+import scala.language.postfixOps
+
 
 case class IrqUsage(isException : Boolean)
 

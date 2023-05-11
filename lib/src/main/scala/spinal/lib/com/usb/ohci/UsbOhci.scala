@@ -13,6 +13,7 @@ import spinal.lib.com.usb.phy.{UsbHubLsFs, UsbLsFsPhy, UsbLsFsPhyAbstractIo, Usb
 import spinal.lib.fsm._
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 case class OhciPortParameter(removable : Boolean = true, powerControlMask : Boolean = true)
 

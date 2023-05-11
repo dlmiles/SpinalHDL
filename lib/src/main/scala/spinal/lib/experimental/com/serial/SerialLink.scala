@@ -3,6 +3,8 @@ package spinal.lib.experimental.com.serial
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 object SerialLinkConst {
   def cData = B"d01"
   def cClose = B"d02"

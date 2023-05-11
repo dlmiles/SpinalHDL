@@ -4,6 +4,7 @@ import spinal.core._
 import spinal.lib.{Delay, traversableOncePimped}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 
 object SIntMath {

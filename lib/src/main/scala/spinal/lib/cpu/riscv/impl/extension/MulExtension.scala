@@ -6,6 +6,8 @@ import spinal.lib.bus.avalon.AvalonMM
 import spinal.lib.cpu.riscv.impl._
 import spinal.lib.cpu.riscv.impl.Utils._
 
+import scala.language.postfixOps
+
 
 /**
  * Created by PIC32F_USER on 12/03/2016.

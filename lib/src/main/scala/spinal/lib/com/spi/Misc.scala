@@ -4,6 +4,8 @@ import spinal.core._
 import spinal.lib.{BufferCC, master, IMasterSlave}
 import spinal.lib.io.{TriStateOutput, TriStateArray, TriState}
 
+import scala.language.postfixOps
+
 
 case class SpiKind() extends Bundle {
   val cpol = Bool()

@@ -27,6 +27,7 @@ import spinal.core._
 import scala.collection.{Seq, TraversableOnce, mutable}
 import scala.collection.mutable.{ArrayBuffer, LinkedHashMap, ListBuffer}
 import scala.collection.generic.Growable
+import scala.language.postfixOps
 
 
 object UIntToOh {

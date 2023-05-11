@@ -3,6 +3,8 @@ package spinal.lib.experimental.com.serial.UnderTest
 import spinal.core._
 import spinal.lib._
 
+import scala.language.postfixOps
+
 case class SerialSafeLayerParam(bitWidth: Int = 8,
                                 magicCode: Int = 0x55)
 

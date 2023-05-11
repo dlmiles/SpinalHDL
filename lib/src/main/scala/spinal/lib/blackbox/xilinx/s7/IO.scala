@@ -2,6 +2,8 @@ package spinal.lib.blackbox.xilinx.s7
 import spinal.core._
 import spinal.lib.History
 
+import scala.language.postfixOps
+
 case class OSERDESE2(DATA_RATE_OQ : String = "DDR",
                      DATA_RATE_TQ : String = "DDR",
                      DATA_WIDTH : Int = 4,

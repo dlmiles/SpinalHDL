@@ -18,6 +18,8 @@ import spinal.lib.memory.sdram._
 import spinal.lib.memory.sdram.sdr.{Axi4SharedSdramCtrl, IS42x320D, SdramInterface, SdramTimings}
 import spinal.lib.system.debugger.{JtagAxi4SharedDebugger, SystemDebuggerConfig}
 
+import scala.language.postfixOps
+
 
 case class PinsecConfig(axiFrequency : HertzNumber,
                         onChipRamSize : BigInt,

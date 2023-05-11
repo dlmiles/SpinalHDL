@@ -13,6 +13,8 @@ import scala.collection.mutable
 import spinal.lib.blackbox.altera.sld_virtual_jtag
 import spinal.lib.com.jtag.altera.VjtagTap
 
+import scala.language.postfixOps
+
 /**
  * Created by PIC32F_USER on 09/04/2016.
  */

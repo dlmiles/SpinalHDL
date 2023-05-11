@@ -2,7 +2,9 @@ package spinal.lib.system.dma.sg
 
 import spinal.core._
 import spinal.lib._
+
 import scala.collection.Seq
+import scala.language.postfixOps
 
 case class DmaMemoryLayout(bankCount : Int,
                            bankWords : Int,

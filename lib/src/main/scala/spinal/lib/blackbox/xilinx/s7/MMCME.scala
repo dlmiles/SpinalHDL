@@ -6,6 +6,8 @@ import spinal.lib._
 import spinal.lib.bus.bmb._
 import spinal.lib.bus.misc.SizeMapping
 
+import scala.language.postfixOps
+
 //      input      [15:0] DO,
 //      input             DRDY,
 //      input             LOCKED,

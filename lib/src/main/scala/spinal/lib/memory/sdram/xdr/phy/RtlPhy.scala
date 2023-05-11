@@ -1,13 +1,14 @@
 package spinal.lib.memory.sdram.xdr.phy
 
 import java.nio.file.{Files, Paths}
-
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.misc.BusSlaveFactory
 import spinal.lib.memory.sdram.SdramLayout
 import spinal.lib.memory.sdram.sdr.SdramInterface
 import spinal.lib.memory.sdram.xdr.{PhyLayout, SdramXdrPhyCtrl}
+
+import scala.language.postfixOps
 
 case class RtlPhyWriteCmd(pl : PhyLayout) extends Bundle {
   val address = UInt(pl.sdram.wordAddressWidth-log2Up(pl.phaseCount*pl.dataRate) bits)

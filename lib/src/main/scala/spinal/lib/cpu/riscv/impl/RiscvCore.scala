@@ -10,8 +10,10 @@ import spinal.lib.bus.avalon._
 import spinal.lib.bus.amba4.axi._
 import spinal.lib.cpu.riscv.impl.Utils._
 import spinal.lib.cpu.riscv.impl.extension.{NativeDataBusExtension, NativeInstructionBusExtension, BarrelShifterLightExtension, CoreExtension}
+
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.language.postfixOps
 
 
 
