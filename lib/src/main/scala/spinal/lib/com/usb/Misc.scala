@@ -63,7 +63,7 @@ class UsbDataRxFsm(rx : Flow[Bits],
       pid := rx.payload(3 downto 0)
       pidError := rx.payload(3 downto 0) =/= ~rx.payload(7 downto 4)
       goto(DATA)
-    } elsewhen(!rxActive){
+    } elsewhen(!rxActive){    // CHECKME S2_13 red error marker, unary_! does not take parameters
       exitFsm()
     }
   }
