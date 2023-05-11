@@ -2,7 +2,6 @@ package spinal.demo.mandelbrot
 
 
 import java.awt.Color
-
 import spinal.core._
 import spinal.lib._
 import spinal.lib.experimental.bus.sbl._

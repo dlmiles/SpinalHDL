@@ -3,7 +3,6 @@ package spinal.tester.code
 
 import java.io.{PrintWriter, ByteArrayOutputStream}
 import java.util
-
 import spinal.core.internals.Operator.UInt.Add
 import spinal.core._
 import spinal.core.internals._
