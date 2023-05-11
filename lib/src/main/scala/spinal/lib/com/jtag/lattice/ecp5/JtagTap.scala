@@ -26,7 +26,7 @@ import scala.collection.mutable.ArrayBuffer
 // signals of the JTAGG Hard-IP Block JTDI, JTDO1, JTDO2
 //
 // Also the Hard-IP decodes the JTAG Tap state machine:
-// The State-Machine singals are : JTDO1, JTDO2, JCE1, JCE2, JRTI1, JRTI2
+// The State-Machine signals are : JTDO1, JTDO2, JCE1, JCE2, JRTI1, JRTI2
 //
 //═════════════════════════════════════════════════════════════════════════════//
 //

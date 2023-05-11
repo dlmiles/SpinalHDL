@@ -78,7 +78,7 @@ case class SpiMasterCtrl(generics : SpiMasterCtrlGenerics) extends Component{
      * data -> 0x00 :
      *   rxData -> R[7:0]
      *   rxOccupancy -> R[30:16] rx fifo occupancy (include the rxData in the amount)
-     *   rxValid -> R[31] Inform that the readed rxData is valid
+     *   rxValid -> R[31] Inform that the rxData is valid
      *   When you read this register it pop an byte of the rx fifo and provide its value (via rxData)
      *   When you write this register, it push a command into the fifo. There is the commands that you can use :
      *     0x000000xx =>  Send byte xx

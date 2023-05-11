@@ -62,7 +62,7 @@ object FloatingToUInt {
   /**
     * Convert the Floating number to an unsigned integer
     * @param input Recoded floating point number input
-    * @param width Width of the output intger
+    * @param width Width of the output integer
     * @param offset Exponent offset for the integer output
     * @return Unsigned integer corresponding to the floating point value (truncated)
     */

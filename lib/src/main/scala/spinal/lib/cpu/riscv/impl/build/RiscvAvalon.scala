@@ -99,7 +99,7 @@ object RiscvAvalon{
 
     val report = SpinalConfig(onlyStdLogicVectorAtTopLevelIo=true).generateVerilog({
 
-      //replace wit null to disable instruction cache
+      //replace with null to disable instruction cache
       val iCacheConfig = InstructionCacheConfig(
         cacheSize =4096,
         bytePerLine =32,
@@ -110,7 +110,7 @@ object RiscvAvalon{
         memDataWidth = 32
       )
 
-      //replace wit null to disable data cache
+      //replace with null to disable data cache
       val dCacheConfig = DataCacheConfig(
         cacheSize = 4096,
         bytePerLine =32,

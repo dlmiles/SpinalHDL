@@ -99,7 +99,7 @@ object ResetCtrl{
    * @param outputPolarity (HIGH/LOW)
    * @param bufferDepth Number of register stages used to avoid metastability (default=2)
    * @param inputSync Active high, will set reset high in a sync way
-   * @return Filtred Bool which is asynchronously asserted synchronously deaserted
+   * @return Filtered Bool which is asynchronously asserted synchronously deasserted
    */
   def asyncAssertSyncDeassert(input : Bool,
                               clockDomain : ClockDomain,
@@ -138,7 +138,7 @@ object ResetCtrl{
     bufferDepth = bufferDepth
   )
 
-  //Return a new clockdomain which use all the properties of clockCd but use as reset source a syncronized value from resetCd
+  //Return a new clockdomain which use all the properties of clockCd but use as reset source a synchronized value from resetCd
   def asyncAssertSyncDeassertCreateCd(resetCd : ClockDomain,
                                       clockCd : ClockDomain = ClockDomain.current,
                                       bufferDepth : Option[Int] = None) : ClockDomain = {

@@ -213,7 +213,7 @@ case class VgaCtrl(rgbConfig: RgbConfig, timingsWidth: Int = 12) extends Compone
   io.vga.color := io.pixels.payload
 
 
-  //Can be called by parent component to make the VgaCtrl autonom by using a Stream of fragment to feed it.
+  //Can be called by parent component to make the VgaCtrl autonomous by using a Stream of fragment to feed it.
   def feedWith(that : Stream[Fragment[Rgb]], resync : Bool = False): Unit ={
     val error = RegInit(False)
     val waitStartOfFrame = RegInit(False)

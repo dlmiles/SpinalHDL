@@ -51,7 +51,7 @@ case class TriStateArray(width : Int) extends Bundle with IMasterSlave{
     ret.write := this.write(i)
     ret.writeEnable := this.writeEnable(i)
 
-    //Define a fonction which redirect write access of a userSignal to another signal
+    //Defines a function which redirects write access of a userSignal to another signal
     def writePatch(userSignal : BaseType, realSignal : BaseType) : Unit = {
       userSignal.compositeAssign = new Assignable {
         override def assignFromImpl(that: AnyRef, target: AnyRef, kind: AnyRef)(implicit loc: Location): Unit = that match {

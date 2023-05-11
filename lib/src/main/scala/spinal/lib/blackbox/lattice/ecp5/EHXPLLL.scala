@@ -123,7 +123,7 @@ object EHXPLLL {
   /**
     * Generates a basic PLL and clock domain from a source clock domain. Resulting frequency may differ from requested frequency.
     * @param sourceCd Source clock domain to derive the PLL source from
-    * @param reqFreq The requrested output frequency
+    * @param reqFreq The requested output frequency
     * @return PLL clock domain
     */
   def makePLL(sourceCd: ClockDomain, reqFreq: HertzNumber, tolerance: BigDecimal = 0.02): ClockDomain = {

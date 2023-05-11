@@ -517,7 +517,7 @@ class Stream[T <: Data](val payloadType :  HardType[T]) extends Bundle with IMas
   /**
    * Assert that this stream conforms to the stream semantics:
    * https://spinalhdl.github.io/SpinalDoc-RTD/dev/SpinalHDL/Libraries/stream.html#semantics
-   * - After being asserted, valid may only be deasserted once the current payload was acknowleged.
+   * - After being asserted, valid may only be deasserted once the current payload was acknowledged.
    *
    * @param payloadInvariance Check that the payload does not change when valid is high and ready is low.
    */
@@ -642,7 +642,7 @@ object StreamArbiter {
 
     /**
      * Many handshaking protocols require that once valid is set, it must stay asserted and the payload
-     *  must not changed until the transaction fires, e.g. until ready is set as well. Since some arbitrations
+     *  must not changed until the transaction fires, e.g. until ready is set as well. Since some arbitration's
      *  may change their chosen input at any moment in time (which is not wrong), this may violate such
      *  handshake protocols. Use this lock to be compliant in those cases.
      */
@@ -964,7 +964,7 @@ object StreamFork3 {
  *  all output streams will always fire together, which means that the stream will halt until all 
  *  output streams are ready. If synchronous is false, output streams may be ready one at a time,
  *  at the cost of an additional flip flop (1 bit per output). The input stream will block until
- *  all output streams have processed each item regardlessly.
+ *  all output streams have processed each item regardless.
  *  
  *  Note that this means that when synchronous is true, the valid signal of the outputs depends on
  *  their inputs, which may lead to dead locks when used in combination with systems that have it the
@@ -1942,7 +1942,7 @@ object StreamTransactionExtender {
     }
 }
 
-/* Extend one input transfer into serveral outputs, io.count represent delivering output (count + 1) times. */
+/* Extend one input transfer into several outputs, io.count represent delivering output (count + 1) times. */
 class StreamTransactionExtender[T <: Data, T2 <: Data](
     dataType: HardType[T],
     outDataType: HardType[T2],
@@ -2177,7 +2177,7 @@ object StreamPacker {
     * @param output Stream to write to
     * @param packedbundle PackedBundle to pack from
     * @tparam T Stream Data type
-    * @tparam B PackedBundel type
+    * @tparam B PackedBundle type
     * @return StreamPacker instance
     */
   def apply[T <: Data, B <: PackedBundle](output: Stream[T], packedbundle: B): StreamPacker[T] = {
@@ -2201,7 +2201,7 @@ object StreamPacker {
   *
   * `io.done` indicates when the last word has been packed.
   *
-  * Use the companion object `StreamPapcker` to create an instance.
+  * Use the companion object `StreamPacker` to create an instance.
   */
 class StreamPacker[T <: Data](
     stream: Stream[T],

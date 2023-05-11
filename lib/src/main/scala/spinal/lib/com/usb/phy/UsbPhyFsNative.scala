@@ -44,7 +44,7 @@
 //      val dm = in Bool()
 //    }
 //
-//    val filtred = new Bundle {
+//    val filtered = new Bundle {
 //      val dp, dm, d = out Bool()
 //      val sample = out Bool()
 //    }
@@ -75,10 +75,10 @@
 //    }
 //  }
 //
-//  io.filtred.dp := frontend.dp
-//  io.filtred.dm := frontend.dm
-//  io.filtred.d := frontend.value
-//  io.filtred.sample := timer.sampleDo
+//  io.filtered.dp := frontend.dp
+//  io.filtered.dm := frontend.dm
+//  io.filtered.d := frontend.value
+//  io.filtered.sample := timer.sampleDo
 //}
 //
 //case class UsbLsFsPhy(fsRatio : Int) extends Component{
@@ -330,9 +330,9 @@
 //      output.valid := False
 //      output.payload.assignDontCare()
 //
-//      when(filter.io.filtred.sample){
+//      when(filter.io.filtered.sample){
 //        output.valid := True
-//        when(state ^ filter.io.filtred.d ^ j){
+//        when(state ^ filter.io.filtered.d ^ j){
 //          output.payload := False
 //          state := !state
 //        } otherwise {
@@ -370,14 +370,14 @@
 ////      val maxHit = counter === maxThreshold
 ////      val hit = False
 ////
-////      when(!filter.io.filtred.dp && !filter.io.filtred.dm){
+////      when(!filter.io.filtered.dp && !filter.io.filtered.dm){
 ////        when(!maxHit) {
 ////          counter := counter + 1
 ////        }
 ////      } otherwise {
 ////        counter := 0
 ////      }
-////      when(filter.io.filtred.dp === io.ctrl.fullSpeed && filter.io.filtred.dm === !io.ctrl.fullSpeed){
+////      when(filter.io.filtered.dp === io.ctrl.fullSpeed && filter.io.filtered.dm === !io.ctrl.fullSpeed){
 ////        when(counter >= minThreshold && !maxHit){
 ////          hit := True
 ////        }
@@ -391,14 +391,14 @@
 //      val maxHit = counter === maxThreshold
 //      val hit = False
 //
-//      when(!filter.io.filtred.dp && !filter.io.filtred.dm){
+//      when(!filter.io.filtered.dp && !filter.io.filtered.dm){
 //        when(!maxHit) {
 //          counter := counter + 1
 //        }
 //      } otherwise {
 //        counter := 0
 //      }
-//      when(filter.io.filtred.dp === io.ctrl.fullSpeed && filter.io.filtred.dm === !io.ctrl.fullSpeed){
+//      when(filter.io.filtered.dp === io.ctrl.fullSpeed && filter.io.filtered.dm === !io.ctrl.fullSpeed){
 //        when(counter >= minThreshold && !maxHit){
 //          hit := True
 //        }

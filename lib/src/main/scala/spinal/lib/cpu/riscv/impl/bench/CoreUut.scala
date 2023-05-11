@@ -93,7 +93,7 @@ object CoreUut{
       memBus.rsp.valid <> i_rsp.valid
       memBus.rsp.data <> i_rsp.instruction
 
-      //Emit ramdom instruction cache flush
+      //Emit random instruction cache flush
     /* Component.push(core)
       val flushEmitter = EventEmitter(core.iCacheFlush.cmd)
       when(io.doCacheFlush.pull){

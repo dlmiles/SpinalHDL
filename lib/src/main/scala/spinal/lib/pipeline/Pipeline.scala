@@ -274,7 +274,7 @@ class Pipeline extends Area{
       if(s.request.forks.nonEmpty){
         val doFork = s.request.forks.orR
         when(doFork){
-          s.input.ready := False //Maybe to reconsiderate
+          s.input.ready := False //Maybe to reconsider
         }
       }
 

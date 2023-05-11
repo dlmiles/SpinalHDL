@@ -352,7 +352,7 @@ case class SdramCtrl[T <: Data](l : SdramLayout, t : SdramTimings, CAS : Int, co
     val contextDelayed = Delay(cmd.context,CAS + 2,when=remoteCke)
 
     val sdramCkeNext = !(readHistory.orR && !io.bus.rsp.ready)
-    val sdramCkeInternal = RegNext(sdramCkeNext) init(True) //Duplicated register (sdram.CKE) To avoid infering an IO buffer with a reset value
+    val sdramCkeInternal = RegNext(sdramCkeNext) init(True) //Duplicated register (sdram.CKE) To avoid inferring an IO buffer with a reset value
     sdram.CKE    := sdramCkeNext
     remoteCke := RegNext(sdramCkeInternal) init(True)
 

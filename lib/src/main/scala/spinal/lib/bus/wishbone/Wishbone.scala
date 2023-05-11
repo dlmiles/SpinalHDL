@@ -8,15 +8,15 @@ import scala.language.postfixOps
 /** This class is used for configuring the Wishbone class
   * @param addressWidth size in bits of the address line
   * @param dataWidth size in bits of the data line
-  * @param selWidth size in bits of the selection line, deafult to 0 (disabled)
+  * @param selWidth size in bits of the selection line, default to 0 (disabled)
   * @param useSTALL activate the stall line, default to false (disabled)
   * @param useLOCK activate the lock line, default to false (disabled)
   * @param useERR activate the error line, default to false (disabled)
   * @param useRTY activate the retry line, default to false (disabled)
-  * @param useCTI activate the CTI line, deafult to 0 (disabled)
-  * @param tgaWidth size in bits of the tag address linie, deafult to 0 (disabled)
-  * @param tgcWidth size in bits of the tag cycle line, deafult to 0 (disabled)
-  * @param tgdWidth size in bits of the tag data line, deafult to 0 (disabled)
+  * @param useCTI activate the CTI line, default to 0 (disabled)
+  * @param tgaWidth size in bits of the tag address line, default to 0 (disabled)
+  * @param tgcWidth size in bits of the tag cycle line, default to 0 (disabled)
+  * @param tgdWidth size in bits of the tag data line, default to 0 (disabled)
   * @param useBTE activate the Burst Type Extension, default to false (disabled)
   * @example {{{
   * val wishboneBusConf = new WishboneConfig(32,8).withCycleTag(8).withDataTag(8)
@@ -53,8 +53,8 @@ case class WishboneConfig(
   def withBurstType              : WishboneConfig = this.copy(useCTI = true, useBTE = true)
 }
 
-/** This class rappresent a Wishbone bus
-  * @param config an istance of WishboneConfig, it will be used to configurate the Wishbone Bus
+/** This class represent a Wishbone bus
+  * @param config an instance of WishboneConfig, it will be used to configure the Wishbone Bus
   */
 case class Wishbone(config: WishboneConfig) extends Bundle with IMasterSlave {
   /////////////////////

@@ -39,7 +39,7 @@ trait IMasterSlave {
 
   /** Override it to define port directions for a master interface.
     *
-    * @deprecated This method must be overriden but not called. Calling this
+    * @deprecated This method must be overridden but not called. Calling this
     * method is not correct. Call `setAsMaster()` or `intoMaster()` instead.
     *
     * This method is named `asXxx` but it does not return `Xxx`.
@@ -50,9 +50,9 @@ trait IMasterSlave {
 
   /** Override it to define port directions for a master interface.
     *
-    * If not overriden, defaults to the opposite port directions of `asMaster()`.
+    * If not overridden, defaults to the opposite port directions of `asMaster()`.
     *
-    * @deprecated This method can be overriden but not called. Calling this
+    * @deprecated This method can be overridden but not called. Calling this
     * method is not correct. Call `setAsSlave()` or `intoSlave()` instead.
     *
     * This method is named `asXxx` but it does not return `Xxx`.
@@ -92,7 +92,7 @@ trait MSFactory {
   *   - `Flow`
   *   - `Stream`
   *
-  * The "spaceful" syntax is generic and beatiful, but more verbose.
+  * The "spaceful" syntax is generic and beautiful, but more verbose.
   *
   * The "variadic" syntax can be used with any number of interfaces, but can
   * be used only if the interfaces are already declared.

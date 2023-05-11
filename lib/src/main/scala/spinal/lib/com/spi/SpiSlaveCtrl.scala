@@ -52,7 +52,7 @@ case class SpiSlaveCtrlIo(generics : SpiSlaveCtrlGenerics) extends Bundle{
    * - ssEnabledIntClear -> W[12] When set, clear the ssEnabledInt interrupt
    * - ssDisabledIntClear -> W[13] When set, clear the ssDisabledInt interrupt
    * - rxListen -> RW[15] Enable the reception of mosi bytes
-   * - txAvailability -> R[30:16] Space avalaible in the tx fifo
+   * - txAvailability -> R[30:16] Space available in the tx fifo
    *
    * config -> 0x08
    * - cpol -> W[0]

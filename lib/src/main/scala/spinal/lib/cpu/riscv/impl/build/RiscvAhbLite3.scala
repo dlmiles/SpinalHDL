@@ -101,7 +101,7 @@ object RiscvAhbLite3{
  
      val report = SpinalConfig(onlyStdLogicVectorAtTopLevelIo=true).generateVerilog({
        val apb3Config = Apb3Config(16,32)
-       //replace wit null to disable instruction cache
+       //replace with null to disable instruction cache
        val iCacheConfig = null
 //         InstructionCacheConfig(
 //         cacheSize =4096,
@@ -113,7 +113,7 @@ object RiscvAhbLite3{
 //         memDataWidth = 32
 //       )
  
-       //replace wit null to disable data cache
+       //replace with null to disable data cache
        val dCacheConfig = null
 //         DataCacheConfig(
 //         cacheSize = 4096,

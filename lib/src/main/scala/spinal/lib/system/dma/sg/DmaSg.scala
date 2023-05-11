@@ -943,7 +943,7 @@ object DmaSg{
         val isFinalCmd = bytesLeftNext.msb
         val beatCounter = Reg(UInt(io.write.p.access.lengthWidth - io.write.p.access.wordRangeLength  bits))
 
-        //Assume that the delay of reading the memory and going throug the aggregator is at least two cycles
+        //Assume that the delay of reading the memory and going through the aggregator is at least two cycles
         val s0 = sel.valid.rise(False)
         val s1 = RegNext(s0) init(False)
         val s2 = RegInit(False) setWhen(s1) clearWhen(!sel.valid)

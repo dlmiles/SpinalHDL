@@ -16,7 +16,7 @@ import scala.language.postfixOps
 // This way we mimic the same behaviour of the generic JtagTapInstructionXXX classes
 // the code looks messy though...
 //
-// underlaying we implement a mealy-maschine to act like a moore-maschine.
+// underlying we implement a mealy-machine to act like a moore-machine.
 
 //══════════════════════════════════════════════════════════════════════════════
 // JtaggShifter
@@ -27,7 +27,7 @@ class JtaggShifter(dataWidth: Int, ctrl: JtagTapInstructionCtrl, readable: Boole
 
     // in the original code, the internal shift register stores all serial data.
     // we use the JTDI signal directly as the MSB of this register.
-    // because we're not shure if the JTDI signal changed in a transitional state,
+    // because we're not sure if the JTDI signal changed in a transitional state,
     // we have to buffer the JTDI value when where not in the shifted state
     //
     // the readable feature:
@@ -36,7 +36,7 @@ class JtaggShifter(dataWidth: Int, ctrl: JtagTapInstructionCtrl, readable: Boole
     // But the first TDO value is expected at the first pos clock edge in the shift state.
     // Due to the buffering of the JTDI this is a discrepancy of one clock cycle.
     // We can mitigate this by adding an additional shift state at the beginning of the transaction.
-    // we need an additional flipflop to make shure the injected shift cycle is only run once per transaction.
+    // we need an additional flipflop to make sure the injected shift cycle is only run once per transaction.
 
     val shifter = Reg(Bits(dataWidth-1 bit))
     
@@ -140,7 +140,7 @@ class JtagTapInstructionRead[T <: Data](data: T, light : Boolean) extends Area {
 }
 
 /**
- * Usefull to create a jtag tap instruction that has a different data input/output, with a captureReady
+ * Useful to create a jtag tap instruction that has a different data input/output, with a captureReady
  */
 class JtagTapInstructionReadWrite[T <: Data](captureData: T, updateData: T, captureReady: Bool) extends Area {
   val ctrl = JtagTapInstructionCtrl()

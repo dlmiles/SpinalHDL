@@ -13,7 +13,7 @@ object Gpio {
                        var input : Seq[Int] = null,   //List of pin id which can be inputs (null mean all)
                        var output : Seq[Int]  = null, //List of pin id which can be outputs (null mean all)
                        interrupt : Seq[Int]  = Nil,   //List of pin id which can be used as interrupt source
-                       readBufferLength : Int = 2)    //Number of syncronisation stages
+                       readBufferLength : Int = 2)    //Number of synchronisation stages
 
   abstract class Ctrl[T <: spinal.core.Data with IMasterSlave](p: Gpio.Parameter,
                                                                 busType: HardType[T],
