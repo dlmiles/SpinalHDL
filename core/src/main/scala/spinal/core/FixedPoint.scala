@@ -305,7 +305,7 @@ abstract class XFix[T <: XFix[T, R], R <: BitVector with Num[R]](val maxExp: Int
   }
 }
 
-//TODO Fix autoconnect
+//TODO Fix auto-connect
 /**
   * Signed fix point
   *
