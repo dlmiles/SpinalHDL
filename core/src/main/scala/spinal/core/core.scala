@@ -115,13 +115,13 @@ package object core extends BaseTypeFactory with BaseTypeCast {
     def ZiB    = BigInt(i) << 70
     def YiB    = BigInt(i) << 80
 
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (KiB)", "SpinalHDL 1.3.1")
     def kB     = BigInt(i) << 10
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (MiB)", "SpinalHDL 1.3.1")
     def MB     = BigInt(i) << 20
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (GiB)", "SpinalHDL 1.3.1")
     def GB     = BigInt(i) << 30
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (TiB)", "SpinalHDL 1.3.1")
     def TB     = BigInt(i) << 40
 
 
@@ -153,13 +153,13 @@ package object core extends BaseTypeFactory with BaseTypeCast {
     def ZiB  = (i) << 70
     def YiB  = (i) << 80
 
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (KiB)", "SpinalHDL 1.3.1")
     def kB   = (i) << 10
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (MiB)", "SpinalHDL 1.3.1")
     def MB   = (i) << 20
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (GiB)", "SpinalHDL 1.3.1")
     def GB   = (i) << 30
-    @deprecated("Deprecated in favor of IEC units", "SpinalHDL 1.3.1")
+    @deprecated("Deprecated in favor of IEC units (TiB)", "SpinalHDL 1.3.1")
     def TB   = (i) << 40
 
     /** Number of cycles */
@@ -533,7 +533,7 @@ package object core extends BaseTypeFactory with BaseTypeCast {
           _right.asBits.resize(leftWidth bits)
         else
           _right.asBits
-      assert(rightOp.getWidth == leftWidth, s"Width missmatch (${rightOp.getWidth} != $leftWidth)")
+      assert(rightOp.getWidth == leftWidth, s"Width mismatch (${rightOp.getWidth} != $leftWidth)")
 
       var offset = 0
       for(e <- elements.toList.reverse){

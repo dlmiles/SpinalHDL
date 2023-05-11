@@ -351,7 +351,7 @@ def renamePulledWires(clock     : String = null,
     this
   }
   def setSynchronousWith(that: ClockDomain) : this.type = setSyncWith(that)
-  @deprecated("misspelled method will be removed", "SpinalHDL 1.2.3")
+  @deprecated("misspelled method will be removed, use setSynchronousWith() instead", "SpinalHDL 1.2.3")
   def setSyncronousWith(that: ClockDomain) = setSyncWith(that)
 
   def apply[T](block: => T): T = {
@@ -399,12 +399,12 @@ def renamePulledWires(clock     : String = null,
   def newSlowedClockDomain(freq: HertzNumber): ClockDomain = {
     val currentFreq = ClockDomain.current.frequency.getValue.toBigDecimal
     freq match {
-      case x if x.toBigDecimal > currentFreq => SpinalError("To high frequancy")
+      case x if x.toBigDecimal > currentFreq => SpinalError("Too high frequency")
       case x                                 => newClockDomainSlowedBy((currentFreq/freq.toBigDecimal).toBigInt)
     }
   }
 
-  @deprecated("Use copy instead of clone", "1.3.0")
+  @deprecated("Use copy instead of clone, as this.copy()", "1.3.0")
   def clone(config      : ClockDomainConfig = config,
             clock       : Bool = clock,
             reset       : Bool = reset,

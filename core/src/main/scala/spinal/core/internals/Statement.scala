@@ -579,11 +579,11 @@ class SwitchStatement(var value: Expression) extends TreeStatement{
     elements.foreach{element => element.keys.foreach{
       case lit: EnumLiteral[_] =>
         if(!coverage.allocate(lit.senum.position)){
-          PendingError(s"UNREACHABLE IS STATEMENT in the switch statement at \n" + element.getScalaLocationLong)
+          PendingError(s"UNREACHABLE 'IS' STATEMENT in the switch statement at \n" + element.getScalaLocationLong)
         }
       case lit: Literal =>
         if(!coverage.allocate(lit.getValue())){
-          PendingError(s"UNREACHABLE IS STATEMENT in the switch statement at \n" + element.getScalaLocationLong)
+          PendingError(s"UNREACHABLE 'IS' STATEMENT in the switch statement at \n" + element.getScalaLocationLong)
         }
       case _ =>
         hadNonLiteralKey = true

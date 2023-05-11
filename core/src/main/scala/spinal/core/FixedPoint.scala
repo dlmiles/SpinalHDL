@@ -267,7 +267,7 @@ abstract class XFix[T <: XFix[T, R], R <: BitVector with Num[R]](val maxExp: Int
         if(this.maxExp < t.maxExp || this.minExp > t.minExp){
           if(!t.hasTag(tagTruncated)){
             val trace = ScalaLocated.long
-            globalData.pendingErrors += (() => s"$this can't be assigned by $t because of truncation. You can do x := y.truncated if that's fine.\n $trace")
+            globalData.pendingErrors += (() => s"$this can't be assigned by $t because of truncation.  If your design requires truncation it must be explicitly stated with x := y.truncated\n $trace")
           }
         }
         val difLsb = this.difLsb(t)

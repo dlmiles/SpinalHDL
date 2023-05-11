@@ -194,7 +194,7 @@ abstract class SpinalStruct(val typeName: String = null) extends BaseType with N
   def elementsString = this.elements.map(_.toString()).reduce(_ + "\n" + _)
 
   private[core] def zippedMap[T](that: SpinalStruct, task: (Data, Data) => T): Seq[T] = {
-    if (that.elements.length != this.elements.length) SpinalError(s"Can't zip [$this] with [$that]  because they don't have the same number of elements.\nFirst one has :\n${this.elementsString}\nSeconde one has :\n${that.elementsString}\n")
+    if (that.elements.length != this.elements.length) SpinalError(s"Can't zip [$this] with [$that]  because they don't have the same number of elements.\nFirst one has :\n${this.elementsString}\nSecond one has :\n${that.elementsString}\n")
     this.elements.map(x => {
       val (n, e) = x
       val other = that.find(n)

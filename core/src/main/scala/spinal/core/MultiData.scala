@@ -171,7 +171,7 @@ abstract class MultiData extends Data {
         val checks = zippedMap(that, _ === _)
         if(checks.nonEmpty) checks.reduce(_ && _) else True
       }
-      case _               => SpinalError(s"Function isEquals is not implemented between $this and $that")
+      case _               => SpinalError(s"Function isEqualTo(Any) is not implemented for $this and $that")
     }
   }
 
@@ -181,21 +181,21 @@ abstract class MultiData extends Data {
         val checks = zippedMap(that, _ =/= _)
         if(checks.nonEmpty) checks.reduce(_ || _) else False
       }
-      case _               => SpinalError(s"Function isNotEquals is not implemented between $this and $that")
+      case _               => SpinalError(s"Function isNotEqualTo(Any) is not implemented for $this and $that")
     }
   }
 
   private[core] override def autoConnect(that: Data)(implicit loc: Location): Unit = {
     that match {
       case that: MultiData => zippedMap(that, _ autoConnect _)
-      case _               => SpinalError(s"Function autoConnect is not implemented between $this and $that")
+      case _               => SpinalError(s"Function autoConnect(Data) is not implemented for $this and $that")
     }
   }
 
   def elementsString = this.elements.map(_.toString()).reduce(_ + "\n" + _)
 
   private[core] def zippedMap[T](that: MultiData, task: (Data, Data) => T): Seq[T] = {
-    if (that.elements.length != this.elements.length) SpinalError(s"Can't zip [$this] with [$that]  because they don't have the same number of elements.\nFirst one has :\n${this.elementsString}\nSeconde one has :\n${that.elementsString}\n")
+    if (that.elements.length != this.elements.length) SpinalError(s"Can't zip [$this] with [$that]  because they don't have the same number of elements.\nFirst one has :\n${this.elementsString}\nSecond one has :\n${that.elementsString}\n")
     this.elements.map(x => {
       val (n, e) = x
       val other = that.find(n)

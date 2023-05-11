@@ -338,7 +338,7 @@ trait Data extends ContextUser with NameableByComponent with Assignable with Spi
     this
   }
 
-  @deprecated("use setAsDirectionLess instead","???")
+  @deprecated("use setAsDirectionLess() instead","???")
   def asDirectionLess(): this.type = setAsDirectionLess()
 
   /** Set baseType to reg */
@@ -682,9 +682,9 @@ trait Data extends ContextUser with NameableByComponent with Assignable with Spi
       SpinalError(
         s"""
            |*** Spinal can't clone ${this.getClass} datatype
-           |*** You have two way to solve that :
-           |*** In place to declare a "class Bundle(args){}", create a "case class Bundle(args){}"
-           |*** Or override by your self the bundle clone function
+           |*** You have two ways to solve this situation :
+           |*** At the error location declare a "class Bundle(args){}", create a "case class Bundle(args){}"
+           |*** Or provide your own override to the bundle clone() function as "override def clone():{}"
            |*** The error is """.stripMargin + this.getScalaLocationLong)
       null
     }

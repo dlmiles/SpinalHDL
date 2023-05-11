@@ -1037,7 +1037,7 @@ class PhaseMemBlackBoxingDefault(policy: MemBlackboxingPolicy) extends PhaseMemB
         removeMem()
       }
     } else {
-      return "Unblackboxable memory topology" //TODO
+      return "Unable to BlackBox memory topology" //TODO
     }
     return null
   }
@@ -1330,7 +1330,7 @@ class PhaseInferEnumEncodings(pc: PhaseContext, encodingSwap: (SpinalEnumEncodin
 
         for((key,elements) <- reserveds){
           if(elements.length != 1){
-            PendingError(s"Conflict in the $senum enumeration with the '$encoding' encoding with the key $key' and following elements:.\n${elements.mkString(", ")}\n\nEnumeration defined at :\n${senum.getScalaLocationLong}Encoding defined at :\n${encoding.getScalaLocationLong}")
+            PendingError(s"Conflict in the $senum enumeration with the '$encoding' encoding of the key '$key' and following elements:.\n${elements.mkString(", ")}\n\nEnumeration defined at :\n${senum.getScalaLocationLong}Encoding defined at :\n${encoding.getScalaLocationLong}")
           }
         }
       }
@@ -2093,7 +2093,7 @@ class PhaseCheckHiearchy extends PhaseCheck{
           case bt: BaseType =>
             if (!(bt.component == c) && !(bt.isInputOrInOut && bt.component.parent == c) && !(bt.isOutputOrInOut && bt.component.parent == c)) {
               if(bt.component == null || bt.getComponents().head != pc.topLevel){
-                PendingError(s"OLD NETLIST RE-USED : $bt is used to drive the $s statement, but was defined in another netlist.\nBe sure you didn't defined a hardware constant as a 'val' in a global scala object.\n${s.getScalaLocationLong}")
+                PendingError(s"OLD NETLIST RE-USED : $bt is used to drive the $s statement, but was defined in another netlist.\nBe sure you didn't define a hardware constant as a 'val' in a field that is not a descendant member of a Component class (such as a static member of a global scala companion object).\n${s.getScalaLocationLong}")
               } else {
                 if(c.withHierarchyAutoPull){
                   autoPullOn += bt
@@ -2104,7 +2104,7 @@ class PhaseCheckHiearchy extends PhaseCheck{
             }
           case s : MemPortStatement =>{
             if(s.mem.component != c){
-              PendingError(s"OLD NETLIST RE-USED : Memory port $s of memory ${s.mem} is used to drive the $s statement, but was defined in another netlist.\nBe sure you didn't defined a hardware constant as a 'val' in a global scala object.\n${s.getScalaLocationLong}")
+              PendingError(s"OLD NETLIST RE-USED : Memory port $s of memory ${s.mem} is used to drive the $s statement, but was defined in another netlist.\nBe sure you didn't define a hardware constant as a 'val' in a field that is not a descendant member of a Component class (such as a static member of a global scala companion object).\n${s.getScalaLocationLong}")
             }
           }
           case _ =>
@@ -2125,7 +2125,7 @@ class PhaseCheckHiearchy extends PhaseCheck{
 
       //Check register defined as component inputs
       c.getAllIo.foreach(bt => if(bt.isInput && bt.isReg){
-        PendingError(s"REGISTER DEFINED AS COMPONENT INPUT : $bt is defined as a registered input of the $c component, but isn't allowed.\n${bt.getScalaLocationLong}")
+        PendingError(s"REGISTER DEFINED AS COMPONENT INPUT : $bt is defined as a registered input of the $c component, but that isn't allowed.\n${bt.getScalaLocationLong}")
       })
     })
   }
@@ -2164,9 +2164,9 @@ class PhaseCheck_noRegisterAsLatch() extends PhaseCheck{
               regToComb += bt
               if(bt.isVital && !bt.hasTag(unsetRegIfNoAssignementTag)){
                 if(bt.scalaTrace == null){
-                  PendingError(s"UNASSIGNED REGISTER $bt with init value, please apply the allowUnsetRegToAvoidLatch tag if that's fine\n${bt.getScalaLocationLong}")
+                  PendingError(s"UNASSIGNED REGISTER $bt with init value, please review a potential design error or apply addTag(allowUnsetRegToAvoidLatch) to inhibit this check\n${bt.getScalaLocationLong}")
                 } else {
-                  SpinalWarning(s"UNASSIGNED REGISTER $bt with init value, please apply the allowUnsetRegToAvoidLatch tag if that's fine\n${bt.getScalaLocationLong}")
+                  SpinalWarning(s"UNASSIGNED REGISTER $bt with init value, please review a potential design error or apply addTag(allowUnsetRegToAvoidLatch) to inhibit this check\n${bt.getScalaLocationLong}")
                 }
 
               }
@@ -2809,7 +2809,7 @@ object SpinalVhdlBoot{
     }
 
     if(prunedSignals.nonEmpty){
-      SpinalWarning(s"${prunedSignals.size} signals were pruned. You can call printPruned on the backend report to get more informations.")
+      SpinalWarning(s"${prunedSignals.size} signals were pruned. You can call printPruned on the backend report to get more information.")
     }
 
     pc.checkGlobalData()
@@ -2936,7 +2936,7 @@ object SpinalVerilogBoot{
     }
 
     if(prunedSignals.nonEmpty){
-      SpinalWarning(s"${prunedSignals.size} signals were pruned. You can call printPruned on the backend report to get more informations.")
+      SpinalWarning(s"${prunedSignals.size} signals were pruned. You can call printPruned on the backend report to get more information.")
     }
 
 //    SpinalInfo(s"Number of registers : ${counterRegister.value}")

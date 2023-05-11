@@ -162,7 +162,7 @@ class Mem[T <: Data](val wordType: HardType[T], val wordCount: Int) extends Decl
 //  }
 
   def initBigInt(initialContent: Seq[BigInt], allowNegative : Boolean = false): this.type ={
-    assert(initialContent.length == wordCount, s"The initial content array size (${initialContent.length}) is not equals to the memory size ($wordCount).\n" + this.getScalaLocationLong)
+    assert(initialContent.length == wordCount, s"The initial content array size (${initialContent.length}) is not equal to the memory size ($wordCount).\n" + this.getScalaLocationLong)
     assert(!(!allowNegative && initialContent.exists(_.signum == -1)), "initBigInt got a negative number to initialise the Mem, while allowNegative isn't set")
     this.initialContent = initialContent.toArray
     if(initialContent != null) for(e <- this.initialContent){
@@ -176,7 +176,7 @@ class Mem[T <: Data](val wordType: HardType[T], val wordCount: Int) extends Decl
   }
 
   def init(initialContent: Seq[T]): this.type = {
-    assert(initialContent.length == wordCount, s"The initial content array size (${initialContent.length}) is not equals to the memory size ($wordCount).\n" + this.getScalaLocationLong)
+    assert(initialContent.length == wordCount, s"The initial content array size (${initialContent.length}) is not equal to the memory size ($wordCount).\n" + this.getScalaLocationLong)
 //    val bytePerWord = (getWidth + 7)/8
     this.initialContent = new Array[BigInt](initialContent.length)
 
@@ -204,7 +204,7 @@ class Mem[T <: Data](val wordType: HardType[T], val wordCount: Int) extends Decl
               case literal: EnumLiteral[_]   => elements(elementId).asInstanceOf[SpinalEnumCraft[_]].encoding.getValue(literal.senum)
               case literal: BitVectorLiteral => {
                 if(literal.minimalValueBitWidth > width)
-                  SpinalError(s"MEM_INIT error, literal at intex $elementId is too big. 0x${literal.getValue().toString(16).toUpperCase()} => ${literal.minimalValueBitWidth} bits (more than $width bits)")
+                  SpinalError(s"MEM_INIT error, literal at index $elementId is too big. 0x${literal.getValue().toString(16).toUpperCase()} => ${literal.minimalValueBitWidth} bits (more than $width bits)")
                 literal.getValue()
               }
               case literal: Literal          => literal.getValue()
@@ -212,14 +212,14 @@ class Mem[T <: Data](val wordType: HardType[T], val wordCount: Int) extends Decl
 
             builder += value
           case AssignmentStatement(_, input : BaseType) if element.hasOnlyOneStatement  => walk(input)
-          case _ => SpinalError("ROM initial value should be provided from full literals value")
+          case _ => SpinalError("ROM initial value should be provided from full literals value")    // CHECKME reword this one ?
         }
         walk(element)
       }
       this.initialContent(wordIndex) = builder
     }
 //    for((e,i) <- this.initialContent.zipWithIndex){
-//      if(e.bitLength > width) SpinalError(s"MEM_INIT error, literal at intex $i is too big (> $width bits). 0x${e.toString(16).toUpperCase()} => ${e.bitLength} bits ")
+//      if(e.bitLength > width) SpinalError(s"MEM_INIT error, literal at index $i is too big (> $width bits). 0x${e.toString(16).toUpperCase()} => ${e.bitLength} bits ")
 //    }
     this
   }
@@ -242,7 +242,7 @@ class Mem[T <: Data](val wordType: HardType[T], val wordCount: Int) extends Decl
   }
 
   def apply(address : Int) : T = {
-    assert(Component.current.isFormalTester || GenerationFlags.formal, "Mem.apply(address : Int) purpose is only for formal testers")
+    assert(Component.current.isFormalTester || GenerationFlags.formal, "The Mem.apply(address : Int) method is only for formal testers")
     assert(address >= 0 && address < wordCount, s"Address is out of the memory range. $address ")
     component.rework(this.readAsync(U(address, addressWidth bits)))
   }
@@ -569,7 +569,7 @@ class MemReadAsync extends MemPortStatement with WidthProvider with SpinalTagRea
         return
       }
       if(mem.getWidth / getWidth * getWidth != mem.getWidth) {
-        PendingError(s"The aspect ratio between readed data and the memory should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
+        PendingError(s"The aspect ratio between read data width and the memory width should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
         return
       }
     }
@@ -654,7 +654,7 @@ class MemReadSync() extends MemPortStatement with WidthProvider with SpinalTagRe
         return
       }
       if(mem.getWidth / getWidth * getWidth != mem.getWidth) {
-        PendingError(s"The aspect ratio between readed data and the memory should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
+        PendingError(s"The aspect ratio between read data width and memory width should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
         return
       }
     }
@@ -732,17 +732,17 @@ class MemWrite() extends MemPortStatement with WidthProvider with SpinalTagReady
     address = InputNormalize.resizedOrUnfixedLit(address, addressReq, new ResizeUInt, address, this) //TODO better error messaging
 
     if(!hasTag(AllowMixedWidth) && data.getWidth != width) {
-      PendingError(s"Write data width (${data.getWidth} bits) is not the same as the memory one ($mem) at\n${this.getScalaLocationLong}")
+      PendingError(s"Write data width (${data.getWidth} bits) is not the same as the memory width ($mem) at\n${this.getScalaLocationLong}")
       return
     }
 
     if(mem.getWidth != getWidth){
       if(!hasTag(AllowMixedWidth)) {
-        PendingError(s"Write data width (${data.getWidth} bits) is not the same as the memory one ($mem) at\n${this.getScalaLocationLong}")
+        PendingError(s"Write data width (${data.getWidth} bits) is not the same as the memory width ($mem) at\n${this.getScalaLocationLong}")
         return
       }
       if(mem.getWidth / getWidth * getWidth != mem.getWidth) {
-        PendingError(s"The aspect ratio between written data and the memory should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
+        PendingError(s"The aspect ratio between write data width and the memory width should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
         return
       }
     }
@@ -842,11 +842,11 @@ class MemReadWrite() extends MemPortStatement with WidthProvider with SpinalTagR
 
     if(mem.getWidth != getWidth){
       if(!hasTag(AllowMixedWidth)) {
-        PendingError(s"Write data width (${data.getWidth} bits) is not the same as the memory one ($mem) at\n${this.getScalaLocationLong}")
+        PendingError(s"Write data width (${data.getWidth} bits) is not the same as the memory width ($mem) at\n${this.getScalaLocationLong}")
         return
       }
       if(mem.getWidth / getWidth * getWidth != mem.getWidth) {
-        PendingError(s"The aspect ratio between written data and the memory should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
+        PendingError(s"The aspect ratio between write data width and the memory width should be a power of two. currently it's ${mem.getWidth}/${getWidth}. Memory : $mem, written at\n${this.getScalaLocationLong}")
         return
       }
     }

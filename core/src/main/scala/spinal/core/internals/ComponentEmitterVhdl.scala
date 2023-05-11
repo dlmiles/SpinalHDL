@@ -975,7 +975,7 @@ class ComponentEmitterVhdl(
 
 
     if(memBitsMaskKind == MULTIPLE_RAM && symbolCount != 1) {
-      //if(mem.initialContent != null) SpinalError("Memory with multiple symbol per line + initial contant are not suported currently")
+      //if(mem.initialContent != null) SpinalError("Memory with multiple symbols per line + initial content are not supported currently")
 
       val mappings = ArrayBuffer[MemSymbolesMapping]()
       declarations ++= s"  type ${emitReference(mem,false)}_type is array (0 to ${mem.wordCount - 1}) of std_logic_vector(${symbolWidth - 1} downto 0);\n"

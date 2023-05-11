@@ -204,7 +204,7 @@ abstract class BitVector extends BaseType with Widthable {
   def asBools: Vec[Bool] = signalCache(this, "asBools") {
     val vec = ArrayBuffer[Bool]()
     val bitCount = getWidth
-    if (bitCount == -1) SpinalError("Can't convert to bools a Bit that has unspecified width value")
+    if (bitCount == -1) SpinalError("Can't convert with asBools a Bit that has unspecified width value")
     for (i <- 0 until bitCount) vec += this (i)
     Vec(vec)
   }
@@ -285,7 +285,7 @@ abstract class BitVector extends BaseType with Widthable {
 
   def sliceBy(divisor: List[Int]): List[Bits] = {
     val width  = widthOf(this)
-    require(divisor.sum == width, s"the sum of ${divisor} =! ${this} width, cant parted")
+    require(divisor.sum == width, s"the sum of ${divisor} =! ${this} width, can not be parted")
 
     import scala.collection.mutable.ListBuffer
 

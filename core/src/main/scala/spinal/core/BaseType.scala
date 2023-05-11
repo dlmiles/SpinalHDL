@@ -225,12 +225,12 @@ abstract class BaseType extends Data with DeclarationStatement with StatementDou
       case `InitialAssign` => InitialAssignmentStatement(target = target.asInstanceOf[Expression], source = that).setLocation(loc)
     }
     if(isFrozen()){
-      LocatedPendingError(s"FROZEN ASSIGNED :\n$this := $that")
+      LocatedPendingError(s"FROZEN TARGET ASSIGNED VALUE :\n$this := $that")
     }
     that match {
       case that : Expression if that.getTypeObject == target.asInstanceOf[Expression].getTypeObject =>
         DslScopeStack.get match {
-          case null =>  SpinalError(s"Hardware assignement done outside any Component")
+          case null =>  SpinalError(s"Hardware value assignment done outside any Scala Component")
           case s => s.append(statement(that))
         }
       case _ => kind match {

@@ -26,7 +26,7 @@ object MaskedLiteral{
   def apply(str: String): MaskedLiteral = {
     val strCleaned = str.replace("_", "")
 
-    for(c <- strCleaned) assert(c == '1' || c == '0' || c == '-', s"""M"$str" is not correctly formated.""")
+    for(c <- strCleaned) assert(c == '1' || c == '0' || c == '-', s"""M"$str" is not correctly formatted.""")
 
     val careAbout = strCleaned.map(c => if(c == '-') '0' else '1')
     val value = strCleaned.map(c => if(c == '-') '0' else c)

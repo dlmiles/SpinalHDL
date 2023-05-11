@@ -265,7 +265,7 @@ abstract class BinaryOperatorWidthableInputs extends BinaryOperator {
     }
     checkLiteralRange { (lit, value) =>
       if(lit.poisonMask == null && lit.getWidth > value.getWidth) {
-        PendingError(s"OUT OF RANGE CONSTANT. Operator ${this.toStringMultiLine} is checking a value against a out of range constant\n${this.getScalaLocationLong}")
+        PendingError(s"OUT OF RANGE CONSTANT. Operator ${this.toStringMultiLine} is checking a value against an out of range constant\n${this.getScalaLocationLong}")
       }
     }
   }

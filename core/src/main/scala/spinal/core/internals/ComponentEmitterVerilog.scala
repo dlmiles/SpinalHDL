@@ -1331,7 +1331,7 @@ end
 
         memReadWrite.duringWrite match {
           case `dontCare` =>
-            if(memReadWrite.readUnderWrite != dontCare) SpinalError(s"memReadWrite can only be emited as dontCare into Verilog $memReadWrite")
+            if(memReadWrite.readUnderWrite != dontCare) SpinalError(s"memReadWrite can only be emitted as dontCare into Verilog $memReadWrite")
             emitClockedProcess((tab, b) => {
               val symbolCount = memReadWrite.mem.getMemSymbolCount()
               b ++= s"${tab}if(${emitExpression(memReadWrite.chipSelect)}) begin\n"
@@ -1344,7 +1344,7 @@ end
               emitWrite(b, memReadWrite.mem,s"${emitExpression(memReadWrite.chipSelect)} && ${emitExpression(memReadWrite.writeEnable)} ", memReadWrite.address, memReadWrite.data, memReadWrite.mask, memReadWrite.mem.getMemSymbolCount(), memReadWrite.mem.getMemSymbolWidth(),tab)
             }, null, tmpBuilder, memReadWrite.clockDomain, false)
           case `dontRead` =>
-            if(memReadWrite.readUnderWrite != dontCare) SpinalError(s"memReadWrite can only be emited as dontCare into Verilog $memReadWrite")
+            if(memReadWrite.readUnderWrite != dontCare) SpinalError(s"memReadWrite can only be emitted as dontCare into Verilog $memReadWrite")
             emitClockedProcess((tab, b) => {
               val symbolCount = memReadWrite.mem.getMemSymbolCount()
               b ++= s"${tab}if(${emitExpression(memReadWrite.chipSelect)}) begin\n"
@@ -1391,7 +1391,7 @@ end
                   emitWrite(b, memReadWrite.mem,  if (memReadWrite.writeEnable != null) emitExpression(memReadWrite.writeEnable) else null.asInstanceOf[String], memReadWrite.address, memReadWrite.data, memReadWrite.mask, memReadWrite.mem.getMemSymbolCount(), memReadWrite.mem.getMemSymbolWidth(), tab + "  ")
                   b ++= s"${tab}end\n"
                 }, null, tmpBuilder, memReadWrite.clockDomain, false)
-              case _ => SpinalError(s"memReadWrite can only be emited as readFirst, writeFirst, noChange or dontCare into Verilog $memReadWrite")
+              case _ => SpinalError(s"memReadWrite can only be emitted as readFirst, writeFirst, noChange or dontCare into Verilog $memReadWrite")
             }
         }
 

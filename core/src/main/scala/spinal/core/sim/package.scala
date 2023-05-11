@@ -50,7 +50,7 @@ package object sim {
 
   private def btToSignal(manager: SimManager, bt: BaseNode) = {
     if(bt.algoIncrementale != -1){
-      SimError(s"UNACCESSIBLE SIGNAL : $bt isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the elaboration.")
+      SimError(s"INACCESSIBLE SIGNAL : $bt isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the SimConfig.compile({}).")
     }
 
     manager.raw.userData.asInstanceOf[ArrayBuffer[Signal]](bt.algoInt)
@@ -72,7 +72,7 @@ package object sim {
       case Some(tag) => {
         for(i <- 0 until tag.mapping.size; mapping = tag.mapping(i)){
           if(mem.algoIncrementale != -1){
-            SimError(s"UNACCESSIBLE SIGNAL : $mem isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the elaboration.")
+            SimError(s"INACCESSIBLE SIGNAL : $mem isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the SimConfig.compile({}).")
           }
           val symbol = manager.raw.userData.asInstanceOf[ArrayBuffer[Signal]](mem.algoInt + i)
           val symbolData = (data >> mapping.range.low) & mapping.mask
@@ -98,7 +98,7 @@ package object sim {
         var data = BigInt(0)
         for(i <- 0 until tag.mapping.size; mapping = tag.mapping(i)){
           if(mem.algoIncrementale != -1){
-            SimError(s"UNACCESSIBLE SIGNAL : $mem isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the elaboration.")
+            SimError(s"INACCESSIBLE SIGNAL : $mem isn't accessible during the simulation.\n- To fix it, call simPublic() on it during the SimConfig.compile({}).")
           }
           val symbol = manager.raw.userData.asInstanceOf[ArrayBuffer[Signal]](mem.algoInt + i)
           val readed = manager.getBigInt(symbol, address)
@@ -256,7 +256,7 @@ package object sim {
     }
 
     def assignBigInt(value: BigInt): Unit = bt match{
-      case bt: Bool               => bt #= (if(value == 0) false else if(value == 1) true else throw new Exception("Value outide the range"))
+      case bt: Bool               => bt #= (if(value == 0) false else if(value == 1) true else throw new Exception("Value outside the range"))
       case bt: BitVector          => bt #= value
       case bt: SpinalEnumCraft[_] => {
         assert(value < bt.spinalEnum.elements.length)
@@ -445,8 +445,8 @@ package object sim {
     protected def rawAssign(that: BigInt): Unit
     def #= (that: BigDecimal): Unit = {
       val rhs = (that * scala.math.pow(2, fractionLength)).toBigInt
-      require(rhs <= maxRawIntValue, s"$that is overflow. Max value allowed is $maxValue")
-      require(rhs >= minRawIntValue, s"$that is underflow.Min value allowed is $minValue")
+      require(rhs <= maxRawIntValue, s"$that has overflowed. Max value allowed is $maxValue")
+      require(rhs >= minRawIntValue, s"$that has underflow.  Min value allowed is $minValue")
       rawAssign(rhs)
     }
     def #= (that : Double): Unit = this #= BigDecimal(that)
@@ -499,8 +499,8 @@ package object sim {
 
     def #= (that: BigDecimal): Unit = {
       var rhs = (that * BigDecimal(2).pow(-exp)).toBigInt
-      require(rhs <= maxRawIntValue, s"$that is overflow. Max value allowed is $maxDecimal")
-      require(rhs >= minRawIntValue, s"$that is underflow.Min value allowed is $minDecimal")
+      require(rhs <= maxRawIntValue, s"$that has overflowed. Max value allowed is $maxDecimal")
+      require(rhs >= minRawIntValue, s"$that has underflow.  Min value allowed is $minDecimal")
 
       if (rhs.signum >= 0) {
         bt.raw #= rhs
