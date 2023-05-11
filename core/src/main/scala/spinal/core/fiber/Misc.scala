@@ -4,7 +4,7 @@ import spinal.core.assert
 
 case class Lock() extends Handle[Int]{
   load(0)
-  private var retains = 0
+  private var retains = 0   // CHECKME threadsafe? AtomicInt ?
   def retain() : this.type = {
     retains += 1
     this.unload()
