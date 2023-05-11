@@ -7,11 +7,9 @@ import spinal.lib._
 import spinal.lib.bus.amba4.axi._
 
 import scala.collection.mutable
-import scala.collection.concurrent.TrieMap
 import java.nio.file.Paths
 import java.nio.file.Files
 import java.awt.image.BufferedImage
-import java.io.ByteArrayInputStream
 import javax.imageio.ImageIO
 import java.io.File
 import java.awt.image.Raster

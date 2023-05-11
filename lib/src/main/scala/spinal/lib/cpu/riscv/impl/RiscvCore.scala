@@ -1,7 +1,6 @@
 package spinal.lib.cpu.riscv.impl
 
 import java.text.AttributedString
-
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba3.ahblite.{AhbLite3Master, AhbLite3Config}

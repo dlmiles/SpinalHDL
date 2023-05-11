@@ -1,8 +1,5 @@
 package spinal.lib.cpu.riscv.impl
 
-import java.text.AttributedString
-
-
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.amba4.axi.{Axi4Config, Axi4ReadOnly}
