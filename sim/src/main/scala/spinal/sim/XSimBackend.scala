@@ -125,7 +125,7 @@ class XSimBackend(config: XSimBackendConfig) extends Backend {
          |proc findFiles { basedir pattern } {
          |
          |   # Fix the directory name, this ensures the directory name is in the
-         |   # native format for the platform and contains a final directory seperator
+         |   # native format for the platform and contains a final directory separator
          |   set basedir [string trimright [file join [file normalize $basedir] { }]]
          |   set fileList {}
          |
@@ -136,9 +136,9 @@ class XSimBackend(config: XSimBackendConfig) extends Backend {
          |       lappend fileList $fileName
          |   }
          |
-         |   # Now look for any sub direcories in the current directory
+         |   # Now look for any sub directories in the current directory
          |   foreach dirName [glob -nocomplain -type {d  r} -path $basedir *] {
-         |       # Recusively call the routine on the sub directory and append any
+         |       # Recursively call the routine on the sub directory and append any
          |       # new files to the results
          |       set subDirList [findFiles $dirName $pattern]
          |       if { [llength $subDirList] > 0 } {

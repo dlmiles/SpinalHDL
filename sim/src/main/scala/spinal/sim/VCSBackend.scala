@@ -95,7 +95,7 @@ object VCSFlags {
   ).withDefaultFlags()
 
   /**
-    * Back compatibility for old API
+    * Backwards compatibility for old API
     * @param compileFlags - analysis flags used for both vlogan and vhdlan
     * @param elaborateFlags - vcs elaboration flags
     * @param runFlags - simv run flags

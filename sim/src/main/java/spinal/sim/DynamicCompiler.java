@@ -19,7 +19,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
 /**
- * Dynamic java class compiler and executer  <br>
+ * Dynamic java class compiler and executor  <br>
  * Demonstrate how to compile dynamic java source code, <br>
  * instantiate instance of the class, and finally call method of the class <br>
  * <p>
@@ -65,7 +65,7 @@ public class DynamicCompiler {
     }
 
     /**
-     * Get a simple Java File Object ,<br>
+     * Get a simple Java File Object,<br>
      * It is just for demo, content of the source code is dynamic in real use case
      */
     private static JavaFileObject getJavaFileObject() {
