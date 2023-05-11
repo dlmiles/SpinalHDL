@@ -6,6 +6,8 @@ import landa.SimManagedTest.Dut
 import spinal.core._
 import spinal.core.sim._
 
+import scala.collection.BuildFrom
+import scala.languageFeature.higherKinds
 import scala.language.postfixOps
 import scala.util.Random
 
@@ -105,7 +107,8 @@ object ReadWriteChecks {
         List(0l, 1l, 0xFFFFFFFFFFFFFFFFl, -1l, Long.MaxValue, Long.MinValue).foreach(value => checkBigInt(value, dut.io.s64))
 
         forkJoin(
-          () => Random.shuffle((0 to 1 )).map(n => BigInt("0" + "1" * n, 2)).foreach(value => checkBigInt(value, dut.io.u1)),
+           // SCALA 2.13 issue ?  No implicits found for BuildFrom
+          () => Random.shuffle((0 to 1)).map(n => BigInt("0" + "1" * n, 2)).foreach(value => checkBigInt(value, dut.io.u1)),
           () => Random.shuffle((0 to 8 )).map(n => BigInt("0" + "1" * n, 2)).foreach(value => checkBigInt(value, dut.io.u8)),
           () => Random.shuffle((0 to 16 )).map(n => BigInt("0" + "1" * n, 2)).foreach(value => checkBigInt(value, dut.io.u16)),
           () => Random.shuffle((0 to 31 )).map(n => BigInt("0" + "1" * n, 2)).foreach(value => checkBigInt(value, dut.io.u31)),
@@ -128,6 +131,7 @@ object ReadWriteChecks {
         )
 
         forkJoin(
+          // SCALA 2.13 issue ?  No implicits found for BuildFrom
           () => Random.shuffle((0 to 1  - 1)).map(n => -BigInt("0" + "1" * n, 2) -1).foreach(value => checkBigInt(value, dut.io.s1 )),
           () => Random.shuffle((0 to 8  - 1)).map(n => -BigInt("0" + "1" * n, 2) -1).foreach(value => checkBigInt(value, dut.io.s8 )),
           () => Random.shuffle((0 to 16 - 1 )).map(n => -BigInt("0" + "1" * n, 2) -1).foreach(value => checkBigInt(value, dut.io.s16)),
