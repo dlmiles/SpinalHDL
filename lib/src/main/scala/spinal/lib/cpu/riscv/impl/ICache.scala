@@ -184,6 +184,7 @@ class InstructionCache(implicit p : InstructionCacheConfig) extends Component{
     lineInfoWrite.valid := flushCounter.msb
     lineInfoWrite.address := requestIn.addr(tagRange)
     when(requestIn.fire || !flushCounter.msb){
+      // CHECKME: Mux() can't resolve overloaded method, adding .asBits helps but then there is an issue with the line below
       val tagsAddress = Mux(flushCounter.msb,requestIn.addr(lineRange),flushCounter(flushCounter.high-1 downto 0))
       ways(0).tags(tagsAddress) := lineInfoWrite  //TODO
     }

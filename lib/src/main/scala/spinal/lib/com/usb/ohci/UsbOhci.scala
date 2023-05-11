@@ -906,6 +906,7 @@ case class UsbOhci(p : UsbOhciParameter, ctrlParameter : BmbParameter) extends C
     }
 
     val currentAddress = Reg(UInt(14 bits)) //One extra bit to allow overflow comparison
+    // CHECKME vvv Mux again, probably need asBits here as well, because type BE and CBP as not the same
     val currentAddressFull = (currentAddress(12) ? TD.BE(31 downto 12) | TD.CBP(31 downto 12)) @@ currentAddress(11 downto 0)
     val currentAddressBmb = currentAddressFull & U(currentAddressFull.getWidth bits, default -> true, io.dma.p.access.wordRange -> false)
     val lastAddress = Reg(UInt(13 bits))
