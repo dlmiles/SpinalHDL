@@ -758,7 +758,7 @@ object SpinalTagReady{
 
 trait SpinalTag {
   def isAssignedTo(that: SpinalTagReady) = that.hasTag(this)
-  def moveToSyncNode        = false //When true, Spinal will automaticaly move the tag to the driving syncNode
+  def moveToSyncNode        = false //When true, Spinal will automatically move the tag to the driving syncNode
   def duplicative           = false
   def driverShouldNotChange = false
   def canSymplifyHost       = false
