@@ -154,7 +154,7 @@ class Mem[T <: Data](val wordType: HardType[T], val wordCount: Int) extends Decl
   override def getComponent(): Component = parentScope.component
 
   var initialContent: Array[BigInt] = null
-//  private[core] def checkInferedWidth: Unit = {
+//  private[core] def checkInferredWidth: Unit = {
 //    val maxLit = (BigInt(1) << getWidth)-1
 //    if(initialContent != null && initialContent.filter(v => v > maxLit || v < 0).nonEmpty){
 //      PendingError(s"$this as some initial content values doesn't fit in memory words.\n${getScalaLocationLong}")
