@@ -112,7 +112,7 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
     //   ____foo => ___05F___05Ffoo
     // * all other 8bit characters are encoded
     name.replace("__", "___05F").zipWithIndex.map {
-      case s@(0, _) => if (s._1 == '_' || Character.isAlphabetic(s._1)) s._1.toString else encodeChar(s._1)
+      case s@(_, 0) => if (s._1 == '_' || Character.isAlphabetic(s._1)) s._1.toString else encodeChar(s._1)
       case s@(_, _) => if (s._1 == '_' || Character.isAlphabetic(s._1) || Character.isDigit(s._1)) s._1.toString else encodeChar(s._1)
     }.mkString("")
   }
