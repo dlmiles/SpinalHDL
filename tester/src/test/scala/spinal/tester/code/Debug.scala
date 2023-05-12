@@ -40,7 +40,7 @@ object DebugInOut extends App{
       val subIo = inout(Analog(Bits(8 bits)))
     }
     io := sub.subIo
-    setDefinitionName("unamed")
+    setDefinitionName("unnamed")
   })
 }
 
