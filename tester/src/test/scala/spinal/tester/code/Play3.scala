@@ -1098,7 +1098,7 @@ object Play3MissingWarning43{
 }
 
 
-object PlayWithBusSlaveFacotry11{
+object PlayWithBusSlaveFactory11{
 
   class TopLevel extends Component {
     val io = new Bundle{
