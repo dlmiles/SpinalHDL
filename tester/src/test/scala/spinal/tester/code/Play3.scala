@@ -1019,8 +1019,8 @@ object PlayPatch{
 
   val cpuBus = PipelinedMemoryBus(32,32)
   val peripheralBus = cpuBus.delayed(4)   //This instance of the bus will be drived by the cpuBus with 4 cycle delay in each directions
-  val somewereElse = PipelinedMemoryBus(32,32)
-  somewereElse << peripheralBus
+  val somewhereElse = PipelinedMemoryBus(32,32)
+  somewhereElse << peripheralBus
 
   case class HandShake(payloadWidth : Int) extends Bundle with IMasterSlave{
     val valid = Bool()
