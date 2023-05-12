@@ -96,19 +96,19 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
 //     testMain(2, 11)
 //   }
 
-  test("fifo-verify fast pop reset seperately") {
+  test("fifo-verify fast pop reset separately") {
     testMain(5, 3, true)
   }
 
-  test("fifo-verify fast push reset seperately") {
+  test("fifo-verify fast push reset separately") {
     testMain(3, 5, true)
   }
 
-//   test("fifo-verify ultra fast pop reset seperately") {
+//   test("fifo-verify ultra fast pop reset separately") {
 //     testMain(11, 2, true)
 //   }
 
-//   test("fifo-verify ultra fast push reset seperately") {
+//   test("fifo-verify ultra fast push reset separately") {
 //     testMain(2, 11, true)
 //   }
 
@@ -175,19 +175,19 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
   //   shouldFail(testNoLoss(2, 11))
   // }
 
-  test("noloss fast pop reset seperately") {
+  test("noloss fast pop reset separately") {
     shouldFail(testNoLoss(5, 3, true))
   }
 
-  test("noloss fast push reset seperately") {
+  test("noloss fast push reset separately") {
     shouldFail(testNoLoss(3, 5, true))
   }
 
-  // test("noloss ultra fast pop reset seperately") {
+  // test("noloss ultra fast pop reset separately") {
   //   shouldFail(testNoLoss(11, 2, true))
   // }
 
-  // test("noloss ultra fast push reset seperately") {
+  // test("noloss ultra fast push reset separately") {
   //   shouldFail(testNoLoss(2, 11, true))
   // }
 
