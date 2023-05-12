@@ -17,7 +17,7 @@ class SubdivideInTestErrors extends AnyFunSuite {
       })
     }
   def testInvalidStrict(width: Int, sliceCount: SlicesCount): Unit =
-    test(s"$width bit Bits can't be divides into ${sliceCount.value} slices evenly (strict)") {
+    test(s"$width bit Bits can't be divided into ${sliceCount.value} slices evenly (strict)") {
       generationShouldFail(new Component {
         val x = in port Bits(width bit)
         x.subdivideIn(sliceCount)
