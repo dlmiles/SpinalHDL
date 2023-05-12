@@ -25,6 +25,7 @@ object CheckTester{
     return false
   }
 
+  // TYPO: generationShouldFailed
   def generationShouldFaild(gen : => Component): Unit ={
     println("[Warning] generationShouldFaild is deprecated! Use generationShouldFail")
     generationShouldFail(gen)
