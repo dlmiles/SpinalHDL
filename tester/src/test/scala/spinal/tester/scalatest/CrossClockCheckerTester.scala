@@ -81,7 +81,7 @@ class CrossClockCheckerTester extends SpinalAnyFunSuite{
 }
 
 
-class SyncronousCheckerTesterA extends Component{
+class SynchronousCheckerTesterA extends Component{
   val clk,reset = in Bool()
   val input = in UInt(8 bits)
   val output = out UInt(8 bits)
@@ -94,7 +94,7 @@ class SyncronousCheckerTesterA extends Component{
   }
 }
 
-class SyncronousCheckerTesterB extends Component{
+class SynchronousCheckerTesterB extends Component{
   val clk1,reset = in Bool()
   val input = in UInt(8 bits)
   val output = out UInt(8 bits)
@@ -117,7 +117,7 @@ class SyncronousCheckerTesterB extends Component{
   }
 }
 
-class SyncronousCheckerTesterC(v : Int) extends Component{
+class SynchronousCheckerTesterC(v : Int) extends Component{
   val clk1, clk2, reset = in Bool()
   val input = in UInt(8 bits)
   val output = out UInt(8 bits)
@@ -148,7 +148,7 @@ class SyncronousCheckerTesterC(v : Int) extends Component{
 }
 
 
-class SyncronousCheckerTesterD(v : Int) extends Component{
+class SynchronousCheckerTesterD(v : Int) extends Component{
   val clk1,reset = in Bool()
   val input = in UInt(8 bits)
   val output = out UInt(8 bits)
@@ -176,19 +176,19 @@ class SyncronousCheckerTesterD(v : Int) extends Component{
   }
 }
 
-class SyncronousCheckerTester extends SpinalAnyFunSuite{
+class SynchronousCheckerTester extends SpinalAnyFunSuite{
   import CheckTester._
 
-  test("a") { generationShouldPass(new SyncronousCheckerTesterA) }
-  test("b") { generationShouldPass(new SyncronousCheckerTesterB) }
-  test("c0") { generationShouldFail(new SyncronousCheckerTesterC(0)) }
-  test("c1") { generationShouldPass(new SyncronousCheckerTesterC(1)) }
-  test("c2") { generationShouldPass(new SyncronousCheckerTesterC(2)) }
-  test("c3") { generationShouldPass(new SyncronousCheckerTesterC(3)) }
-  test("c4") { generationShouldPass(new SyncronousCheckerTesterC(4)) }
-  test("c5") { generationShouldPass(new SyncronousCheckerTesterC(5)) }
-  test("d0") { generationShouldFail(new SyncronousCheckerTesterD(0)) }
-  test("d1") { generationShouldPass(new SyncronousCheckerTesterD(1)) }
-  test("d2") { generationShouldPass(new SyncronousCheckerTesterD(2)) }
-//  test("d3") { generationShouldFail(new SyncronousCheckerTesterD(3)) }
+  test("a") { generationShouldPass(new SynchronousCheckerTesterA) }
+  test("b") { generationShouldPass(new SynchronousCheckerTesterB) }
+  test("c0") { generationShouldFail(new SynchronousCheckerTesterC(0)) }
+  test("c1") { generationShouldPass(new SynchronousCheckerTesterC(1)) }
+  test("c2") { generationShouldPass(new SynchronousCheckerTesterC(2)) }
+  test("c3") { generationShouldPass(new SynchronousCheckerTesterC(3)) }
+  test("c4") { generationShouldPass(new SynchronousCheckerTesterC(4)) }
+  test("c5") { generationShouldPass(new SynchronousCheckerTesterC(5)) }
+  test("d0") { generationShouldFail(new SynchronousCheckerTesterD(0)) }
+  test("d1") { generationShouldPass(new SynchronousCheckerTesterD(1)) }
+  test("d2") { generationShouldPass(new SynchronousCheckerTesterD(2)) }
+//  test("d3") { generationShouldFail(new SynchronousCheckerTesterD(3)) }
 }
