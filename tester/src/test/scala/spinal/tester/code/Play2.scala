@@ -3010,7 +3010,7 @@ object PlayForLoop{
   }
 }
 
-object PlayCrossHearchy{
+object PlayCrossHierarchy{
 
 //  class TopLevel extends Component{
 //    val a,b = in Bool()
