@@ -1122,7 +1122,7 @@ object PlayWithBusSlaveFacotry11{
 }
 
 
-object PlayWithBusSlaveFacotry{
+object PlayWithBusSlaveFactory{
 
   class TopLevel extends Component {
     val io = new Bundle{
