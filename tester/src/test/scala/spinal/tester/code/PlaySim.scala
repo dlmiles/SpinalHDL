@@ -6,7 +6,7 @@ import spinal.core.sim._
 import scala.language.postfixOps
 import scala.util.Random
 
-object SimSynchronouExample {
+object SimSynchronousExample {
   class Dut extends Component {
     val io = new Bundle {
       val a, b, c = in UInt (8 bits)
