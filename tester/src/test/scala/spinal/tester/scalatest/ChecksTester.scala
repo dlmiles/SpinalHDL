@@ -231,7 +231,7 @@ class ChecksTester extends SpinalAnyFunSuite  {
     })
   }
 
-  test("checkClockCrossingCheckingCheckSourcesPathsFalure") {
+  test("checkClockCrossingCheckingCheckSourcesPathsFailure") {
     generationShouldFail(new Component{
       val clock1 = in Bool()
       val clock2 = in Bool()
