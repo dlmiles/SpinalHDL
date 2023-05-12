@@ -2873,7 +2873,7 @@ object PlaySlowArea{
 
 
 
-object PlayAutoconncetRec{
+object PlayAutoconnectRec{
 
   class Inner extends Component {
     val a = in Bits(8 bits)
