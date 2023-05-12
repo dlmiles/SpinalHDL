@@ -19,7 +19,7 @@ class MultiClockTopLevel extends Component {
     val resetB = in Bool()
 
     //Create stream interface (valid, ready, data)
-    val slaveInteface = slave Stream(new MyDataType)
+    val slaveInterface = slave Stream(new MyDataType)
     val masterInterface = master Stream(new MyDataType)
   }
 
@@ -29,7 +29,7 @@ class MultiClockTopLevel extends Component {
 
   //Create a fifo able to cross clock domain a stream of MyDataType
   val fifo = new StreamFifoCC(new MyDataType,16,clockDomainA,clockDomainB)
-  fifo.io.push << io.slaveInteface    //Easy connection provided by Stream library
+  fifo.io.push << io.slaveInterface    //Easy connection provided by Stream library
   fifo.io.pop >> io.masterInterface
 }
 
