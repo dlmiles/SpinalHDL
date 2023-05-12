@@ -897,7 +897,7 @@ object PlaySymplify {
 
   class TopLevel extends Component {
     val flush = in Vec(Bool(),4)
-    val readyParalel = out Vec(False,4)
+    val readyParallel = out Vec(False,4)
     val readySerial = out Vec(False,4)
 
     for(i <- 0 to 3){
@@ -906,7 +906,7 @@ object PlaySymplify {
       when(flush(i)){
         readySerial(i) := True
         for(i2 <- 0 to i){
-          readyParalel(i2) := True
+          readyParallel(i2) := True
         }
       }
     }
