@@ -7,8 +7,8 @@ import spinal.lib.formal._
 
 import scala.language.postfixOps
 
-class FormalDispatcherSequencialTester extends SpinalFormalFunSuite {
-  test("DispatcherSequencial-verify") {
+class FormalDispatcherSequentialTester extends SpinalFormalFunSuite {
+  test("DispatcherSequential-verify") {
     FormalConfig
       .withBMC(20)
       .withProve(20)
