@@ -91,9 +91,9 @@ object SymplifyBit{
     }
 
     def optimise() {
-      val duplicateds = primes.filter(prime => verifyTrueFalse(primes.filterNot(_ == prime), trueTerms, falseTerms))
-      if(duplicateds.nonEmpty) {
-        primes -= duplicateds.maxBy(_.care.bitCount)
+      val duplicated = primes.filter(prime => verifyTrueFalse(primes.filterNot(_ == prime), trueTerms, falseTerms))
+      if(duplicated.nonEmpty) {
+        primes -= duplicated.maxBy(_.care.bitCount)
         optimise()
       }
     }
