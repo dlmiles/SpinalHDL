@@ -150,7 +150,7 @@ object ResetCtrl{
         inputPolarity = resetCd.config.resetActiveLevel,
         outputPolarity = clockCd.config.resetActiveLevel,
         bufferDepth = bufferDepth
-      ).setCompositeName(resetCd.reset, "syncronized", true)
+      ).setCompositeName(resetCd.reset, "synchronized", true)
     )
   }
 }
