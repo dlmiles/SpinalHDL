@@ -356,8 +356,8 @@ class Stream[T <: Data](val payloadType :  HardType[T]) extends Bundle with IMas
   */
   def stage() : Stream[T] = this.m2sPipe()
 
-  //! if collapsBubble is enable then ready is not "don't care" during valid low !
-  def m2sPipe(collapsBubble : Boolean = true, crossClockData: Boolean = false, flush : Bool = null, holdPayload : Boolean = false): Stream[T] = new Composite(this) {
+  //! if collapseBubble is enable then ready is not "don't care" during valid low !
+  def m2sPipe(collapseBubble : Boolean = true, crossClockData: Boolean = false, flush : Bool = null, holdPayload : Boolean = false): Stream[T] = new Composite(this) {
     val m2sPipe = Stream(payloadType)
 
     val rValid = RegNextWhen(self.valid, self.ready) init(False)
@@ -367,7 +367,7 @@ class Stream[T <: Data](val payloadType :  HardType[T]) extends Bundle with IMas
     if (flush != null) rValid clearWhen(flush)
 
     self.ready := m2sPipe.ready
-    if (collapsBubble) self.ready setWhen(!m2sPipe.valid)
+    if (collapseBubble) self.ready setWhen(!m2sPipe.valid)
 
     m2sPipe.valid := rValid
     m2sPipe.payload := rData
