@@ -260,7 +260,7 @@ case class UartCtrlMemoryMappedConfig(
 class UartCtrlUsageExample extends Component{
   val io = new Bundle{
     val uart = master(Uart())
-    val switchs = in Bits(8 bits)
+    val switches = in Bits(8 bits)
     val leds = out Bits(8 bits)
   }
 
@@ -280,13 +280,13 @@ class UartCtrlUsageExample extends Component{
   //Write the value of switch on the uart each 4000 cycles
   val write = Stream(Bits(8 bits))
   write.valid := CounterFreeRun(2000).willOverflow
-  write.payload := io.switchs
+  write.payload := io.switches
   write >-> uartCtrl.io.write
 
   //Write the 0x55 and then the value of switch on the uart each 4000 cycles
 //  val write = Stream(Fragment(Bits(8 bits)))
 //  write.valid := CounterFreeRun(4000).willOverflow
-//  write.fragment := io.switchs
+//  write.fragment := io.switches
 //  write.last := True
 //  write.m2sPipe().insertHeader(0x55).toStreamOfFragment >> uartCtrl.io.write
 }
