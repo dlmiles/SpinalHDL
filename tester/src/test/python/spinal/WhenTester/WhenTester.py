@@ -42,7 +42,7 @@ class Ref:
 def test1(dut):
     dut._log.info("Cocotb test boot")
     random.seed(0)
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, None))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, None))
 
     for i in range(0,1000):
         randSignal(dut.io_conds_0)
