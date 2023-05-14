@@ -8,40 +8,40 @@ from cocotblib.misc import assertEquals
 
 @cocotb.coroutine
 def ClockDomainGen(dut):
-    dut.clk <= 0
-    dut.clkn <= 1
-    dut.asyncReset <= 0
-    dut.asyncResetn <= 1
-    dut.syncReset <= 0
-    dut.syncResetn <= 1
-    dut.softReset <= 0
-    dut.softResetn <= 1
-    dut.enable <= 0
-    dut.enablen <= 1
+    dut.clk.value = 0
+    dut.clkn.value = 1
+    dut.asyncReset.value = 0
+    dut.asyncResetn.value = 1
+    dut.syncReset.value = 0
+    dut.syncResetn.value = 1
+    dut.softReset.value = 0
+    dut.softResetn.value = 1
+    dut.enable.value = 0
+    dut.enablen.value = 1
 
     while True:
         yield Timer(1000)
         if random.random() < 0.5:
-            dut.clk <= 1-int(dut.clk)
+            dut.clk.value = 1-int(dut.clk)
         if random.random() < 0.5:
-            dut.clkn <= 1 - int(dut.clkn)
+            dut.clkn.value = 1 - int(dut.clkn)
         yield Timer(1000)
         if random.random() < 0.1:
-            dut.syncReset <= 1 - int(dut.syncReset)
+            dut.syncReset.value = 1 - int(dut.syncReset)
         if random.random() < 0.1:
-            dut.syncResetn <= 1 - int(dut.syncResetn)
+            dut.syncResetn.value = 1 - int(dut.syncResetn)
         if random.random() < 0.1:
-            dut.softReset <= 1 - int(dut.softReset)
+            dut.softReset.value = 1 - int(dut.softReset)
         if random.random() < 0.1:
-            dut.softResetn <= 1 - int(dut.softResetn)
+            dut.softResetn.value = 1 - int(dut.softResetn)
         if random.random() < 0.1:
-            dut.enable <= 1 - int(dut.enable)
+            dut.enable.value = 1 - int(dut.enable)
         if random.random() < 0.1:
-            dut.enablen <= 1 - int(dut.enablen)
+            dut.enablen.value = 1 - int(dut.enablen)
         if random.random() < 0.1:
-            dut.asyncReset <= 1 - int(dut.asyncReset)
+            dut.asyncReset.value = 1 - int(dut.asyncReset)
         if random.random() < 0.1:
-            dut.asyncResetn <= 1 - int(dut.asyncResetn)
+            dut.asyncResetn.value = 1 - int(dut.asyncResetn)
 
 class Ref:
     def __init__(self,dut):
