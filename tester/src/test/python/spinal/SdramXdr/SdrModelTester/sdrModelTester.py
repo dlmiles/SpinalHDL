@@ -14,7 +14,7 @@ def test1(dut):
 
     forks = []
     def map(component, net, apply, delay = 0):
-        forks.append(cocotb.fork(stim(wave, component, net, apply, delay)))
+        forks.append(cocotb.start_soon(stim(wave, component, net, apply, delay)))
 
     wave = parse_vcd("../../../../../../../simWorkspace/SdramXdrCtrlPlusRtlPhy/test.vcd")
     top = "TOP"
@@ -23,7 +23,7 @@ def test1(dut):
     phaseCount = getLastValue(wave, top, "phaseCount")
     clockPeriod = getClockPeriod(wave, top, "clk")
 
-    cocotb.fork(genClock(dut.Clk, None, clockPeriod//phaseCount))
+    cocotb.start_soon(genClock(dut.Clk, None, clockPeriod//phaseCount))
 
     list(map(top, "ADDR", lambda v : dut.Addr <= v))
     list(map(top, "BA", lambda v : dut.Ba <= v))
