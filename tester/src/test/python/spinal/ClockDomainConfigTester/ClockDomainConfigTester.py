@@ -72,9 +72,9 @@ class Ref:
         self.test_sync_reset_softReset_regWithoutReset = int(dut.test_sync_reset_softReset_regWithoutReset)
         self.test_sync_reset_softReset_regWithReset = int(dut.test_sync_reset_softReset_regWithReset)
 
-        cocotb.fork(self.applyAsyncHighReset())
-        cocotb.fork(self.applyAsyncLowReset())
-        cocotb.fork(self.applyFallingEdge())
+        cocotb.start_soon(self.applyAsyncHighReset())
+        cocotb.start_soon(self.applyAsyncLowReset())
+        cocotb.start_soon(self.applyFallingEdge())
         cocotb.fork(self.applyRisingEdge())
 
 
