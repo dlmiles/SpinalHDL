@@ -23,7 +23,7 @@ def randSignalNotZero(that):
     value = random.getrandbits(len(that))
     if(value == 0):
         value += 1
-    that <= value
+    that.value = value
 
 @cocotb.test()
 def test1(dut):
