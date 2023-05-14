@@ -57,10 +57,10 @@ def test1(dut):
     uut = dut.uut
     log = open('uartTx.log', 'w')
 
-    cocotb.fork(simulationSpeedPrinter(uut.io_axiClk))
+    cocotb.start_soon(simulationSpeedPrinter(uut.io_axiClk))
     yield loadIHex(dut,"../hex/dhrystone.hex",uut.io_axiClk,uut.io_asyncReset)
     pinsecClockGen(dut)
-    cocotb.fork(uartTxBypass(uut.axi_uartCtrl.uartCtrl,uut.io_axiClk,log))
+    cocotb.start_soon(uartTxBypass(uut.axi_uartCtrl.uartCtrl,uut.io_axiClk,log))
 
     yield assertions(uut,log)
     yield Timer(1000*10)
