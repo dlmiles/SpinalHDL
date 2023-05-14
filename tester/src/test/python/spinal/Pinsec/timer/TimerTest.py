@@ -35,9 +35,9 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
     random.seed(0)
 
-    cocotb.fork(simulationSpeedPrinter(dut.io_axiClk))
+    cocotb.start_soon(simulationSpeedPrinter(dut.io_axiClk))
     yield loadIHex(dut,"../hex/timer.hex",dut.io_axiClk,dut.io_asyncReset)
-    cocotb.fork(ClockDomainAsyncReset(dut.io_axiClk, dut.io_asyncReset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.io_axiClk, dut.io_asyncReset))
 
     yield assertions(dut)
     yield Timer(1000*10)
