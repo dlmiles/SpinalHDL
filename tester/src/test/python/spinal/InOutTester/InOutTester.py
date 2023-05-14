@@ -9,7 +9,7 @@ from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsync
 @cocotb.test()
 def test1(dut):
 
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     def assertGpio(value):
         assert(str(dut.cmd_read).lower() == value)
@@ -39,4 +39,4 @@ def test1(dut):
 
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
