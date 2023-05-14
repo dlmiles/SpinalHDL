@@ -238,8 +238,8 @@ def test1(dut):
     sdaInterconnect.addHardDriver(dut.io_i2c_sda_write)
     sdaInterconnect.addHardReader(dut.io_i2c_sda_read)
 
-    dut.io_config_samplingClockDivider <= 3
-    dut.io_config_timerClockDivider <= 24
+    dut.io_config_samplingClockDivider.value = 3
+    dut.io_config_timerClockDivider.value = 24
 
     softMaster = I2cSoftMaster(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(), baudPeriod,dut.clk)
     slaveThread  = fork(SlaveThread(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(),dut.clk,baudPeriod))
