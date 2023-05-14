@@ -1990,8 +1990,8 @@ abstract class AssignmentExpression extends Expression {
   def finalTarget: BaseType
   override def foreachDrivingExpression(func: (Expression) => Unit): Unit
   override def remapDrivingExpressions(func: (Expression) => Expression): Unit
-  def getMinAssignedBits: AssignedRange //Bit that are allwas assigned
-  def getMaxAssignedBits: AssignedRange //Bit that are allwas assigned
+  def getMinAssignedBits: AssignedRange //Bit that are always assigned
+  def getMaxAssignedBits: AssignedRange //Bit that are always assigned
   //  def getScopeBits: AssignedRange //Bit tht could be assigned
   //  def getOutBaseType: BaseType
   //  def clone(out : Node) : this.type
