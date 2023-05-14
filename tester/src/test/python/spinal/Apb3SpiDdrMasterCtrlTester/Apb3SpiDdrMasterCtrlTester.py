@@ -33,7 +33,7 @@ def genCLock(dut):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
@@ -322,4 +322,4 @@ def test1(dut):
 
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
