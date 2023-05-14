@@ -32,7 +32,7 @@ def assertions(dut):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     random.seed(0)
 
     cocotb.fork(simulationSpeedPrinter(dut.io_axiClk))
@@ -42,4 +42,4 @@ def test1(dut):
     yield assertions(dut)
     yield Timer(1000*10)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
