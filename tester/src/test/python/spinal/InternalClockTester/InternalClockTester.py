@@ -15,7 +15,7 @@ def test1(dut):
     cocotbXHack()
     #random.seed(0)
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
     while True:
         yield RisingEdge(dut.clk)
         if int(dut.io_internalClkCounter) == 2:
