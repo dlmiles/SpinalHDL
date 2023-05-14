@@ -239,9 +239,9 @@ def spiSlaveAgent(spi, queue, clk):
 
 @cocotb.test()
 def test1(dut):
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset,1000))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
-    cocotb.fork(SimulationTimeout(1000*20e3))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,1000))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(SimulationTimeout(1000*20e3))
 
     apb = Apb3(dut, "io_apb", dut.clk)
     apb.idle()
