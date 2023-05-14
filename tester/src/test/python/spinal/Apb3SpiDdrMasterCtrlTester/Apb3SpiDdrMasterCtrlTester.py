@@ -17,17 +17,17 @@ def checkTx(dut):
 @cocotb.coroutine
 def genCLock(dut):
     period = 100000
-    dut.reset <= 1
-    dut.clk <= 0
-    dut.clkEarly <= 0
+    dut.reset.value = 1
+    dut.clk.value = 0
+    dut.clkEarly.value = 0
     yield Timer(period)
-    dut.reset <= 0
+    dut.reset.value = 0
     while True:
-        dut.clk <= 0
-        dut.clkEarly <= 0
+        dut.clk.value = 0
+        dut.clkEarly.value = 0
         yield Timer(period/2)
-        dut.clk <= 1
-        dut.clkEarly <= 1
+        dut.clk.value = 1
+        dut.clkEarly.value = 1
         yield Timer(period/2)
 
 
@@ -46,7 +46,7 @@ def test1(dut):
     apb = Apb3(dut, "io_apb", dut.clk)
     apb.idle()
 
-    dut.io_xip_cmd_valid <= False
+    dut.io_xip_cmd_valid.value = False
     # bus.nonStopWrite(streamUnbuffered.data, bitOffset=0)
     # bus.nonStopWrite(streamUnbuffered.write, bitOffset=8)
     # bus.nonStopWrite(streamUnbuffered.read, bitOffset=9)
@@ -195,10 +195,10 @@ def test1(dut):
         yield write(tab)
         yield stop()
 
-    dut.vcc <= 0
+    dut.vcc.value = 0
     for i in range(300):
         yield Timer(10000)
-        dut.vcc <= i*10
+        dut.vcc.value = i*10
     # bus.drive(config.kind, baseAddress + 8, bitOffset=0)
     # bus.drive(config.mod, baseAddress + 8, bitOffset=4)
     yield apb.write(8, 0)
@@ -267,10 +267,10 @@ def test1(dut):
 
     @cocotb.coroutine
     def xipCmd(addr):
-        dut.io_xip_cmd_valid <= True
-        dut.io_xip_cmd_payload <= addr
+        dut.io_xip_cmd_valid.value = True
+        dut.io_xip_cmd_payload.value = addr
         yield waitClockedCond(dut.clk, lambda: dut.io_xip_cmd_ready == True)
-        dut.io_xip_cmd_valid <= False
+        dut.io_xip_cmd_valid.value = False
 
 
     xipRspRef = Queue()
