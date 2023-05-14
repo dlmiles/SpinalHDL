@@ -67,8 +67,8 @@ def test1(dut):
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
 
-    cocotb.fork(ClockDomainAsyncResetCustom(3300, dut.clk0, dut.serdesClk0, dut.serdesClk90, dut.rst0))
-    cocotb.fork(simulationSpeedPrinter(dut.clk0))
+    cocotb.start_soon(ClockDomainAsyncResetCustom(3300, dut.clk0, dut.serdesClk0, dut.serdesClk90, dut.rst0))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk0))
 
 
 
