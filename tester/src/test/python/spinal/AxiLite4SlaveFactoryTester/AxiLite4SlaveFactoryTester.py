@@ -57,7 +57,7 @@ class UutModel:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     random.seed(0)
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
     dut.io_bus_w_payload_strb = 0b1111
@@ -76,4 +76,4 @@ def test1(dut):
 
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
