@@ -45,9 +45,9 @@ class I2CMasterIoLayer:
             self.resetn  = dut.resetn
 
         def init(self):
-            self.cmd.valid         <= 0
-            self.cmd.payload.mode  <= 0
-            self.cmd.payload.data  <= 0
+            self.cmd.valid.value        = 0
+            self.cmd.payload.mode.value = 0
+            self.cmd.payload.data.value = 0
 
 
     #==========================================================================
@@ -78,12 +78,12 @@ class I2CMasterIoLayer:
 
                 #yield Timer(operation.delayCMD)
 
-                io.cmd.valid        <= 1
-                io.cmd.payload.mode <= I2CMasterIoLayer.CMD.START
-                io.cmd.payload.data <= 0x0
+                io.cmd.valid.value        = 1
+                io.cmd.payload.mode.value = I2CMasterIoLayer.CMD.START
+                io.cmd.payload.data.value = 0x0
 
                 yield io.cmd.event_ready.wait()
-                io.cmd.valid        <= 0
+                io.cmd.valid.value        = 0
 
                 yield RisingEdge(io.clk)
 
@@ -92,12 +92,12 @@ class I2CMasterIoLayer:
 
                 #yield Timer(operation.delayCMD)
 
-                io.cmd.valid        <= 1
-                io.cmd.payload.mode <= I2CMasterIoLayer.CMD.DATA
-                io.cmd.payload.data <= operation.data
+                io.cmd.valid.value        = 1
+                io.cmd.payload.mode.value = I2CMasterIoLayer.CMD.DATA
+                io.cmd.payload.data.value = operation.data
 
                 yield io.cmd.event_ready.wait()
-                io.cmd.valid        <= 0
+                io.cmd.valid.value        = 0
 
                 yield RisingEdge(io.clk)
 
@@ -106,12 +106,12 @@ class I2CMasterIoLayer:
 
                 #yield Timer(operation.delayCMD)
 
-                io.cmd.valid        <= 1
-                io.cmd.payload.mode <= I2CMasterIoLayer.CMD.DATA
-                io.cmd.payload.data <= 1
+                io.cmd.valid.value        = 1
+                io.cmd.payload.mode.value = I2CMasterIoLayer.CMD.DATA
+                io.cmd.payload.data.value = 1
 
                 yield io.cmd.event_ready.wait()
-                io.cmd.valid        <= 0
+                io.cmd.valid.value        = 0
 
                 yield RisingEdge(io.clk)
 
@@ -120,12 +120,12 @@ class I2CMasterIoLayer:
 
                 #yield Timer(operation.delayCMD)
 
-                io.cmd.valid        <= 1
-                io.cmd.payload.mode <= I2CMasterIoLayer.CMD.STOP
-                io.cmd.payload.data <= 0x0
+                io.cmd.valid.value        = 1
+                io.cmd.payload.mode.value = I2CMasterIoLayer.CMD.STOP
+                io.cmd.payload.data.value = 0x0
 
                 yield io.cmd.event_ready.wait()
-                io.cmd.valid        <= 0
+                io.cmd.valid.value        = 0
 
                 yield RisingEdge(io.clk)
 
