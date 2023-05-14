@@ -15,15 +15,15 @@ from spinal.SdramXdr.common.Tester import Bmb, BmbMemoryTester
 @cocotb.coroutine
 def ClockDomainAsyncResetCustom(clk,reset):
     if reset:
-        reset <= 1
-    clk <= 0
+        reset.value = 1
+    clk.value = 0
     yield Timer(100000000)
     if reset:
-        reset <= 0
+        reset.value = 0
     while True:
-        clk <= 0
+        clk.value = 0
         yield Timer(5000)
-        clk <= 1
+        clk.value = 1
         yield Timer(5000)
 
 @cocotb.test()
