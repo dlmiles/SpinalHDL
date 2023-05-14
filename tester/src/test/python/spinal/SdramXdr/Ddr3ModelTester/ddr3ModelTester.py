@@ -29,6 +29,7 @@ def test1(dut):
 
     cocotb.fork(genClock(dut.ck, dut.ck_n, clockPeriod//phaseCount))
 
+    # FIXME
     list(map(top, "ADDR", lambda v : dut.addr <= v))
     list(map(top, "BA", lambda v : dut.ba <= v))
     list(map(top, "CASn", lambda v : dut.cas_n <= v))
