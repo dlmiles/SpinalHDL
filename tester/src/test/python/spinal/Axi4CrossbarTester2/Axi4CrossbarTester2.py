@@ -40,7 +40,7 @@ class ErrorInfra(Infrastructure):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     random.seed(0)
@@ -108,4 +108,4 @@ def test1(dut):
     yield phaseManager.run()
     # yield Timer(1000*6000)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
