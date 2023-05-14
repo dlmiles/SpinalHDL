@@ -19,7 +19,7 @@ def test1(dut):
     random.seed(0)
     uut = dut.uut
 
-    cocotb.fork(simulationSpeedPrinter(uut.io_axiClk))
+    cocotb.start_soon(simulationSpeedPrinter(uut.io_axiClk))
     yield loadIHex(uut,"../hex/vga.hex",uut.io_axiClk,uut.io_asyncReset)
     pinsecClockGen(dut)
 
