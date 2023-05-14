@@ -17,6 +17,10 @@ def test1(dut):
         forks.append(cocotb.fork(stim(wave, component, net, apply, delay)))
 
 
+    def assignAndReturn(dut, signal, value):
+        signal.value = value
+        return value
+
     wave = parse_vcd("../../../../../../../simWorkspace/SdramXdrCtrlPlusRtlPhy/test.vcd")
     phy = "TOP.SdramXdrCtrlPlusRtlPhy"
     top = "TOP"
@@ -29,6 +33,7 @@ def test1(dut):
 
     cocotb.fork(genClock(dut.ck, dut.ck_n, clockPeriod//phaseCount))
 
+    # FIXME
     list(map(top, "ADDR", lambda v : dut.addr <= v))
     list(map(top, "BA", lambda v : dut.ba <= v))
     list(map(top, "CASn", lambda v : dut.cas_n <= v))
