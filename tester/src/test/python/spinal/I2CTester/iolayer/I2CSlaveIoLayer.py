@@ -44,8 +44,8 @@ class I2CSlaveIoLayer:
             self.resetn  = dut.resetn
 
         def init(self):
-            self.rsp.valid         <= 0
-            self.rsp.payload.data  <= 0
+            self.rsp.valid.value         = 0
+            self.rsp.payload.data.value  = 0
 
 
     #==========================================================================
@@ -129,16 +129,16 @@ class I2CSlaveIoLayer:
             if isinstance(operation, START):
 
                 if index != 0:
-                    io.rsp.valid        <= 1
-                    io.rsp.payload.data <= 1
+                    io.rsp.valid.value        = 1
+                    io.rsp.payload.data.value = 1
                 #yield Timer(operation.delayRSP)
-                #io.rsp.valid         <= 1
-                #io.rsp.payload.data  <= 0
+                #io.rsp.valid.value         = 1
+                #io.rsp.payload.data.value  = 0
 
                 # wait recepetion of the start
                 yield self.io.cmd.event_valid.wait()
 
-                io.rsp.valid <= 0
+                io.rsp.valid.value = 0
 
 
 
@@ -147,12 +147,12 @@ class I2CSlaveIoLayer:
 
                 #yield Timer(operation.delayRSP)
 
-                io.rsp.valid         <= 1
-                io.rsp.payload.data  <= 1
+                io.rsp.valid.value         = 1
+                io.rsp.payload.data.value  = 1
 
                 yield io.rsp.event_ready.wait()
 
-                io.rsp.valid <= 0
+                io.rsp.valid.value = 0
 
                 yield RisingEdge(io.clk)
 
@@ -161,11 +161,11 @@ class I2CSlaveIoLayer:
 
                 #yield Timer(operation.delayCMD)
 
-                io.rsp.valid         <= 1
-                io.rsp.payload.data  <= operation.data
+                io.rsp.valid.value         = 1
+                io.rsp.payload.data.value  = operation.data
 
                 yield io.rsp.event_ready.wait()
-                io.rsp.valid <= 0
+                io.rsp.valid.value = 0
 
                 yield RisingEdge(io.clk)
 
@@ -175,12 +175,12 @@ class I2CSlaveIoLayer:
 
                 #yield Timer(operation.delayRSP)
 
-                io.rsp.valid         <= 1
-                io.rsp.payload.data  <= 1
+                io.rsp.valid.value         = 1
+                io.rsp.payload.data.value  = 1
 
                 yield io.rsp.event_ready.wait()
 
-                io.rsp.valid <= 0
+                io.rsp.valid.value = 0
 
                 yield RisingEdge(io.clk)
 
