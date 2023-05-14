@@ -13,17 +13,17 @@ def loadIHexCallback(address,array,dut,clk):
             data |= b << ((address & 3) * 8)
             if (address & 3 == 3):
                 yield Timer(5)
-                uut.axi_ram.ram_port0_write <= 1
-                uut.axi_ram.ram_port0_enable <= 1
-                uut.axi_ram.ram_port0_mask <= 0xF
-                uut.axi_ram.ram_port0_address <= (address) >> 2
-                uut.axi_ram.ram_port0_writeData <= data
+                uut.axi_ram.ram_port0_write.value = 1
+                uut.axi_ram.ram_port0_enable.value = 1
+                uut.axi_ram.ram_port0_mask.value = 0xF
+                uut.axi_ram.ram_port0_address.value = (address) >> 2
+                uut.axi_ram.ram_port0_writeData.value = data
                 data = 0
-                clk <= 0
+                clk.value = 0
                 yield Timer(5)
-                clk <= 1
+                clk.value = 1
                 yield Timer(5)
-                uut.axi_ram.ram_port0_enable <= 0
+                uut.axi_ram.ram_port0_enable.value = 0
                 yield Timer(5)
             address += 1
     else:
@@ -33,13 +33,13 @@ def loadIHexCallback(address,array,dut,clk):
             if (address & 1 == 1):
                 # yield Timer(5)
                 # print("%x" % address)
-                dut.loader_valid <= 0
-                dut.loader_data <= data
-                dut.loader_bank <= ((address >> (1+10)) & 0x3)
-                dut.loader_address <= ((address >> 1) & 0x3FF) + (((address >> (1+10+2)) & 0x1FFF) << 10)
+                dut.loader_valid.value = 0
+                dut.loader_data.value = data
+                dut.loader_bank.value = ((address >> (1+10)) & 0x3)
+                dut.loader_address.value = ((address >> 1) & 0x3FF) + (((address >> (1+10+2)) & 0x1FFF) << 10)
                 data = 0
                 yield Timer(5)
-                dut.loader_valid <= 1
+                dut.loader_valid.value = 1
                 yield Timer(5)
             address += 1
 
@@ -47,14 +47,14 @@ def loadIHexCallback(address,array,dut,clk):
 @cocotb.coroutine
 def loadIHex(dut,hexPath,clk,reset):
 
-    reset <= 1
-    clk <= 0
+    reset.value = 1
+    clk.value = 0
     yield Timer(5)
-    clk <= 1
+    clk.value = 1
     yield Timer(5)
-    clk <= 0
+    clk.value = 0
     yield Timer(5)
-    clk <= 1
+    clk.value = 1
     yield Timer(5)
     writeBuffer     = int(dut.uut.axi_ram.ram_port0_write)
     enableBuffer    = int(dut.uut.axi_ram.ram_port0_enable)
@@ -81,12 +81,12 @@ def loadIHex(dut,hexPath,clk,reset):
                     offset = int(line[9:13], 16) << 16
                 else:
                     pass
-    reset <= 0
+    reset.value = 0
     yield Timer(5)
-    reset <= 1
+    reset.value = 1
 
-    dut.uut.axi_ram.ram_port0_write <= writeBuffer
-    dut.uut.axi_ram.ram_port0_enable <= enableBuffer
-    dut.uut.axi_ram.ram_port0_mask <= maskBuffer
-    dut.uut.axi_ram.ram_port0_address <= addressBuffer
-    dut.uut.axi_ram.ram_port0_writeData <= writeDataBuffer
+    dut.uut.axi_ram.ram_port0_write.value = writeBuffer
+    dut.uut.axi_ram.ram_port0_enable.value = enableBuffer
+    dut.uut.axi_ram.ram_port0_mask.value = maskBuffer
+    dut.uut.axi_ram.ram_port0_address.value = addressBuffer
+    dut.uut.axi_ram.ram_port0_writeData.value = writeDataBuffer
