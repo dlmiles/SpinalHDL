@@ -88,8 +88,8 @@ def i2cSlaveThread(cmdBus, rspBus, cmds, rsps, clk):
 @cocotb.test()
 def test1(dut):
     # random.seed(13)
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
 
     sclInterconnect = OpenDrainInterconnect()
@@ -155,7 +155,7 @@ def test1(dut):
     slaveThread = fork(i2cSlaveThread(Bundle(dut,"io_bus_cmd"), Bundle(dut,"io_bus_rsp"),slaveCmds,slaveRsps, dut.clk))
 
     yield masterThread.join()
-    cocotb.fork(SimulationTimeout(100 * 2500000))
+    cocotb.start_soon(SimulationTimeout(100 * 2500000))
     while True:
         if not slaveCmds and not slaveRsps and not masterRsps:
             break
