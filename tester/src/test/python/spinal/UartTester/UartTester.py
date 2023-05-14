@@ -22,21 +22,21 @@ def sendRandomByte(dut, queueTx, queueRx):
     queueTx.put(value)
     queueRx.put(value)
 
-    dut.io_uart_write_valid <= 1
-    dut.io_uart_write_payload <= value
+    dut.io_uart_write_valid.value = 1
+    dut.io_uart_write_payload.value = value
     while True:
         yield RisingEdge(dut.clk)
         if int(dut.io_uart_write_ready) == 1 :
-            dut.io_uart_write_valid <= 0
+            dut.io_uart_write_valid.value = 0
             break
 
 @cocotb.coroutine
 def sendRandomPackets(dut, queueTx, queueRx):
-    dut.io_uart_write_valid <= 0
-    dut.io_uart_config_frame_dataLength <= 7;
-    dut.io_uart_config_frame_stop <= UartStopType_ONE;
-    dut.io_uart_config_frame_parity <= UartParityType_EVEN;
-    dut.io_uart_config_clockDivider <= 2;
+    dut.io_uart_write_valid.value = 0
+    dut.io_uart_config_frame_dataLength.value = 7;
+    dut.io_uart_config_frame_stop.value = UartStopType_ONE;
+    dut.io_uart_config_frame_parity.value = UartParityType_EVEN;
+    dut.io_uart_config_clockDivider.value = 2;
 
     while True:
         yield RisingEdge(dut.clk)
@@ -62,7 +62,7 @@ def checkCtrlReadedBytes(dut, queue):
 @cocotb.coroutine
 def txToRxBypass(dut):
     while True:
-        dut.io_uart_uart_rxd <= int(dut.io_uart_uart_txd)
+        dut.io_uart_uart_rxd.value = int(dut.io_uart_uart_txd)
         yield Edge(dut.io_uart_uart_txd)
 
 
@@ -110,7 +110,7 @@ def test1(dut):
     queueTx = Queue()
     queueRx = Queue()
 
-    dut.io_uart_writeBreak <= 0
+    dut.io_uart_writeBreak.value = 0
 
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
     cocotb.fork(sendRandomPackets(dut, queueTx, queueRx))
