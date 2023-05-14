@@ -23,7 +23,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     #random.seed(0)
 
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
@@ -34,4 +34,4 @@ def test1(dut):
         randSignal(dut.enable)
         yield RisingEdge(dut.clk)
         assertEquals(ref.getGray(),dut.gray,"gray")
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
