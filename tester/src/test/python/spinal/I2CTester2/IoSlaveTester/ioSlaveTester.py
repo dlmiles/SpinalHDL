@@ -34,10 +34,10 @@ def i2cMasterThread(master, cmds, rsps):
 
 @coroutine
 def i2cSlaveThread(cmdBus, rspBus, cmds, rsps, clk):
-    rspBus.valid <= False
+    rspBus.valid.value = False
     while rsps:
         yield RisingEdge(clk)
-        rspBus.valid <= False
+        rspBus.valid.value = False
         if cmdBus.valid == True:
             expected = cmds.pop(0)
             log.debug(expected)
@@ -49,13 +49,13 @@ def i2cSlaveThread(cmdBus, rspBus, cmds, rsps, clk):
                 assert cmdBus.payload.mode == 1
                 rsp = rsps.pop(0)
                 if rsp == "Z":
-                    rspBus.valid <= True
-                    rspBus.payload.enable <= False
-                    rspBus.payload.data <= randInt(0, 1)
+                    rspBus.valid.value = True
+                    rspBus.payload.enable.value = False
+                    rspBus.payload.data.value = randInt(0, 1)
                 elif isinstance(rsp, bool):
-                    rspBus.valid <= True
-                    rspBus.payload.enable <= True
-                    rspBus.payload.data <= rsp
+                    rspBus.valid.value = True
+                    rspBus.payload.enable.value = True
+                    rspBus.payload.data.value = rsp
                 else:
                     raise Exception(rsp)
             elif isinstance(expected, bool):
@@ -79,9 +79,9 @@ def test1(dut):
     sdaInterconnect.addHardDriver(dut.io_i2c_sda_write)
     sdaInterconnect.addHardReader(dut.io_i2c_sda_read)
 
-    dut.io_config_samplingClockDivider <= 3
-    dut.io_config_timeout <= 25*10-1
-    dut.io_config_tsuData <= 4
+    dut.io_config_samplingClockDivider.value = 3
+    dut.io_config_timeout.value = 25*10-1
+    dut.io_config_tsuData.value = 4
 
     softMaster = I2cSoftMaster(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(), 2500000,dut.clk)
 
