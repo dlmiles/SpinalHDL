@@ -6,7 +6,7 @@ from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsync
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
     outA_ref = 0
@@ -19,4 +19,4 @@ def test1(dut):
         assertEquals(outB_ref, dut.io_outB, "io_outB")
         outA_ref = truncUInt(outA_ref + int(dut.io_inA), dut.io_outA)
         outB_ref = truncUInt(outB_ref + int(dut.io_inB), dut.io_outB)
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
