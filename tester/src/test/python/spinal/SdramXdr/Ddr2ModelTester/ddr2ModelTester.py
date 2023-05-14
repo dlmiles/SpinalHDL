@@ -14,7 +14,7 @@ def test1(dut):
 
     forks = []
     def map(component, net, apply, delay = 0):
-        forks.append(cocotb.fork(stim(wave, component, net, apply, delay)))
+        forks.append(cocotb.start_soon(stim(wave, component, net, apply, delay)))
 
 
     def assignAndReturn(dut, signal, value):
@@ -31,7 +31,7 @@ def test1(dut):
     phaseDelay = 0
     clockPeriod = getClockPeriod(wave, top, "clk")
 
-    cocotb.fork(genClock(dut.ck, dut.ck_n, clockPeriod//phaseCount))
+    cocotb.start_soon(genClock(dut.ck, dut.ck_n, clockPeriod//phaseCount))
 
     # FIXME
     list(map(top, "ADDR", lambda v : dut.addr <= v))
@@ -43,7 +43,7 @@ def test1(dut):
     list(map(top, "WEn", lambda v : dut.we_n <= v))
     list(map(top, "ODT", lambda v : dut.odt <= v))
 
-    cocotb.fork(stimPulse(wave, top, "writeEnable", lambda v : cocotb.fork(genDqs(dut.dqs, dut.dqs_n, 1+v/clockPeriod*phaseCount*dataRate//2, clockPeriod//(phaseCount*dataRate)*(phaseCount*dataRate-1), clockPeriod//phaseCount))))
+    cocotb.start_soon(stimPulse(wave, top, "writeEnable", lambda v : cocotb.start_soon(genDqs(dut.dqs, dut.dqs_n, 1+v/clockPeriod*phaseCount*dataRate//2, clockPeriod//(phaseCount*dataRate)*(phaseCount*dataRate-1), clockPeriod//phaseCount))))
 
     for fork in forks:
         yield fork
