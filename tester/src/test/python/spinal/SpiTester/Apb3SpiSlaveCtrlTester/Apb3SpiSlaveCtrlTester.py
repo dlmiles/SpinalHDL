@@ -145,9 +145,9 @@ def testIt(apb,interrupt,spiCtrl, cpol, cpha):
 
 @coroutine
 def restart(dut):
-    dut.reset <= 1
+    dut.reset.value = 1
     yield Timer(10e3)
-    dut.reset <= 0
+    dut.reset.value = 0
     yield Timer(10e3)
 
 @cocotb.test()
