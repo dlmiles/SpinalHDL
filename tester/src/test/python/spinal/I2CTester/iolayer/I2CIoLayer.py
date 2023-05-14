@@ -40,10 +40,10 @@ class I2CIoLayerAnalyser:
     @cocotb.coroutine
     def start(self):
 
-        self.fork_falling = cocotb.fork(self._FallingEdgeDetection())
-        self.fork_rising  = cocotb.fork(self._RisingEdgeDetection())
-        self.fork_start   = cocotb.fork(self._startDetection())
-        self.fork_stop    = cocotb.fork(self._stopDetection())
+        self.fork_falling = cocotb.start_soon(self._FallingEdgeDetection())
+        self.fork_rising  = cocotb.start_soon(self._RisingEdgeDetection())
+        self.fork_start   = cocotb.start_soon(self._startDetection())
+        self.fork_stop    = cocotb.start_soon(self._stopDetection())
         yield self._analyser()
 
 
