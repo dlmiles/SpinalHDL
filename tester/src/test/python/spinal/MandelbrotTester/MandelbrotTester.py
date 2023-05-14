@@ -26,9 +26,9 @@ def test1(dut):
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
     cocotb.fork(simulationSpeedPrinter(dut.clk))
     readyRandomizer = BoolRandomizer()
-    dut.io_cmdPort_valid <= 0;
-    dut.io_retPort_ready <= 1;
-    dut.io_pixelResult_ready <= 1;
+    dut.io_cmdPort_valid.value = 0;
+    dut.io_retPort_ready.value = 1;
+    dut.io_pixelResult_ready.value = 1;
     for i in range(0,len(ref)):
         while True:
             yield RisingEdge(dut.clk)
@@ -36,6 +36,6 @@ def test1(dut):
                 assertEquals(ref[i], dut.io_pixelResult_payload_fragment_iteration,"io_pixelResult_payload_fragment_iteration")
                 assertEquals(i == len(ref)-1, dut.io_pixelResult_payload_last,"io_pixelResult_payload_last")
                 break
-            dut.io_pixelResult_ready <= readyRandomizer.get()
+            dut.io_pixelResult_ready.value = readyRandomizer.get()
 
     dut.log.info("Cocotb test done")
