@@ -35,7 +35,7 @@ object SimDemoCombinatorial {
 
 
 
-object SimSynchronouExample {
+object SimSynchronousExample {
   class Dut extends Component {
     val io = new Bundle {
       val a, b, c = in UInt (8 bits)
