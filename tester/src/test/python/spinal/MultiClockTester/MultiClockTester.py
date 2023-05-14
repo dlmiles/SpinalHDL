@@ -68,7 +68,7 @@ def clockProcess(dut):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     #random.seed(0)
@@ -79,4 +79,4 @@ def test1(dut):
     cocotb.fork(cmd(dut,queue))
     yield rsp(dut,queue)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
