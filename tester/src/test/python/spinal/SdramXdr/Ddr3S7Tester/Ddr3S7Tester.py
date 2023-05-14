@@ -16,49 +16,49 @@ from spinal.SdramXdr.common.Tester import Bmb, BmbMemoryTester
 def ClockDomainAsyncResetCustom(period, clk, serdesClk0, serdesClk90, reset):
     forth = period//4
     if reset:
-        reset <= 1
-    clk <= 0
-    serdesClk0 <= 0
-    serdesClk90 <= 0
+        reset.value = 1
+    clk.value = 0
+    serdesClk0.value = 0
+    serdesClk90.value = 0
     yield Timer(100000000)
     if reset:
-        reset <= 0
+        reset.value = 0
     yield Timer(period*100)
     while True:
-        clk <= 1
-        serdesClk0 <= 1
+        clk.value = 1
+        serdesClk0.value = 1
         yield Timer(forth)
-        serdesClk90 <= 1
+        serdesClk90.value = 1
         yield Timer(forth)
-        serdesClk0 <= 0
+        serdesClk0.value = 0
         yield Timer(forth)
-        serdesClk90 <= 0
+        serdesClk90.value = 0
         yield Timer(forth)
-        serdesClk0 <= 1
+        serdesClk0.value = 1
         yield Timer(forth)
-        serdesClk90 <= 1
+        serdesClk90.value = 1
         yield Timer(forth)
-        serdesClk0 <= 0
+        serdesClk0.value = 0
         yield Timer(forth)
-        serdesClk90 <= 0
+        serdesClk90.value = 0
         yield Timer(forth)
 
-        clk <= 0
-        serdesClk0 <= 1
+        clk.value = 0
+        serdesClk0.value = 1
         yield Timer(forth)
-        serdesClk90 <= 1
+        serdesClk90.value = 1
         yield Timer(forth)
-        serdesClk0 <= 0
+        serdesClk0.value = 0
         yield Timer(forth)
-        serdesClk90 <= 0
+        serdesClk90.value = 0
         yield Timer(forth)
-        serdesClk0 <= 1
+        serdesClk0.value = 1
         yield Timer(forth)
-        serdesClk90 <= 1
+        serdesClk90.value = 1
         yield Timer(forth)
-        serdesClk0 <= 0
+        serdesClk0.value = 0
         yield Timer(forth)
-        serdesClk90 <= 0
+        serdesClk90.value = 0
         yield Timer(forth)
 
 @cocotb.test()
