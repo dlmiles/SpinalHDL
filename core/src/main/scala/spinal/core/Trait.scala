@@ -587,12 +587,12 @@ trait ScalaLocated extends GlobalDataUser {
 
 object ScalaLocated {
 
-  var unfiltredFiles = mutable.Set[String](/*"SpinalUtils.scala"*/)
-  var filtredFiles   = mutable.Set[String]()
+  var unfilteredFiles = mutable.Set[String](/*"SpinalUtils.scala"*/)
+  var filteredFiles   = mutable.Set[String]()
 
   def filterStackTrace(that: Array[StackTraceElement]) = that.filter(trace => {
     val className = trace.getClassName
-    !(className.startsWith("scala.") || className.startsWith("spinal.core") || !filter(trace.toString)) || ScalaLocated.unfiltredFiles.contains(trace.getFileName)
+    !(className.startsWith("scala.") || className.startsWith("spinal.core") || !filter(trace.toString)) || ScalaLocated.unfilteredFiles.contains(trace.getFileName)
   })
 
   def short(scalaTrace: Throwable): String = {
