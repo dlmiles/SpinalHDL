@@ -10,7 +10,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     #random.seed(0)
@@ -24,4 +24,4 @@ def test1(dut):
         ref = Ref(dut)
         assertEquals(dut.io_outSInt, dut.io_outSIntRef, "io_outSInt")
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
