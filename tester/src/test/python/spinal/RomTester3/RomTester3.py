@@ -7,7 +7,7 @@ import random
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     #random.seed(0)
     table = [0x01234567,0x12345670,0x10293857,0x0abcfe23,0x02938571,0xabcfe230,0x717833aa,0x17833aa6]
 
@@ -18,4 +18,4 @@ def test1(dut):
 
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
