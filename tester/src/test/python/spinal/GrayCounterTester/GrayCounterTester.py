@@ -8,7 +8,7 @@ class Ref:
     def __init__(self,dut):
         self.dut = dut
         self.value = 0
-        cocotb.fork(self.clockProcess())
+        cocotb.start_soon(self.clockProcess())
 
     @cocotb.coroutine
     def clockProcess(self):
@@ -26,7 +26,7 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
     #random.seed(0)
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
 
     ref = Ref(dut)
 
