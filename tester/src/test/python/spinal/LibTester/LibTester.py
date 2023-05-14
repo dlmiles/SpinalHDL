@@ -15,7 +15,7 @@ def test1(dut):
     cocotbXHack()
     #random.seed(0)
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, None))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, None))
 
     for i in range(0,1000):
         randSignal(dut.io_inSIntA)
