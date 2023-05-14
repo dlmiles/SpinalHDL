@@ -9,7 +9,7 @@ from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsync
 @cocotb.test()
 def test1(dut):
 
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     for i in range(100):
         randSignal(dut.bus_cmd_writeenable)
@@ -28,4 +28,4 @@ def test1(dut):
 
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
