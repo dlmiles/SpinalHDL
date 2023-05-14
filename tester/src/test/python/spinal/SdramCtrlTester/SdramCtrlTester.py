@@ -22,7 +22,7 @@ class SdramTester(Infrastructure):
         self.ram = bytearray(b'\x00' * (1 << (9+2+2+1)))
         self.scorboard = ScorboardInOrder("scoreboard", self)
         StreamDriverSlave(rsp, clk, reset)
-        # rsp.ready <= 1
+        # rsp.ready.value = 1
         StreamMonitor(rsp, self.scorboard.uutPush, clk, reset)
 
     def canPhaseProgress(self, phase):
@@ -73,15 +73,15 @@ class SdramTester(Infrastructure):
 @cocotb.coroutine
 def ClockDomainAsyncResetCustom(clk,reset):
     if reset:
-        reset <= 1
-    clk <= 0
+        reset.value = 1
+    clk.value = 0
     yield Timer(100000)
     if reset:
-        reset <= 0
+        reset.value = 0
     while True:
-        clk <= 0
+        clk.value = 0
         yield Timer(3750)
-        clk <= 1
+        clk.value = 1
         yield Timer(3750)
 
 @cocotb.test()
