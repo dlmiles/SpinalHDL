@@ -37,7 +37,7 @@ def test_scenario(dut):
         #analyser     = I2CHALAnalyser(helperMaster, operationSeq)
 
         clockDomain = ClockDomain(dut.clk, 500, dut.resetn, RESET_ACTIVE_LEVEL.LOW)
-        cocotb.fork(clockDomain.start())
+        cocotb.start_soon(clockDomain.start())
 
         # Init IO and wait the end of the reset
         helperMaster.io.init()
@@ -45,10 +45,10 @@ def test_scenario(dut):
         yield clockDomain.event_endReset.wait()
 
 
-        #cocotb.fork(analyser.start())
-        cocotb.fork(helperMaster.execOperations(operationSeq))
-        #cocotb.fork(helperMaster.checkResponse(operationSeq))
-        cocotb.fork(helperSlave.execOperations(operationSeq))
+        #cocotb.start_soon(analyser.start())
+        cocotb.start_soon(helperMaster.execOperations(operationSeq))
+        #cocotb.start_soon(helperMaster.checkResponse(operationSeq))
+        cocotb.start_soon(helperSlave.execOperations(operationSeq))
         #yield helperSlave.checkResponse(operationSeq)
 
         yield Timer(500000)
