@@ -8,7 +8,7 @@ from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsync
 def test1(dut):
     dut._log.info("Cocotb test boot")
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
     outA_ref = 0
     outB_ref = 0
     for i in range(0,1000):
