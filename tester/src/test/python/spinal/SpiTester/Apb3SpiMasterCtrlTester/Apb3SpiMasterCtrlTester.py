@@ -182,7 +182,7 @@ def spiSlaveAgent(spi, queue, clk):
             if isinstance(head, SlaveCmdData):
                 for i in range(8):
                     if spiConfig.cpha == False:
-                        spi.miso <= testBit(head.slaveData, 7-i) if head.slaveData != None else randBool()
+                        spi.miso.value = testBit(head.slaveData, 7-i) if head.slaveData != None else randBool()
                         while True:
                             yield wait(1)
                             if spi.sclk == (not spiConfig.cpol):
@@ -200,7 +200,7 @@ def spiSlaveAgent(spi, queue, clk):
                             yield wait(1)
                             if spi.sclk == (not spiConfig.cpol):
                                 break
-                        spi.miso <= testBit(head.slaveData, 7 - i) if head.slaveData != None else randBool()
+                        spi.miso.value = testBit(head.slaveData, 7 - i) if head.slaveData != None else randBool()
                         assert sclkStableLast >= spiConfig.sclkToggle
                         while True:
                             yield wait(1)
