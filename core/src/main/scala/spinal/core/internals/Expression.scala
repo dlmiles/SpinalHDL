@@ -1988,8 +1988,8 @@ class AssignedBits(val width: Int) {
   */
 abstract class AssignmentExpression extends Expression {
   def finalTarget: BaseType
-  override def foreachDrivingExpression(func: (Expression) => Unit): Unit
-  override def remapDrivingExpressions(func: (Expression) => Expression): Unit
+  override def foreachDrivingExpression(func: (Expression) => Unit): Unit   // CHECKME override keyword use error? which trait has this?
+  override def remapDrivingExpressions(func: (Expression) => Expression): Unit  // CHECKME override keyword use error? which trait has this?
   def getMinAssignedBits: AssignedRange //Bit that are always assigned
   def getMaxAssignedBits: AssignedRange //Bit that are always assigned
   //  def getScopeBits: AssignedRange //Bit tht could be assigned
