@@ -50,7 +50,7 @@ def jtagBridgeReadAssert(ctrl, address, size,value,mask = -1):
 
 @cocotb.test()
 def jtagTest(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     random.seed(0)
 
     cocotb.fork(simulationSpeedPrinter(dut.io_axiClk))
@@ -80,4 +80,4 @@ def jtagTest(dut):
 
     yield Timer(1000*500)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
