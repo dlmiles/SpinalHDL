@@ -15,7 +15,7 @@ def checkSigned(signal,bitCount,value):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     # itemDir = dut.uint4.__dict__
     #
@@ -128,4 +128,4 @@ def test1(dut):
         check(dut.bits08Cat, 8, bits8)
         check(dut.bits80Cat, 8, bits8)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
