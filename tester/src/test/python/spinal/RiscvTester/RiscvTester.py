@@ -59,8 +59,8 @@ class Tester:
         self.dut.io_dCmdDrive.value = 1
         self.dut.io_dRspDrive.value = 1
         self.dut.io_doCacheFlush.value = 0
-        cocotb.fork(self.driveICmdReady())
-        cocotb.fork(self.driveDCmdReady())
+        cocotb.start_soon(self.driveICmdReady())
+        cocotb.start_soon(self.driveDCmdReady())
         while True:
             yield RisingEdge(self.dut.clk)
             randBoolSignal(self.dut.io_iCmdDrive,0.7)
@@ -183,11 +183,11 @@ class Tester:
     @cocotb.coroutine
     def do(self,iHexPath):
         loadIHex(iHexPath, self.rom)
-        cocotb.fork(simulationSpeedPrinter(self.dut.clk))
-        cocotb.fork(ClockDomainAsyncReset(self.dut.clk, self.dut.reset))
-        cocotb.fork(self.driveMisc())
-        cocotb.fork(self.driveIRsp())
-        cocotb.fork(self.driveDRsp())
+        cocotb.start_soon(simulationSpeedPrinter(self.dut.clk))
+        cocotb.start_soon(ClockDomainAsyncReset(self.dut.clk, self.dut.reset))
+        cocotb.start_soon(self.driveMisc())
+        cocotb.start_soon(self.driveIRsp())
+        cocotb.start_soon(self.driveDRsp())
         while True:
             yield RisingEdge(self.dut.clk)
             if int(self.dut.io_d_cmd_valid) == 1 and int(self.dut.io_d_cmd_payload_address) == 0xFFFFFFFC:
