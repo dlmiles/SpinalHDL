@@ -93,15 +93,15 @@ case class SpinalFormalConfig(
   }
 
   // TYPO: withEngines
-  def withEngies(engins: Seq[FormalEngin]): this.type = {
+  def withEngies(engines: Seq[FormalEngin]): this.type = {
     _engines.clear()
-    _engines ++= engins
+    _engines ++= engines
     this
   }
 
   // TYPO: addEngine
-  def addEngin(engin: FormalEngin): this.type = {
-    _engines ++= Seq(engin)
+  def addEngin(engine: FormalEngin): this.type = {
+    _engines ++= Seq(engine)
     this
   }
 
