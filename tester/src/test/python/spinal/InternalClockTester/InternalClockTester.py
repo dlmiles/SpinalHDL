@@ -10,7 +10,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     #random.seed(0)
@@ -27,4 +27,4 @@ def test1(dut):
         assertEquals(counter, dut.io_internalClkCounter, "io_internalClkCounter")
         counter = truncUInt(counter + 1, dut.io_internalClkCounter)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
