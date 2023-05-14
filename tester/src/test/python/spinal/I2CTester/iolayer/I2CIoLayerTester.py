@@ -15,7 +15,7 @@ from spinal.I2CTester.iolayer.I2CSlaveIoLayer  import I2CSlaveIoLayer
 @cocotb.test()
 def test_scenario(dut):
 
-    dut.log.info("Cocotb I2C IO Layer - Basic test")
+    dut._log.info("Cocotb I2C IO Layer - Basic test")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
 
@@ -62,4 +62,4 @@ def test_scenario(dut):
         yield Timer(250000)
 
 
-    dut.log.info("Cocotb I2C Io Layer - Basic test")
+    dut._log.info("Cocotb I2C Io Layer - Basic test")
