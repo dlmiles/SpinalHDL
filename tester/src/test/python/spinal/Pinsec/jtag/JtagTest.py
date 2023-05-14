@@ -55,7 +55,7 @@ def jtagTest(dut):
     uut = dut.uut
     log = open('uartTx.log', 'w')
 
-    cocotb.fork(simulationSpeedPrinter(uut.io_axiClk))
+    cocotb.start_soon(simulationSpeedPrinter(uut.io_axiClk))
     yield loadIHex(dut,"../hex/dummy.hex",uut.io_axiClk,uut.io_asyncReset)
     pinsecClockGen(dut)
 
