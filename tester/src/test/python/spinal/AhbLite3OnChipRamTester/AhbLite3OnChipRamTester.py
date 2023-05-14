@@ -53,21 +53,21 @@ def test1(dut):
     #     print(str(e._name))
 
     # while True:
-    #     dut.AhbRam.ram_port1_enable <= 1
-    #     dut.AhbRam.ram_port1_mask <= 0xF
-    #     dut.AhbRam.ram_port1_address <= 0X90
-    #     dut.AhbRam.ram_port1_data <= 0xCAFEF00D
+    #     dut.AhbRam.ram_port1_enable.value = 1
+    #     dut.AhbRam.ram_port1_mask.value = 0xF
+    #     dut.AhbRam.ram_port1_address.value = 0X90
+    #     dut.AhbRam.ram_port1_data.value = 0xCAFEF00D
     #
-    #     dut.AhbRam.reset <= 1
-    #     dut.AhbRam.ram_port1_enable <= 1
+    #     dut.AhbRam.reset.value = 1
+    #     dut.AhbRam.ram_port1_enable.value = 1
     #     yield Timer(1000)
-    #     dut.AhbRam.ram_port1_enable <= 1
-    #     dut.AhbRam.clk <= 0
+    #     dut.AhbRam.ram_port1_enable.value = 1
+    #     dut.AhbRam.clk.value = 0
     #     yield Timer(1000)
-    #     dut.AhbRam.ram_port1_enable <= 1
-    #     dut.AhbRam.clk <= 1
+    #     dut.AhbRam.ram_port1_enable.value = 1
+    #     dut.AhbRam.clk.value = 1
     #     yield Timer(1000)
-    #     dut.AhbRam.ram_port1_enable <= 0
+    #     dut.AhbRam.ram_port1_enable.value = 0
     #     yield Timer(1000)
 
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
