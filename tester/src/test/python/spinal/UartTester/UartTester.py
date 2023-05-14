@@ -112,11 +112,11 @@ def test1(dut):
 
     dut.io_uart_writeBreak.value = 0
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
-    cocotb.fork(sendRandomPackets(dut, queueTx, queueRx))
-    cocotb.fork(checkTx(dut,queueTx))
-    cocotb.fork(txToRxBypass(dut))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(sendRandomPackets(dut, queueTx, queueRx))
+    cocotb.start_soon(checkTx(dut,queueTx))
+    cocotb.start_soon(txToRxBypass(dut))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
     yield checkCtrlReadedBytes(dut, queueRx)
 
     dut._log.info("Cocotb test done")
