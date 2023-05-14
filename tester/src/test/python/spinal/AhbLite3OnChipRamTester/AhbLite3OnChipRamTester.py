@@ -41,7 +41,7 @@ class AhbLite3TraficGeneratorWithMemory(AhbLite3TraficGenerator):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     random.seed(0)
@@ -85,4 +85,4 @@ def test1(dut):
         if checker.counter > 4000:
             break
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
