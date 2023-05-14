@@ -39,9 +39,9 @@ class PinsecLogger:
         self.dRspLog.flush()
 
 def pinsecClockGen(dut):
-    cocotb.fork(ClockDomainAsyncReset(dut.io_axiClk, dut.io_asyncReset,7500))
-    cocotb.fork(ClockDomainAsyncReset(dut.io_vgaClk, None,40000))
-    # cocotb.fork(axiClkLogger(dut.uut))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.io_axiClk, dut.io_asyncReset,7500))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.io_vgaClk, None,40000))
+    # cocotb.start_soon(axiClkLogger(dut.uut))
     core = dut.uut.axi_core.core
     logger = PinsecLogger()
     StreamMonitor(Stream(core, "dCmd"),logger.logDCmd,dut.io_axiClk,dut.io_asyncReset)
