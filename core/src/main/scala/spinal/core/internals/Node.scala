@@ -125,24 +125,24 @@ object InputNormalize {
   }
 
   // TYPO: assignmentResizedOrUnfixedLit
-  def assignementResizedOrUnfixedLit(assignement: AssignmentStatement): Expression = {
-    val targetWidth = assignement.target.asInstanceOf[WidthProvider].getWidth
-    val inputWidth  = assignement.source.asInstanceOf[WidthProvider].getWidth
+  def assignementResizedOrUnfixedLit(assignment: AssignmentStatement): Expression = {
+    val targetWidth = assignment.target.asInstanceOf[WidthProvider].getWidth
+    val inputWidth  = assignment.source.asInstanceOf[WidthProvider].getWidth
 
-    assignement.source match{
+    assignment.source match{
       case lit: BitVectorLiteral if !lit.hasSpecifiedBitCount && lit.minimalValueBitWidth <= targetWidth =>
         lit.bitCount = targetWidth
         lit
       case bt: BitVector if bt.hasTag(tagAutoResize) && bt.getWidth != targetWidth =>
-        val ret = assignement.finalTarget.asInstanceOf[BitVector].resizeFactory
-        ret.input = assignement.source.asInstanceOf[Expression with WidthProvider]
+        val ret = assignment.finalTarget.asInstanceOf[BitVector].resizeFactory
+        ret.input = assignment.source.asInstanceOf[Expression with WidthProvider]
         ret.size = targetWidth
         ret
       case _ =>
         if(inputWidth != targetWidth){
-          PendingError(s"WIDTH MISMATCH (${targetWidth} bits <- ${inputWidth} bits) on ${assignement.toStringMultiLine} at \n${assignement.getScalaLocationLong}")
+          PendingError(s"WIDTH MISMATCH (${targetWidth} bits <- ${inputWidth} bits) on ${assignment.toStringMultiLine} at \n${assignment.getScalaLocationLong}")
         }
-        assignement.source
+        assignment.source
     }
   }
 
