@@ -17,9 +17,9 @@ from spinal.I2CTester2.lib.misc import OpenDrainInterconnect, I2cSoftMaster
 
 @cocotb.test()
 def test1(dut):
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
-    cocotb.fork(SimulationTimeout(2000 * 2.5e6))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(SimulationTimeout(2000 * 2.5e6))
 
     sclInterconnect = OpenDrainInterconnect()
     sclInterconnect.addHardDriver(dut.io_i2c_scl_write)
