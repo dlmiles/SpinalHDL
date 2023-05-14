@@ -229,7 +229,7 @@ class SlaveHandle:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     random.seed(0)
 
     cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
@@ -292,4 +292,4 @@ def test1(dut):
 
     yield Timer(1000*10)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
