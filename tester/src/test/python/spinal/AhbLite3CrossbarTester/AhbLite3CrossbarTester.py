@@ -51,8 +51,8 @@ def test1(dut):
     random.seed(0)
 
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
     drivers = []
     checkers = []
