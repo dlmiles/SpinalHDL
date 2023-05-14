@@ -336,7 +336,7 @@ class ArbiterLowIdPortFragmentLockFirst:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     random.seed(0)
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
@@ -362,4 +362,4 @@ def test1(dut):
     # yield fork
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
