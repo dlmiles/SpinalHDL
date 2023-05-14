@@ -21,7 +21,7 @@ class Fifo:
 
     @cocotb.coroutine
     def run(self):
-        cocotb.fork(self.push())
+        cocotb.start_soon(self.push())
         yield self.pop()
 
     @cocotb.coroutine
@@ -72,9 +72,9 @@ class Fork:
 
     @cocotb.coroutine
     def run(self):
-        cocotb.fork(StreamRandomizer("forkInput", self.onInput,None, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamRandomizer("forkInput", self.onInput,None, self.dut, self.dut.clk))
         for idx in range(0,3):
-            cocotb.fork(StreamReader("forkOutputs_" + str(idx), self.onOutput, idx, self.dut, self.dut.clk))
+            cocotb.start_soon(StreamReader("forkOutputs_" + str(idx), self.onOutput, idx, self.dut, self.dut.clk))
 
         while not reduce(lambda x,y: x and y, [x > 1000 for x in self.counters]):
             yield RisingEdge(self.dut.clk)
@@ -99,9 +99,9 @@ class DispatcherInOrder:
 
     @cocotb.coroutine
     def run(self):
-        cocotb.fork(StreamRandomizer("dispatcherInOrderInput", self.onInput,None, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamRandomizer("dispatcherInOrderInput", self.onInput,None, self.dut, self.dut.clk))
         for idx in range(0,3):
-            cocotb.fork(StreamReader("dispatcherInOrderOutputs_" + str(idx), self.onOutput, idx, self.dut, self.dut.clk))
+            cocotb.start_soon(StreamReader("dispatcherInOrderOutputs_" + str(idx), self.onOutput, idx, self.dut, self.dut.clk))
 
         while self.counter < 1000:
             yield RisingEdge(self.dut.clk)
@@ -122,8 +122,8 @@ class StreamFlowArbiter:
     @cocotb.coroutine
     def run(self):
         dut = self.dut
-        cocotb.fork(StreamRandomizer("streamFlowArbiterInputStream", self.onInputStream, None, dut, dut.clk))
-        cocotb.fork(FlowRandomizer("streamFlowArbiterInputFlow", self.onInputFlow, None, dut, dut.clk))
+        cocotb.start_soon(StreamRandomizer("streamFlowArbiterInputStream", self.onInputStream, None, dut, dut.clk))
+        cocotb.start_soon(FlowRandomizer("streamFlowArbiterInputFlow", self.onInputFlow, None, dut, dut.clk))
 
         while not (self.inputFlowCounter > 1000 and self.inputStreamCounter > 1000):
             yield RisingEdge(dut.clk)
@@ -158,9 +158,9 @@ class ArbiterInOrder:
     @cocotb.coroutine
     def run(self):
         for idx in range(0,3):
-            cocotb.fork(StreamRandomizer("arbiterInOrderInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
+            cocotb.start_soon(StreamRandomizer("arbiterInOrderInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
 
-        cocotb.fork(StreamReader("arbiterInOrderOutput", self.onOutput, idx, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamReader("arbiterInOrderOutput", self.onOutput, idx, self.dut, self.dut.clk))
 
         while self.counter < 1000:
             yield RisingEdge(self.dut.clk)
