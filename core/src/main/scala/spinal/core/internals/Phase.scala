@@ -1046,7 +1046,7 @@ class PhaseMemBlackBoxingDefault(policy: MemBlackboxingPolicy) extends PhaseMemB
 object classNameOf{
   def apply(that : Any): String = {
     val name = that.getClass.getSimpleName.replace("$",".").split("\\.").head
-    if(name.nonEmpty) name else "unamed"
+    if(name.nonEmpty) name else "unnamed"
   }
 }
 
