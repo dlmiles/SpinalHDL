@@ -17,7 +17,7 @@ def uartTxBypass(uart,clk,log):
         if int(uart.io_write_valid) == 1 and int(uart.io_write_ready) == 1:
             log.write(str(chr(int(uart.io_write_payload))))
         yield FallingEdge(clk)
-        uart.io_write_ready <= 1
+        uart.io_write_ready.value = 1
 
 
 @cocotb.coroutine
