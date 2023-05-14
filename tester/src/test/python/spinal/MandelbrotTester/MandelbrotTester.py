@@ -23,8 +23,8 @@ def test1(dut):
             3,4,4,8,16,16,16,16,16,16,16,10,3,2,2,1,
             2,3,3,4,5,6,16,16,16,6,4,3,2,2,1,1,
             2,2,3,3,3,4,12,16,8,4,3,3,2,2,1,1]
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
     readyRandomizer = BoolRandomizer()
     dut.io_cmdPort_valid.value = 0;
     dut.io_retPort_ready.value = 1;
