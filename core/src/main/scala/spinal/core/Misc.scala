@@ -308,8 +308,8 @@ object Select{
   def list[T <: Data](mappings: Seq[(Any, T)]): T = {
     val defaultValue = mappings.find(_._1 == default)
     if(defaultValue.isEmpty) new Exception("MISSING DEFAULT in Select. Select(default -> xxx, ...)")
-    val filterd = mappings.filter(_._1 != default).map(t => (t._1.asInstanceOf[Bool] -> t._2))
-    list(defaultValue.get._2, filterd)
+    val filtered = mappings.filter(_._1 != default).map(t => (t._1.asInstanceOf[Bool] -> t._2))
+    list(defaultValue.get._2, filtered)
   }
 }
 
