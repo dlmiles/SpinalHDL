@@ -232,8 +232,8 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
     random.seed(0)
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
     axiMasters = [Axi4(dut, "axiMasters_" + str(i)) for i in range(3)]
     axiSlaves = [Axi4(dut, "axiSlaves_" + str(i)) for i in range(4)]
