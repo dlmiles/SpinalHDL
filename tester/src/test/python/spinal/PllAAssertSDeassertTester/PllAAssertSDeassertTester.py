@@ -20,7 +20,7 @@ def genClkReset(dut):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     cocotb.fork(genClkReset(dut))
     yield Timer(20000)
@@ -32,4 +32,4 @@ def test1(dut):
     yield Timer(40000)
     print("yolo" + str(dut.counter))
     assertEquals(dut.counter,3+5,"Mismatch")
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
