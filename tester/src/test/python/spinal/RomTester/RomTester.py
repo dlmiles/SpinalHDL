@@ -6,7 +6,7 @@ from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsync
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     #random.seed(0)
 
     dut.address.value = 0
@@ -72,4 +72,4 @@ def test1(dut):
     assertEquals(dut.data_enumeration,1,"1")
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
