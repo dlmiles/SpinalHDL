@@ -64,13 +64,13 @@ def getLastValue(wave, componentName, netName):
 def genClock(clkp, clkn, period, delay = 0):
     yield Timer(delay)
     while True:
-        clkp <= 0
+        clkp.value = 0
         if clkn:
-            clkn <= 1
+            clkn.value = 1
         yield Timer(period // 2)
-        clkp <= 1
+        clkp.value = 1
         if clkn:
-            clkn <= 0
+            clkn.value = 0
         yield Timer(period // 2)
 
 @cocotb.coroutine
@@ -80,12 +80,12 @@ def genDqs(dqs_p, dqs_n, cycles, delay, period):
     count = len(dqs_p)
     mask = (1 << count)-1
     for i in range(cycles):
-        dqs_p <= mask
-        dqs_n <= 0
+        dqs_p.value = mask
+        dqs_n.value = 0
         yield Timer(period//2);
-        dqs_p <= 0
-        dqs_n <= mask
+        dqs_p.value = 0
+        dqs_n.value = mask
         yield Timer(period//2);
 
-    # dqs_p <= ("z"*count)
-    # dqs_n <= ("z"*count)
+    # dqs_p.value = ("z"*count)
+    # dqs_n.value = ("z"*count)
