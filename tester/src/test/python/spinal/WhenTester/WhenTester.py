@@ -40,7 +40,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     random.seed(0)
     cocotb.fork(ClockDomainAsyncReset(dut.clk, None))
 
@@ -73,4 +73,4 @@ def test1(dut):
         assertEquals(ref.io_outComplex, dut.io_outRegComplex, "io_outRegComplex")
 
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
