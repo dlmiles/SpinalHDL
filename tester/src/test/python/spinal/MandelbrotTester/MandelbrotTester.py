@@ -6,7 +6,7 @@ from cocotblib.misc import assertEquals, ClockDomainAsyncReset, BoolRandomizer, 
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     ref = [ 2,2,2,3,3,4,5,12,16,3,3,2,1,1,1,1,
             2,2,3,3,3,4,12,16,8,4,3,3,2,2,1,1,
             2,3,3,4,5,6,16,16,16,6,4,3,2,2,1,1,
@@ -38,4 +38,4 @@ def test1(dut):
                 break
             dut.io_pixelResult_ready.value = readyRandomizer.get()
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
