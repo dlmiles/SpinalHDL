@@ -46,7 +46,7 @@ def test1(dut):
     cocotbXHack()
     random.seed(0)
 
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
     # elements = [a for a in dut.AhbRam if a._name.startswith("")]
     # for e in elements:
@@ -70,7 +70,7 @@ def test1(dut):
     #     dut.AhbRam.ram_port1_enable.value = 0
     #     yield Timer(1000)
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
 
     readQueue = Queue()
     ahb = Bundle(dut, "ahb")
