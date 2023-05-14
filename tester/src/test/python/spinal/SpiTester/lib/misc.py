@@ -44,7 +44,7 @@ class OpenDrainInterconnect:
 
     def addHardReader(self,reader):
         self.hardReaders.append(reader)
-        reader <= self.value
+        reader.value = self.value
 
     def evaluate(self):
         newValue = True
@@ -57,7 +57,7 @@ class OpenDrainInterconnect:
         if newValue != self.value:
             self.value = newValue
             for reader in self.hardReaders:
-                reader <= newValue
+                reader.value = newValue
             if self.applyChange:
                 self.applyChange(newValue)
 
