@@ -67,8 +67,8 @@ def i2cSlaveThread(cmdBus, rspBus, cmds, rsps, clk):
 
 @cocotb.test()
 def test1(dut):
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
 
     sclInterconnect = OpenDrainInterconnect()
