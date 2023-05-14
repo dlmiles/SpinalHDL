@@ -27,7 +27,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     #random.seed(0)
 
 
@@ -61,4 +61,4 @@ def test1(dut):
         assertEquals(ref.io_outAA_c, dut.io_outAA_c, "io_outAA_c")
         assertEquals(ref.io_outAA_d, dut.io_outAA_d, "io_outAA_d")
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
