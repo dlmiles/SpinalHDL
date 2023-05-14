@@ -75,8 +75,8 @@ def test1(dut):
 
     queue = Queue()
 
-    cocotb.fork(clockProcess(dut))
-    cocotb.fork(cmd(dut,queue))
+    cocotb.start_soon(clockProcess(dut))
+    cocotb.start_soon(cmd(dut,queue))
     yield rsp(dut,queue)
 
     dut._log.info("Cocotb test done")
