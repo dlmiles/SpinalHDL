@@ -197,7 +197,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
     #random.seed(0)
 
     cocotb.fork(ClockDomainGen(dut))
@@ -205,4 +205,4 @@ def test1(dut):
     ref = Ref(dut)
 
     yield Timer(1000*2000)
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
