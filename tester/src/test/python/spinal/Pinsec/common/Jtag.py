@@ -6,9 +6,9 @@ class JtagMaster:
         self.jtag = jtag
         self.halfPeriod = period/2
         self.instructionWidth = instructionWidth
-        self.jtag.tck <= 0
-        # self.jtag.tms <= 0
-        # self.jtag.tdi <= 0
+        self.jtag.tck.value = 0
+        # self.jtag.tms.value = 0
+        # self.jtag.tdi.value = 0
 
     @cocotb.coroutine
     def goToIdle(self):
@@ -24,7 +24,7 @@ class JtagMaster:
         yield self.tmsMove(0)
         yield self.tmsMove(0)
         for i in range(self.instructionWidth):
-            self.jtag.tms <= 1 if i == self.instructionWidth-1 else 0
+            self.jtag.tms.value = 1 if i == self.instructionWidth-1 else 0
             yield self.tdiMove((value >> i) & 1)
         yield self.tmsMove(0)
         yield self.tmsMove(1)
@@ -37,7 +37,7 @@ class JtagMaster:
         yield self.tmsMove(0)
         yield self.tmsMove(0)
         for i in range(width):
-            self.jtag.tms <= 1 if i == width-1 else 0
+            self.jtag.tms.value = 1 if i == width-1 else 0
             yield self.tdiMove((value >> i) & 1)
         yield self.tmsMove(0)
         yield self.tmsMove(1)
@@ -59,18 +59,18 @@ class JtagMaster:
 
     @cocotb.coroutine
     def tdiMove(self, value):
-        self.jtag.tdi <= value
+        self.jtag.tdi.value = value
         yield self.tick()
 
     @cocotb.coroutine
     def tmsMove(self,value):
-        self.jtag.tms <= value
+        self.jtag.tms.value = value
         yield self.tick()
 
     @cocotb.coroutine
     def tick(self):
         yield Timer(self.halfPeriod)
         self.lastTdo = int(self.jtag.tdo)
-        self.jtag.tck <= 1
+        self.jtag.tck.value = 1
         yield Timer(self.halfPeriod)
-        self.jtag.tck <= 0
+        self.jtag.tck.value = 0
