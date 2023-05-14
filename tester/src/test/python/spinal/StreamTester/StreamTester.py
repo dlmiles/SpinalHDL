@@ -29,12 +29,12 @@ class Fifo:
         dut = self.dut
         queue = self.queue
         validRandomizer = BoolRandomizer()
-        dut.io_slave0_valid <= 0
+        dut.io_slave0_valid.value = 0
         while True:
             yield RisingEdge(dut.clk)
             if int(dut.io_slave0_valid) == 1 and int(dut.io_slave0_ready) == 1:
                 queue.put(FifoPacket(int(dut.io_slave0_payload_a), int(dut.io_slave0_payload_b)))
-            dut.io_slave0_valid <= validRandomizer.get()
+            dut.io_slave0_valid.value = validRandomizer.get()
             randSignal(dut.io_slave0_payload_a)
             randSignal(dut.io_slave0_payload_b)
 
@@ -43,11 +43,11 @@ class Fifo:
         dut = self.dut
         queue = self.queue
         readyRandomizer = BoolRandomizer()
-        dut.io_master0_ready <= 0
+        dut.io_master0_ready.value = 0
         for i in range(0,1000):
             while True:
                 yield RisingEdge(dut.clk)
-                dut.io_master0_ready <= readyRandomizer.get()
+                dut.io_master0_ready.value = readyRandomizer.get()
                 if int(dut.io_master0_valid) == 1 and int(dut.io_master0_ready) == 1:
                     break
             pop = queue.get()
