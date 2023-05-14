@@ -1993,7 +1993,7 @@ class PhaseCompletSwitchCases extends PhaseNetlist{
         var failed = false
         s.elements.foreach{element =>
           if(element.keys.size > 1){
-            val fliter = mutable.HashSet[BigInt]()
+            val filter = mutable.HashSet[BigInt]()
             val toRemove = ArrayBuffer[Expression]()
             element.keys.foreach { e =>
               var special = false
@@ -2004,7 +2004,7 @@ class PhaseCompletSwitchCases extends PhaseNetlist{
                 case _ => special = true; BigInt(0)
               }
               if(!special) {
-                if (fliter.contains(v)) {
+                if (filter.contains(v)) {
                   if(s.removeDuplication){
                     toRemove += e
                   } else {
@@ -2012,7 +2012,7 @@ class PhaseCompletSwitchCases extends PhaseNetlist{
                     failed = true
                   }
                 }
-                fliter += v
+                filter += v
               }
             }
             element.keys --= toRemove
