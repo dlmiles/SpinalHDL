@@ -53,9 +53,9 @@ def jtagTest(dut):
     dut._log.info("Cocotb test boot")
     random.seed(0)
 
-    cocotb.fork(simulationSpeedPrinter(dut.io_axiClk))
+    cocotb.start_soon(simulationSpeedPrinter(dut.io_axiClk))
     yield loadIHex(dut,"e:/vm/share/pinsec_test.hex",dut.io_axiClk,dut.io_asyncReset)
-    cocotb.fork(ClockDomainAsyncReset(dut.io_axiClk, dut.io_asyncReset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.io_axiClk, dut.io_asyncReset))
 
     jtag = JtagMaster(Bundle(dut,"io_jtag"),4000,4)
 
