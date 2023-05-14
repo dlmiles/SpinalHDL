@@ -63,7 +63,7 @@ object SimSynchronousExample {
   }
 }
 
-import SimSynchronouExample.Dut
+import SimSynchronousExample.Dut
 object DutTestbench extends App{
   val compiled = SimConfig.withWave.compile(rtl = new Dut)
 
