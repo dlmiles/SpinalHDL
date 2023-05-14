@@ -27,7 +27,7 @@ def randSignalNotZero(that):
 
 @cocotb.test()
 def test1(dut):
-    dut.log.info("Cocotb test boot")
+    dut._log.info("Cocotb test boot")
 
     # itemDir = dut.uint4.__dict__
     #
@@ -303,4 +303,4 @@ def test1(dut):
         check(dut.uintRotateRightUInt, 27, rotateRightValue)
         check(dut.sintRotateRightUInt, 27, rotateRightValue)
 
-    dut.log.info("Cocotb test done")
+    dut._log.info("Cocotb test done")
