@@ -29,7 +29,7 @@ def test1(dut):
             if driver.writeenable == False:
                 assertGpio("zzzzzzzz")
             else:
-                assertGpio(str(driver.write))
+                assertGpio(driver.write._path)
 
 
     drivers = [Bundle(dut,"bus_cmd"),Bundle(dut,"cmd"),Bundle(dut,"cmdbb")]
