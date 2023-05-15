@@ -6,16 +6,16 @@ from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsync
 
 @cocotb.coroutine
 def genClkReset(dut):
-    dut.clk_100Mhz <= 0
-    dut.aReset <= 1
+    dut.clk_100Mhz.value = 0
+    dut.aReset.value = 1
     yield Timer(1000)
-    dut.aReset <= 0
+    dut.aReset.value = 0
     yield Timer(1000)
 
     while True:
-        dut.clk_100Mhz <= 1
+        dut.clk_100Mhz.value = 1
         yield Timer(1000)
-        dut.clk_100Mhz <= 0
+        dut.clk_100Mhz.value = 0
         yield Timer(1000)
 
 @cocotb.test()
@@ -26,9 +26,9 @@ def test1(dut):
     yield Timer(20000)
     print("yolo" + str(dut.counter))
     assertEquals(dut.counter,3,"Mismatch")
-    dut.aReset <= 1
+    dut.aReset.value = 1
     yield Timer(5)
-    dut.aReset <= 0
+    dut.aReset.value = 0
     yield Timer(40000)
     print("yolo" + str(dut.counter))
     assertEquals(dut.counter,3+5,"Mismatch")
