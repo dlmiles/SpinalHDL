@@ -16,10 +16,11 @@ def test1(dut):
     def map(component, net, apply, delay = 0):
         forks.append(cocotb.start_soon(stim(wave, component, net, apply, delay)))
 
-
-    def assignAndReturn(dut, signal, value):
-        signal.value = value
-        return value
+    def assignSignalValueClosure(signal) -> function:
+        # Capture: signal
+        def assignSignalValue(value):
+            signal.value = value
+        return assignSignalValue
 
     wave = parse_vcd("../../../../../../../simWorkspace/SdramXdrCtrlPlusRtlPhy/test.vcd")
     phy = "TOP.SdramXdrCtrlPlusRtlPhy"
@@ -33,15 +34,14 @@ def test1(dut):
 
     cocotb.start_soon(genClock(dut.ck, dut.ck_n, clockPeriod//phaseCount))
 
-    # FIXME
-    list(map(top, "ADDR", lambda v : dut.addr <= v))
-    list(map(top, "BA", lambda v : dut.ba <= v))
-    list(map(top, "CASn", lambda v : dut.cas_n <= v))
-    list(map(top, "CKE", lambda v : dut.cke <= v))
-    list(map(top, "CSn", lambda v : dut.cs_n <= v))
-    list(map(top, "RASn", lambda v : dut.ras_n <= v))
-    list(map(top, "WEn", lambda v : dut.we_n <= v))
-    list(map(top, "ODT", lambda v : dut.odt <= v))
+    list(map(top, "ADDR", assignSignalValueClosure(dut.addr)))
+    list(map(top, "BA", assignSignalValueClosure(dut.ba)))
+    list(map(top, "CASn", assignSignalValueClosure(dut.cas_n)))
+    list(map(top, "CKE", assignSignalValueClosure(dut.cke)))
+    list(map(top, "CSn", assignSignalValueClosure(dut.cs_n)))
+    list(map(top, "RASn", assignSignalValueClosure(dut.ras_n)))
+    list(map(top, "WEn", assignSignalValueClosure(dut.we_n)))
+    list(map(top, "ODT", assignSignalValueClosure(dut.odt)))
 
     cocotb.start_soon(stimPulse(wave, top, "writeEnable", lambda v : cocotb.start_soon(genDqs(dut.dqs, dut.dqs_n, 1+v/clockPeriod*phaseCount*dataRate//2, clockPeriod//(phaseCount*dataRate)*(phaseCount*dataRate-1), clockPeriod//phaseCount))))
 
