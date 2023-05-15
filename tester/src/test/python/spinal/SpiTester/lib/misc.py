@@ -1,4 +1,4 @@
-from cocotb import fork
+
 from cocotb.decorators import coroutine
 from cocotb.triggers import Timer, Edge, RisingEdge
 
@@ -40,7 +40,7 @@ class OpenDrainInterconnect:
 
     def addHardDriver(self,driver):
         self.hardWriters.append(driver)
-        fork(self.pinWatcher(driver))
+        cocotb.start_soon(self.pinWatcher(driver))
 
     def addHardReader(self,reader):
         self.hardReaders.append(reader)
