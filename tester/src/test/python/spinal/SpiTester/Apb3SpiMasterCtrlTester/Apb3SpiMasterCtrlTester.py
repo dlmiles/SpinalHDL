@@ -2,7 +2,7 @@ import random
 from queue import Queue
 
 import cocotb
-from cocotb import fork, log
+from cocotb import log
 from cocotb.decorators import coroutine
 from cocotb.triggers import RisingEdge, FallingEdge, Event, Timer
 
@@ -253,7 +253,7 @@ def test1(dut):
     yield Timer(5000)
     yield RisingEdge(dut.clk)
 
-    apbThread = fork(apbAgent(apb,slaveQueue))
-    spiThread = fork(spiSlaveAgent(spi,slaveQueue, dut.clk))
+    apbThread = cocotb.start_soon(apbAgent(apb,slaveQueue))
+    spiThread = cocotb.start_soon(spiSlaveAgent(spi,slaveQueue, dut.clk))
 
     yield apbThread.join()
