@@ -14,7 +14,7 @@ class UutModel:
         self.regA = 44
         self.regB = 44
         self.readAddresses = Queue()
-        cocotb.fork(self.loop())
+        cocotb.start_soon(self.loop())
 
     @cocotb.coroutine
     def loop(self):
@@ -59,7 +59,7 @@ class UutModel:
 def test1(dut):
     dut._log.info("Cocotb test boot")
     random.seed(0)
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
     dut.io_bus_w_payload_strb = 0b1111
 
     uutModel = UutModel(dut)
