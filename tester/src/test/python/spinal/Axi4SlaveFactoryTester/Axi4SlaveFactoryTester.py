@@ -62,16 +62,16 @@ def test1(dut):
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
 
     uutModel = UutModel(dut)
-    dut.io_bus_aw_payload_len = 0
-    dut.io_bus_ar_payload_len = 0
-    dut.io_bus_w_payload_strb = 0b1111
+    dut.io_bus_aw_payload_len.value = 0
+    dut.io_bus_ar_payload_len.value = 0
+    dut.io_bus_w_payload_strb.value = 0b1111
     for i in range(0,5000):
         randSignal(dut.io_bus_aw_valid)
-        dut.io_bus_aw_payload_addr = random.randint(0, 15)*4
+        dut.io_bus_aw_payload_addr.value = random.randint(0, 15)*4
         randSignal(dut.io_bus_w_valid)
         randSignal(dut.io_bus_w_payload_data)
         randSignal(dut.io_bus_ar_valid)
-        dut.io_bus_ar_payload_addr = random.randint(0, 15)*4
+        dut.io_bus_ar_payload_addr.value = random.randint(0, 15)*4
         randSignal(dut.io_bus_b_ready)
         randSignal(dut.io_bus_r_ready)
         yield RisingEdge(dut.clk)
