@@ -16,7 +16,7 @@ class ReadOnlySlaveDriver:
         self.readRspRand = BoolRandomizer()
         self.readRspQueues = [Queue() for i in range(256)]
         self.nonEmptyReadRspQueues = []
-        axi.r.payload.hid <= 0
+        axi.r.payload.hid.value = 0
 
     def createInfrastructure(self):
         StreamDriverSlave(self.axi.ar, self.dut.clk, self.dut.reset)
@@ -64,7 +64,7 @@ class WriteOnlySlaveDriver:
         self.writeDatas = []
         self.writeRspQueues = [Queue() for i in range(256)]
         self.nonEmptyWriteRspQueues = []
-        axi.b.payload.hid <= 0
+        axi.b.payload.hid.value = 0
 
     def createInfrastructure(self):
         StreamDriverSlave(self.axi.aw, self.dut.clk, self.dut.reset)
