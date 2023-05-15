@@ -28,7 +28,7 @@ def test1(dut):
     cocotbXHack()
 
     cocotb.start_soon(ClockDomainAsyncResetCustom(dut.clk, dut.reset))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
     phaseManager = PhaseManager()
     phaseManager.setWaitTasksEndTime(1000*2000)
