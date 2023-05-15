@@ -12,10 +12,10 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
 
     def assertGpio(value):
-        assert(str(dut.cmd_read).lower() == value)
-        assert(str(dut.bus_gpio).lower() == value)
-        assert(str(dut.bus_cmd_read).lower() == value)
-        assert(str(dut.buscpy_gpio_readed).lower() == value)
+        assert(dut.cmd_read._path.lower() == value)
+        assert(dut.bus_gpio._path.lower() == value)
+        assert(dut.bus_cmd_read._path.lower() == value)
+        assert(dut.buscpy_gpio_readed._path.lower() == value)
 
     @cocotb.coroutine
     def stim(drivers):
