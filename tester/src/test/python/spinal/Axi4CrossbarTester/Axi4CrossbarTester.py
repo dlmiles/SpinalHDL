@@ -260,8 +260,8 @@ def test1(dut):
 
     # instanciate slave side
     for idx,axiSlave in enumerate(axiSlaves):
-        axiSlave.r.payload.hid <= 0
-        axiSlave.b.payload.hid <= 0
+        axiSlave.r.payload.hid.value = 0
+        axiSlave.b.payload.hid.value = 0
         slaveHandle = SlaveHandle(idx,idToWrites)
 
         # Read
