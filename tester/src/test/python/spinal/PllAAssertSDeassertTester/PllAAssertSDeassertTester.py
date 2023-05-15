@@ -24,12 +24,12 @@ def test1(dut):
 
     cocotb.start_soon(genClkReset(dut))
     yield Timer(20000)
-    print("yolo" + str(dut.counter))
+    print("yolo" + dut.counter._path)
     assertEquals(dut.counter,3,"Mismatch")
     dut.aReset.value = 1
     yield Timer(5)
     dut.aReset.value = 0
     yield Timer(40000)
-    print("yolo" + str(dut.counter))
+    print("yolo" + dut.counter._path)
     assertEquals(dut.counter,3+5,"Mismatch")
     dut._log.info("Cocotb test done")
