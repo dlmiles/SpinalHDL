@@ -1,7 +1,7 @@
 import random
 
 import cocotb
-from cocotb import fork, log
+from cocotb import log
 from cocotb.decorators import coroutine
 from cocotb.triggers import RisingEdge, FallingEdge, Event
 
@@ -130,7 +130,7 @@ def test1(dut):
             slaveCmds.append(True)
             slaveCmds.append("start")
 
-    masterThread = fork(i2cMasterThread(softMaster, masterCmds,masterRsps))
-    slaveThread = fork(i2cSlaveThread(Flow(dut,"io_cmd"),Flow(dut,"io_rsp"),slaveCmds,slaveRsps, dut.clk))
+    masterThread = cocotb.start_soon(i2cMasterThread(softMaster, masterCmds,masterRsps))
+    slaveThread = cocotb.start_soon(i2cSlaveThread(Flow(dut,"io_cmd"),Flow(dut,"io_rsp"),slaveCmds,slaveRsps, dut.clk))
 
     yield masterThread.join()
