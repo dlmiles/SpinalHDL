@@ -12,10 +12,17 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
 
     def assertGpio(value):
-        assert(dut.cmd_read._path.lower() == value, f"{dut.cmd_read._path.lower()} == {value}")
-        assert(dut.bus_gpio._path.lower() == value, f"{dut.bus_gpio._path.lower()} == {value}")
-        assert(dut.bus_cmd_read._path.lower() == value, f"{dut.bus_cmd_read._path.lower()} == {value}")
-        assert(dut.buscpy_gpio_readed._path.lower() == value, f"{dut.buscpy_gpio_readed._path.lower()} == {value}")
+        dut._log.info("cmd_read={} bus_gpio={} bus_cmd_read={} buscpy_gpio_readed={} value={}".format(
+            dut.cmd_read.value,
+            dut.bus_gpio.value,
+            dut.bus_cmd_read.value,
+            dut.buscpy_gpio_readed.value,
+            value
+        ))
+        assert(dut.cmd_read.value.lower() == value, f"{dut.cmd_read.value.lower()} == {value}")
+        assert(dut.bus_gpio.value.lower() == value, f"{dut.bus_gpio.value.lower()} == {value}")
+        assert(dut.bus_cmd_read.value.lower() == value, f"{dut.bus_cmd_read.value.lower()} == {value}")
+        assert(dut.buscpy_gpio_readed.value.lower() == value, f"{dut.buscpy_gpio_readed.value.lower()} == {value}")
 
     @cocotb.coroutine
     def stim(drivers):
@@ -25,16 +32,21 @@ def test1(dut):
                 toidle.writeenable.value = 0
             driver = random.choice(drivers)
             randSignal(driver.writeenable)
+            dut._log.info("driver={} write={} writeenable={}".format(
+                driver,
+                driver.write.value,
+                driver.writeenable.value
+            ))
             yield Timer(10)
-            if driver.writeenable == False:
+            if driver.writeenable.value == False:
                 assertGpio("z")
-            elif driver.write == False:
+            elif driver.write.value == False:
                 assertGpio("0")
             else:
                 assertGpio("1")
 
 
-    drivers = [Bundle(dut,"bus_cmd"),Bundle(dut,"cmd"),Bundle(dut,"cmdbb")]
+    drivers = [Bundle(dut,"bus_cmd"), Bundle(dut,"cmd"), Bundle(dut,"cmdbb")]
     yield stim(drivers)
 
 
