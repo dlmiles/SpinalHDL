@@ -22,7 +22,7 @@ def test1(dut):
         for i in range(100):
             for toidle in drivers:
                 randSignal(toidle.write)
-                toidle.writeenable <= 0
+                toidle.writeenable.value <= 0
             driver = random.choice(drivers)
             randSignal(driver.writeenable)
             yield Timer(10)
