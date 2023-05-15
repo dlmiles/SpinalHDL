@@ -12,7 +12,7 @@ from spinal.Pinsec.common.Misc import pinsecClockGen
 @cocotb.coroutine
 def txToRxBypass(dut):
     while True:
-        dut.io_uart_rxd <= int(dut.io_uart_txd)
+        dut.io_uart_rxd.value = int(dut.io_uart_txd)
         yield Edge(dut.io_uart_txd)
 
 @cocotb.coroutine
