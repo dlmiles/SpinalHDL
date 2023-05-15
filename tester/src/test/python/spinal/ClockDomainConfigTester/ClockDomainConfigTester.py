@@ -75,7 +75,7 @@ class Ref:
         cocotb.start_soon(self.applyAsyncHighReset())
         cocotb.start_soon(self.applyAsyncLowReset())
         cocotb.start_soon(self.applyFallingEdge())
-        cocotb.fork(self.applyRisingEdge())
+        cocotb.start_soon(self.applyRisingEdge())
 
 
 
@@ -200,7 +200,7 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
     #random.seed(0)
 
-    cocotb.fork(ClockDomainGen(dut))
+    cocotb.start_soon(ClockDomainGen(dut))
     yield Timer(100)
     ref = Ref(dut)
 
