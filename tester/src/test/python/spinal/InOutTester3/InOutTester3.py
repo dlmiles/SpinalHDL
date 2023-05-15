@@ -15,16 +15,21 @@ def test1(dut):
         randSignal(dut.bus_cmd_writeenable)
         randSignal(dut.bus_cmd_write)
         yield Timer(10)
-        writeEnable = dut.bus_cmd_writeenable._path
-        write = dut.bus_cmd_write._path
+        writeEnable = dut.bus_cmd_writeenable.value
+        write = dut.bus_cmd_write.value
         expected = ""
         for i in range(8):
             if(writeEnable[i] == '0'):
                 expected = expected + "z"
             else:
                 expected = expected + write[i]
-        assert expected == dut.bus_cmd_read._path.lower(), f"{expected} == {dut.bus_cmd_read._path.lower()}"
-        assert expected == dut.bus_gpio._path.lower(), f"{expected} == {dut.bus_gpio._path.lower()}"
+        dut._log.info("cread={} gpio={} expected={}".format(
+            dut.bus_cmd_read.value,
+            dut.bus_gpio.value,
+            expected
+        ))
+        assert expected == dut.bus_cmd_read.value.lower(), f"{expected} == {dut.bus_cmd_read.value.lower()}"
+        assert expected == dut.bus_gpio.value.lower(), f"{expected} == {dut.bus_gpio.value.lower()}"
 
 
 
