@@ -90,8 +90,8 @@ def test1(dut):
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
 
-    cocotb.fork(ClockDomainAsyncResetCustom(dut.clk, dut.reset))
-    cocotb.fork(simulationSpeedPrinter(dut.clk))
+    cocotb.start_soon(ClockDomainAsyncResetCustom(dut.clk, dut.reset))
+    cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 
 
     phaseManager = PhaseManager()
