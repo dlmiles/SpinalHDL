@@ -2,7 +2,7 @@ import random
 from queue import Queue
 
 import cocotb
-from cocotb import fork, log
+from cocotb import log
 from cocotb.decorators import coroutine
 from cocotb.triggers import RisingEdge, FallingEdge, Event, Timer
 
@@ -214,7 +214,7 @@ class MasterThread:
                             yield self.softMaster.sendStop()
 
                         yield Timer(randInt(self.baudPeriod * 4, self.baudPeriod * 10))
-                        fork(anotherFrameEmiter())
+                        cocotb.start_soon(anotherFrameEmiter())
                         yield Timer(randInt(self.baudPeriod * 1, self.baudPeriod * 14))
                 normalTransactionCounter += 1
                 break
@@ -242,7 +242,7 @@ def test1(dut):
     dut.io_config_timerClockDivider.value = 24
 
     softMaster = I2cSoftMaster(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(), baudPeriod,dut.clk)
-    slaveThread  = fork(SlaveThread(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(),dut.clk,baudPeriod))
-    masterThread = fork(MasterThread(Stream(dut,"io_cmd"),Flow(dut,"io_rsp"), dut.clk, dut.reset, baudPeriod,softMaster).run())
+    slaveThread  = cocotb.start_soon(SlaveThread(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(),dut.clk,baudPeriod))
+    masterThread = cocotb.start_soon(MasterThread(Stream(dut,"io_cmd"),Flow(dut,"io_rsp"), dut.clk, dut.reset, baudPeriod,softMaster).run())
 
     yield masterThread.join()
