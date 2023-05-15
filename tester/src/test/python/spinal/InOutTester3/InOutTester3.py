@@ -23,7 +23,7 @@ def test1(dut):
                 expected = expected + "z"
             else:
                 expected = expected + write[i]
-        assert expected == dut.bus_cmd_read._path.lower(), f"$expected == ${dut.bus_cmd_read_path._path.lower()}"
+        assert expected == dut.bus_cmd_read._path.lower(), f"$expected == ${dut.bus_cmd_read._path.lower()}"
         assert expected == dut.bus_gpio._path.lower(), f"$expected == ${dut.bus_gpio._path.lower()}"
 
 
