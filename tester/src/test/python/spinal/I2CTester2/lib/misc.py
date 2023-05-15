@@ -1,4 +1,4 @@
-
+import cocotb
 from cocotb.decorators import coroutine
 from cocotb.triggers import Timer, Edge, RisingEdge
 
