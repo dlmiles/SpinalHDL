@@ -196,9 +196,9 @@ class ArbiterLowIdPortFirst:
     def run(self):
         dut = self.dut
         for idx in range(0,3):
-            cocotb.fork(StreamRandomizer("arbiterLowIdPortFirstInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
-        cocotb.fork(StreamReader("arbiterLowIdPortFirstOutput", self.onOutput, idx, self.dut, self.dut.clk))
-        cocotb.fork(self.arbitration())
+            cocotb.start_soon(StreamRandomizer("arbiterLowIdPortFirstInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamReader("arbiterLowIdPortFirstOutput", self.onOutput, idx, self.dut, self.dut.clk))
+        cocotb.start_soon(self.arbitration())
 
         while self.counter < 1000:
             yield RisingEdge(dut.clk)
@@ -243,9 +243,9 @@ class ArbiterRoundRobin:
     def run(self):
         dut = self.dut
         for idx in range(0,3):
-            cocotb.fork(StreamRandomizer("arbiterRoundRobinInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
-        cocotb.fork(StreamReader("arbiterRoundRobinOutput", self.onOutput, idx, self.dut, self.dut.clk))
-        cocotb.fork(self.arbitration())
+            cocotb.start_soon(StreamRandomizer("arbiterRoundRobinInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamReader("arbiterRoundRobinOutput", self.onOutput, idx, self.dut, self.dut.clk))
+        cocotb.start_soon(self.arbitration())
 
         while self.counter < 1000:
             yield RisingEdge(dut.clk)
@@ -284,9 +284,9 @@ class ArbiterLowIdPortNoLockFirst:
     def run(self):
         dut = self.dut
         for idx in range(0,3):
-            cocotb.fork(StreamRandomizer("arbiterLowIdPortFirstNoLockInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
-        cocotb.fork(StreamReader("arbiterLowIdPortFirstNoLockOutput", self.onOutput, idx, self.dut, self.dut.clk))
-        cocotb.fork(self.arbitration())
+            cocotb.start_soon(StreamRandomizer("arbiterLowIdPortFirstNoLockInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamReader("arbiterLowIdPortFirstNoLockOutput", self.onOutput, idx, self.dut, self.dut.clk))
+        cocotb.start_soon(self.arbitration())
 
         while self.counter < 1000:
             yield RisingEdge(dut.clk)
@@ -327,9 +327,9 @@ class ArbiterLowIdPortFragmentLockFirst:
     def run(self):
         dut = self.dut
         for idx in range(0,3):
-            cocotb.fork(StreamRandomizer("arbiterLowIdPortFirstFragmentLockInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
-        cocotb.fork(StreamReader("arbiterLowIdPortFirstFragmentLockOutput", self.onOutput, idx, self.dut, self.dut.clk))
-        cocotb.fork(self.arbitration())
+            cocotb.start_soon(StreamRandomizer("arbiterLowIdPortFirstFragmentLockInputs_" + str(idx), self.onInput ,idx, self.dut, self.dut.clk))
+        cocotb.start_soon(StreamReader("arbiterLowIdPortFirstFragmentLockOutput", self.onOutput, idx, self.dut, self.dut.clk))
+        cocotb.start_soon(self.arbitration())
 
         while self.counter < 1000:
             yield RisingEdge(dut.clk)
@@ -341,18 +341,18 @@ def test1(dut):
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
 
-    cocotb.fork(ClockDomainAsyncReset(dut.clk, dut.reset))
+    cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
 
     threads = []
-    threads.append(cocotb.fork(Fifo(dut).run()))
-    threads.append(cocotb.fork(Fork(dut).run()))
-    threads.append(cocotb.fork(DispatcherInOrder(dut).run()))
-    threads.append(cocotb.fork(StreamFlowArbiter(dut).run()))
-    threads.append(cocotb.fork(ArbiterInOrder(dut).run()))
-    threads.append(cocotb.fork(ArbiterLowIdPortFirst(dut).run()))
-    threads.append(cocotb.fork(ArbiterRoundRobin(dut).run()))
-    threads.append(cocotb.fork(ArbiterLowIdPortNoLockFirst(dut).run()))
-    threads.append(cocotb.fork(ArbiterLowIdPortFragmentLockFirst(dut).run()))
+    threads.append(cocotb.start_soon(Fifo(dut).run()))
+    threads.append(cocotb.start_soon(Fork(dut).run()))
+    threads.append(cocotb.start_soon(DispatcherInOrder(dut).run()))
+    threads.append(cocotb.start_soon(StreamFlowArbiter(dut).run()))
+    threads.append(cocotb.start_soon(ArbiterInOrder(dut).run()))
+    threads.append(cocotb.start_soon(ArbiterLowIdPortFirst(dut).run()))
+    threads.append(cocotb.start_soon(ArbiterRoundRobin(dut).run()))
+    threads.append(cocotb.start_soon(ArbiterLowIdPortNoLockFirst(dut).run()))
+    threads.append(cocotb.start_soon(ArbiterLowIdPortFragmentLockFirst(dut).run()))
 
     for thread in threads:
         yield thread.join()
