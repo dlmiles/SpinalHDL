@@ -151,8 +151,8 @@ def test1(dut):
             slaveCmds.append(True)
             slaveCmds.append("restart")
 
-    masterThread = fork(i2cMasterThread(softMaster, masterCmds,masterRsps))
-    slaveThread = fork(i2cSlaveThread(Bundle(dut,"io_bus_cmd"), Bundle(dut,"io_bus_rsp"),slaveCmds,slaveRsps, dut.clk))
+    masterThread = cocotb.start_soon(i2cMasterThread(softMaster, masterCmds,masterRsps))
+    slaveThread = cocotb.start_soon(i2cSlaveThread(Bundle(dut,"io_bus_cmd"), Bundle(dut,"io_bus_rsp"),slaveCmds,slaveRsps, dut.clk))
 
     yield masterThread.join()
     cocotb.start_soon(SimulationTimeout(100 * 2500000))
