@@ -23,7 +23,7 @@ def test1(dut):
                 expected = expected + "z"
             else:
                 expected = expected + write[i]
-        dut._log.info("bus_cmd_read={} bus_gpio={} expected={}".format(
+        dut._log.debug("bus_cmd_read={} bus_gpio={} expected={}".format(
             str(dut.bus_cmd_read.value).lower(),
             str(dut.bus_gpio.value).lower(),
             expected
