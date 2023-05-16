@@ -133,7 +133,7 @@ def spiSlaveAgent(dut, spi, queue, clk):
     global mosiStableLast
     global ssStableLast
 
-    def signalValueCompareNotEqual(a, b) -> bool:
+    def signalValueStringCompareNotEqual(a, b) -> bool:
         aStr = str(a)
         bStr = str(b)
         return aStr != bStr
@@ -170,13 +170,13 @@ def spiSlaveAgent(dut, spi, queue, clk):
                 ssLast,   ssNew
             ))
 
-            if sclkNew != sclkLast:
+            if signalValueStringCompareNotEqual(sclkNew, sclkLast):
                 sclkStableLast = sclkStable
                 sclkStable = 0
-            if mosiNew != mosiLast:
+            if signalValueStringCompareNotEqual(mosiNew, mosiLast):
                 mosiStableLast = mosiStable
                 mosiStable = 0
-            if ssNew != ssLast:
+            if signalValueStringCompareNotEqual(ssNew, ssLast):
                 ssStableLast = ssStable
                 ssStable = 0
 
