@@ -20,7 +20,7 @@ def test1(dut):
         expected = ""
         for i in range(8):
             if(writeEnable[i] == '0'):
-                expected = expected + "Z"
+                expected = expected + "z"
             else:
                 expected = expected + write[i]
         dut._log.info("bus_cmd_read={} bus_gpio={} expected={}".format(
@@ -28,8 +28,8 @@ def test1(dut):
             dut.bus_gpio.value,
             expected
         ))
-        assert expected == dut.bus_cmd_read.value, f"{expected} == {dut.bus_cmd_read.value}"
-        assert expected == dut.bus_gpio.value, f"{expected} == {dut.bus_gpio.value}"
+        assert expected == str(dut.bus_cmd_read.value), f"{expected} == {str(dut.bus_cmd_read.value)}"
+        assert expected == str(dut.bus_gpio.value), f"{expected} == {str(dut.bus_gpio.value)}"
 
 
 
