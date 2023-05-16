@@ -19,10 +19,10 @@ def test1(dut):
             dut.buscpy_gpio_readed.value,
             value
         ))
-        assert dut.cmd_read.value == value, f"{dut.cmd_read.value} == {value}"
-        assert dut.bus_gpio.value == value, f"{dut.bus_gpio.value} == {value}"
-        assert dut.bus_cmd_read.value == value, f"{dut.bus_cmd_read.value} == {value}"
-        assert dut.buscpy_gpio_readed.value == value, f"{dut.buscpy_gpio_readed.value} == {value}"
+        assert str(dut.cmd_read.value) == value, f"{str(dut.cmd_read.value)} == {value}"
+        assert str(dut.bus_gpio.value) == value, f"{str(dut.bus_gpio.value)} == {value}"
+        assert str(dut.bus_cmd_read.value) == value, f"{str(dut.bus_cmd_read.value)} == {value}"
+        assert str(dut.buscpy_gpio_readed.value) == value, f"{str(dut.buscpy_gpio_readed.value)} == {value}"
 
     @cocotb.coroutine
     def stim(drivers):
@@ -39,9 +39,9 @@ def test1(dut):
             ))
             yield Timer(10)
             if driver.writeenable.value == False:
-                assertGpio("zzzzzzzz")
+                assertGpio("ZZZZZZZZ")
             else:
-                assertGpio(driver.write.value)
+                assertGpio(str(driver.write.value))
 
 
     drivers = [Bundle(dut,"bus_cmd"), Bundle(dut,"cmd"), Bundle(dut,"cmdbb")]
