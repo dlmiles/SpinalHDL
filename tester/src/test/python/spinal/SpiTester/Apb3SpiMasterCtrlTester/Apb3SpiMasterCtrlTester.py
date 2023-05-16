@@ -160,14 +160,10 @@ def spiSlaveAgent(dut, spi, queue, clk):
             mosiStable += 1
             ssStable += 1
 
-            dut._log.info("sclkLast={} sclkNew={}".format(
-                sclkLast,   sclkNew
-            ))
-            dut._log.info("mosiLast={} mosiNew={}".format(
-                mosiLast,   mosiNew
-            ))
-            dut._log.info("ssLast={} ssNew={}".format(
-                ssLast,   ssNew
+            dut._log.info("sclkLast={} sclkNew={}  mosiLast={} mosiNew={}  ssLast={} ssNew={}".format(
+                sclkLast, sclkNew,
+                mosiLast, mosiNew,
+                ssLast, ssNew
             ))
 
             if signalValueStringCompareNotEqual(sclkNew, sclkLast):
