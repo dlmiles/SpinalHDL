@@ -142,14 +142,14 @@ def spiSlaveAgent(spi, queue, clk):
         global mosiStableLast
         global ssStableLast
 
-        sclkLast = spi.sclk._path
-        mosiLast = spi.mosi._path
-        ssLast = spi.ss._path
+        sclkLast = spi.sclk.value
+        mosiLast = spi.mosi.value
+        ssLast = spi.ss.value
         for i in range(cycles):
             yield RisingEdge(clk)
-            sclkNew = spi.sclk._path
-            mosiNew = spi.mosi._path
-            ssNew = spi.ss._path
+            sclkNew = spi.sclk.value
+            mosiNew = spi.mosi.value
+            ssNew = spi.ss.value
 
             sclkStable += 1
             mosiStable += 1
