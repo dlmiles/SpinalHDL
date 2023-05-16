@@ -15,12 +15,12 @@ def test1(dut):
         randSignal(dut.bus_cmd_writeenable)
         randSignal(dut.bus_cmd_write)
         yield Timer(10)
-        writeEnable = dut.bus_cmd_writeenable.value
-        write = dut.bus_cmd_write.value
+        writeEnable = str(dut.bus_cmd_writeenable.value)
+        write = str(dut.bus_cmd_write.value)
         expected = ""
         for i in range(8):
             if(writeEnable[i] == '0'):
-                expected = expected + "z"
+                expected = expected + "Z"
             else:
                 expected = expected + write[i]
         dut._log.info("bus_cmd_read={} bus_gpio={} expected={}".format(
