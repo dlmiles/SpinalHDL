@@ -21,7 +21,7 @@ class VerilatorBackendConfig{
   val rtlSourcesPaths        = ArrayBuffer[String]()
   val rtlIncludeDirs         = ArrayBuffer[String]()
   var toplevelName: String   = null
-  var maxCacheEntries: Int   = 100
+  var maxCacheEntries: Int   = Integer.getInteger(this.getClass.getName + ".maxCacheEntries", 100)
   var cachePath: String      = null
   var workspacePath: String  = null
   var workspaceName: String  = null
