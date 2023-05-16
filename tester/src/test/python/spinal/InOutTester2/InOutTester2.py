@@ -13,16 +13,16 @@ def test1(dut):
 
     def assertGpio(value):
         dut._log.info("cmd_read={} bus_gpio={} bus_cmd_read={} buscpy_gpio_readed={} value={}".format(
-            dut.cmd_read.value,
-            dut.bus_gpio.value,
-            dut.bus_cmd_read.value,
-            dut.buscpy_gpio_readed.value,
+            str(dut.cmd_read.value).lower(),
+            str(dut.bus_gpio.value).lower(),
+            str(dut.bus_cmd_read.value).lower(),
+            str(dut.buscpy_gpio_readed.value).lower(),
             value
         ))
-        assert str(dut.cmd_read.value) == value, f"{str(dut.cmd_read.value)} == {value}"
-        assert str(dut.bus_gpio.value) == value, f"{str(dut.bus_gpio.value)} == {value}"
-        assert str(dut.bus_cmd_read.value) == value, f"{str(dut.bus_cmd_read.value)} == {value}"
-        assert str(dut.buscpy_gpio_readed.value) == value, f"{str(dut.buscpy_gpio_readed.value)} == {value}"
+        assert str(dut.cmd_read.value).lower() == value, f"{str(dut.cmd_read.value).lower()} == {value}"
+        assert str(dut.bus_gpio.value).lower() == value, f"{str(dut.bus_gpio.value).lower()} == {value}"
+        assert str(dut.bus_cmd_read.value).lower() == value, f"{str(dut.bus_cmd_read.value).lower()} == {value}"
+        assert str(dut.buscpy_gpio_readed.value).lower() == value, f"{str(dut.buscpy_gpio_readed.value).lower()} == {value}"
 
     @cocotb.coroutine
     def stim(drivers):
@@ -41,7 +41,7 @@ def test1(dut):
             if driver.writeenable.value == False:
                 assertGpio("zzzzzzzz")
             else:
-                assertGpio(str(driver.write.value))
+                assertGpio(str(driver.write.value).lower())
 
 
     drivers = [Bundle(dut,"bus_cmd"), Bundle(dut,"cmd"), Bundle(dut,"cmdbb")]
