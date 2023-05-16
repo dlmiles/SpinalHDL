@@ -39,7 +39,7 @@ def test1(dut):
             ))
             yield Timer(10)
             if driver.writeenable.value == False:
-                assertGpio("ZZZZZZZZ")
+                assertGpio("zzzzzzzz")
             else:
                 assertGpio(str(driver.write.value))
 
