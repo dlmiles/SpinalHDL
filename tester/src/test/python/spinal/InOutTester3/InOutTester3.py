@@ -24,12 +24,12 @@ def test1(dut):
             else:
                 expected = expected + write[i]
         dut._log.info("bus_cmd_read={} bus_gpio={} expected={}".format(
-            dut.bus_cmd_read.value,
-            dut.bus_gpio.value,
+            str(dut.bus_cmd_read.value).lower(),
+            str(dut.bus_gpio.value).lower(),
             expected
         ))
-        assert expected == str(dut.bus_cmd_read.value), f"{expected} == {str(dut.bus_cmd_read.value)}"
-        assert expected == str(dut.bus_gpio.value), f"{expected} == {str(dut.bus_gpio.value)}"
+        assert expected == str(dut.bus_cmd_read.value).lower(), f"{expected} == {str(dut.bus_cmd_read.value).lower()}"
+        assert expected == str(dut.bus_gpio.value).lower(), f"{expected} == {str(dut.bus_gpio.value).lower()}"
 
 
 
