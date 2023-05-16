@@ -23,13 +23,13 @@ def test1(dut):
                 expected = expected + "z"
             else:
                 expected = expected + write[i]
-        dut._log.info("cread={} gpio={} expected={}".format(
+        dut._log.info("bus_cmd_read={} bus_gpio={} expected={}".format(
             dut.bus_cmd_read.value,
             dut.bus_gpio.value,
             expected
         ))
-        assert expected == dut.bus_cmd_read.value.lower(), f"{expected} == {dut.bus_cmd_read.value.lower()}"
-        assert expected == dut.bus_gpio.value.lower(), f"{expected} == {dut.bus_gpio.value.lower()}"
+        assert expected == dut.bus_cmd_read.value, f"{expected} == {dut.bus_cmd_read.value}"
+        assert expected == dut.bus_gpio.value, f"{expected} == {dut.bus_gpio.value}"
 
 
 
