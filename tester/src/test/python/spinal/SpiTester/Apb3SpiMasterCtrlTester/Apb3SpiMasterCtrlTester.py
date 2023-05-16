@@ -125,7 +125,7 @@ mosiStableLast = 0
 ssStableLast = 0
 
 @coroutine
-def spiSlaveAgent(spi, queue, clk):
+def spiSlaveAgent(dut, spi, queue, clk):
     global sclkStable
     global mosiStable
     global ssStable
@@ -269,6 +269,6 @@ def test1(dut):
     yield RisingEdge(dut.clk)
 
     apbThread = cocotb.start_soon(apbAgent(apb,slaveQueue))
-    spiThread = cocotb.start_soon(spiSlaveAgent(spi,slaveQueue, dut.clk))
+    spiThread = cocotb.start_soon(spiSlaveAgent(dut, spi, slaveQueue, dut.clk))
 
     yield apbThread.join()
