@@ -133,6 +133,11 @@ def spiSlaveAgent(spi, queue, clk):
     global mosiStableLast
     global ssStableLast
 
+    def signalValueCompareNotEqual(a, b) -> bool:
+        aStr = str(a)
+        bStr = str(b)
+        return aStr != bStr
+
     @coroutine
     def wait(cycles):
         global sclkStable
@@ -154,6 +159,16 @@ def spiSlaveAgent(spi, queue, clk):
             sclkStable += 1
             mosiStable += 1
             ssStable += 1
+
+            dut._log.info("sclkLast={} sclkNew={}".format(
+                sclkLast,   sclkNew
+            ))
+            dut._log.info("mosiLast={} mosiNew={}".format(
+                mosiLast,   mosiNew
+            ))
+            dut._log.info("ssLast={} ssNew={}".format(
+                ssLast,   ssNew
+            ))
 
             if sclkNew != sclkLast:
                 sclkStableLast = sclkStable
