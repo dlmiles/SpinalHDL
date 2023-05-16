@@ -160,7 +160,7 @@ def spiSlaveAgent(dut, spi, queue, clk):
             mosiStable += 1
             ssStable += 1
 
-            dut._log.info("sclkLast={} sclkNew={}  mosiLast={} mosiNew={}  ssLast={} ssNew={}".format(
+            dut._log.debug("sclkLast={} sclkNew={}  mosiLast={} mosiNew={}  ssLast={} ssNew={}".format(
                 sclkLast, sclkNew,
                 mosiLast, mosiNew,
                 ssLast, ssNew
