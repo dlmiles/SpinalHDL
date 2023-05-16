@@ -6,7 +6,6 @@ import landa.SimManagedTest.Dut
 import spinal.core._
 import spinal.core.sim._
 
-import scala.collection.BuildFrom
 import scala.languageFeature.higherKinds
 import scala.language.postfixOps
 import scala.util.Random
