@@ -12,7 +12,7 @@ def test1(dut):
     dut._log.info("Cocotb test boot")
 
     def assertGpio(value):
-        dut._log.info("cmd_read={} bus_gpio={} bus_cmd_read={} buscpy_gpio_readed={} value={}".format(
+        dut._log.debug("cmd_read={} bus_gpio={} bus_cmd_read={} buscpy_gpio_readed={} value={}".format(
             str(dut.cmd_read.value).lower(),
             str(dut.bus_gpio.value).lower(),
             str(dut.bus_cmd_read.value).lower(),
@@ -32,7 +32,7 @@ def test1(dut):
                 toidle.writeenable.value = 0
             driver = random.choice(drivers)
             randSignal(driver.writeenable)
-            dut._log.info("driver={} write={} writeenable={}".format(
+            dut._log.debug("driver={} write={} writeenable={}".format(
                 driver,
                 driver.write.value,
                 driver.writeenable.value
