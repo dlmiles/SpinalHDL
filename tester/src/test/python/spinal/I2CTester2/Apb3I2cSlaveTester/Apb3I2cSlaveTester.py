@@ -31,10 +31,12 @@ def test1(dut):
 
     softMaster = I2cSoftMaster(sclInterconnect.newSoftConnection(), sdaInterconnect.newSoftConnection(), 2500000,dut.clk)
 
+    dut._log.info("setup")
 
     apb = Apb3(dut, "io_apb", dut.clk)
     apb.idle()
 
+    dut._log.info("idle")
 
     @coroutine
     def txData(valid = False, enable = False, value = 0xFF, repeat = False,  disableOnConflict = False):
@@ -85,9 +87,13 @@ def test1(dut):
 
     buffer = [0]
 
+    dut._log.info("MARK1")
+
     yield apb.write(40, 3)        #samplingClockDivider
     yield apb.write(44, 25*20-1)  #timeout
     yield apb.write(48, 4)        #tsuDat
+
+    dut._log.info("MARK2")
 
     #Check idle controller
     yield softMaster.wait(2)
@@ -99,6 +105,7 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK3")
 
     # Check simple txData
     yield idle()
@@ -113,6 +120,7 @@ def test1(dut):
     yield rxDataNotValid();
     yield softMaster.wait(5)
 
+    dut._log.info("MARK4")
 
     # Check simple txAck
     yield idle()
@@ -130,6 +138,7 @@ def test1(dut):
     yield rxAckValue(True)
     yield softMaster.wait(5)
 
+    dut._log.info("MARK5")
 
     # Check explicit idle controller
     yield idle()
@@ -142,6 +151,7 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK6")
 
     # Check tx clock stretching
     yield idle()
@@ -149,6 +159,8 @@ def test1(dut):
     yield txAck(valid=False)
     yield softMaster.wait(2)
     yield softMaster.sendStart()
+
+    dut._log.info("MARK7")
 
     txThread = cocotb.start_soon(softMaster.sendByteCheck(0xAA, 0x0A))
     yield softMaster.wait(10)
@@ -159,6 +171,8 @@ def test1(dut):
     yield txAck(valid=True, enable=True, value=False)
     yield txThread.join()
 
+    dut._log.info("MARK8")
+
     txThread = cocotb.start_soon(softMaster.sendByteCheck(0x55, 0x50))
     yield softMaster.wait(10)
     yield txData(valid = True, enable = True, value = 0xF0)
@@ -168,6 +182,8 @@ def test1(dut):
     yield txAck(valid=True, enable=True, value=False)
     yield txThread.join()
 
+    dut._log.info("MARK9")
+
     yield txData(valid = True, enable = True, value = 0x8F)
     yield txAck(valid=True, enable=True, value=True)
     yield softMaster.sendByteCheck(0xF3, 0x83)
@@ -175,6 +191,7 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK10")
 
     # Check rxData clock streching
     yield idle()
@@ -192,6 +209,7 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK11")
 
     # Check rxAck clock streching
     yield idle()
@@ -209,6 +227,7 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK12")
 
     #check txData repeat
     yield idle()
@@ -224,6 +243,7 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK13")
 
     # check txAck repeat
     yield idle()
@@ -239,12 +259,14 @@ def test1(dut):
     yield softMaster.sendStop()
     yield softMaster.wait(5)
 
+    dut._log.info("MARK14")
 
     #Check address filter
     yield idle()
     yield addressFilter(index = 2, enable = True, is10Bits = False, value = 0x63)
     yield addressFilter(index = 1, enable = True, is10Bits = True, value = 0x123)
     for i in range(2):
+        dut._log.info("MARK15 loop={}".format(i))
         #7bits
         yield softMaster.wait(2)
         yield softMaster.sendStart()
@@ -261,6 +283,7 @@ def test1(dut):
         yield softMaster.sendStop()
         yield softMaster.wait(5)
 
+        dut._log.info("MARK16 loop={}".format(i))
         #10bits
         yield softMaster.wait(2)
         yield softMaster.sendStart()
@@ -279,6 +302,7 @@ def test1(dut):
         yield softMaster.sendStop()
         yield softMaster.wait(5)
 
+        dut._log.info("MARK17 loop={}".format(i))
         #10bits no trigger
         yield softMaster.wait(2)
         yield softMaster.sendStart()
@@ -290,6 +314,7 @@ def test1(dut):
         yield softMaster.sendStop()
         yield softMaster.wait(5)
 
+        dut._log.info("MARK18 loop={}".format(i))
         #7bits no trigger
         yield softMaster.wait(2)
         yield softMaster.sendStart()
