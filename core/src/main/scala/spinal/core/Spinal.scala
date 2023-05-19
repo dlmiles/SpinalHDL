@@ -26,6 +26,7 @@ import org.apache.commons.io.FileUtils
 import java.io.{BufferedWriter, File, FileWriter}
 import spinal.core.internals._
 
+import java.lang.Boolean.parseBoolean
 import java.text.SimpleDateFormat
 import java.util.Date
 import scala.collection.mutable
@@ -41,6 +42,14 @@ trait SpinalMode
 object VHDL    extends SpinalMode
 object Verilog extends SpinalMode
 object SystemVerilog extends SpinalMode
+
+
+def getBoolean(key: String, defaultValue: Boolean = false): Boolean = {
+  try parseBoolean(System.getProperty(key))
+  catch {
+    case _: IllegalArgumentException | _: NullPointerException => defaultValue
+  }
+}
 
 
 case class DumpWaveConfig(depth: Int = 0, vcdPath: String = "wave.vcd")
@@ -159,7 +168,17 @@ case class SpinalConfig(mode                           : SpinalMode = null,
                         noAssert                       : Boolean = false,
                         fixToWithWrap                  : Boolean = true,
                         headerWithDate                 : Boolean = false,
-                        headerWithRepoHash             : Boolean = true,
+                        /**
+                          * headerWithRepoHash: Boolean
+                          * This controls calling out to 'git rev-parse HEAD' and emitting a header comment in the
+                          *  generated HDL containing the git repo hash of the current location for the source project.
+                          * This setting has a default value: true
+                          * This setting can be changed with a property: -Dspinal.core.SpinalConfig.headerWithRepoHash=false
+                          * The is to allow easy reconfiguration in a CI system where the generated HDL content should
+                          *  not change between rebuilds even if the project commit-id does.  Where a content change in
+                          *  the HDL can cause an unnecessary incremental build/build-simulator/simulation to occur.
+                          */
+                        headerWithRepoHash             : Boolean = getBoolean(SpinalConfig.getClass.getName + ".headerWithRepoHash", true),
                         removePruned                   : Boolean = false,
                         allowOutOfRangeLiterals        : Boolean = false,
                         dontCareGenAsZero              : Boolean = false,
