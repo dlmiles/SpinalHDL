@@ -44,10 +44,12 @@ object Verilog extends SpinalMode
 object SystemVerilog extends SpinalMode
 
 
-def getBoolean(key: String, defaultValue: Boolean = false): Boolean = {
-  try parseBoolean(System.getProperty(key))
-  catch {
-    case _: IllegalArgumentException | _: NullPointerException => defaultValue
+object BooleanUtil {
+  def getBoolean(key: String, defaultValue: Boolean = false): Boolean = {
+    try parseBoolean(System.getProperty(key))
+    catch {
+      case _: IllegalArgumentException | _: NullPointerException => defaultValue
+    }
   }
 }
 
@@ -178,7 +180,7 @@ case class SpinalConfig(mode                           : SpinalMode = null,
                           *  not change between rebuilds even if the project commit-id does.  Where a content change in
                           *  the HDL can cause an unnecessary incremental build/build-simulator/simulation to occur.
                           */
-                        headerWithRepoHash             : Boolean = getBoolean(SpinalConfig.getClass.getName + ".headerWithRepoHash", true),
+                        headerWithRepoHash             : Boolean = BooleanUtil.getBoolean(SpinalConfig.getClass.getName + ".headerWithRepoHash", true),
                         removePruned                   : Boolean = false,
                         allowOutOfRangeLiterals        : Boolean = false,
                         dontCareGenAsZero              : Boolean = false,
