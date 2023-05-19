@@ -21,6 +21,13 @@ class VerilatorBackendConfig{
   val rtlSourcesPaths        = ArrayBuffer[String]()
   val rtlIncludeDirs         = ArrayBuffer[String]()
   var toplevelName: String   = null
+  /**
+    * maxCacheEntries: Int
+    * This controls the maximum number of verilator cached simulator builds retained in the .cache directory.
+    * A value of zero will disable the limit.
+    * The default value is: 100
+    * The setting can be changed with a property -Dspinal.sim.VerilatorBackendConfig.maxCacheEntries=100
+    */
   var maxCacheEntries: Int   = Integer.getInteger(this.getClass.getName + ".maxCacheEntries", 100)
   var cachePath: String      = null
   var workspacePath: String  = null

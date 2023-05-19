@@ -36,7 +36,14 @@ import sys.process._
 case class SpinalVerilatorBackendConfig[T <: Component](
                                                          rtl               : SpinalReport[T],
                                                          waveFormat        : WaveFormat = WaveFormat.NONE,
-                                                         maxCacheEntries   : Int = 100,
+                                                         /**
+                                                           * maxCacheEntries: Int
+                                                           * This controls the maximum number of verilator cached simulator builds retained in the .cache directory.
+                                                           * A value of zero will disable the limit.
+                                                           * The default value is: 100
+                                                           * The setting can be changed with a property -Dspinal.sim.VerilatorBackendConfig.maxCacheEntries=100
+                                                           */
+                                                         maxCacheEntries: Int = Integer.getInteger("spinal.sim.VerilatorBackendConfig.maxCacheEntries", 100),
                                                          cachePath         : String = null,
                                                          workspacePath     : String = "./",
                                                          workspaceName     : String = null,
@@ -675,7 +682,15 @@ case class SpinalSimConfig(
                             var _waveFormat        : WaveFormat = WaveFormat.NONE,
                             var _backend           : SpinalSimBackendSel = SpinalSimBackendSel.VERILATOR,
                             var _withCoverage      : Boolean = false,
-                            var _maxCacheEntries   : Int = 100,
+                            /**
+                              * maxCacheEntries: Int
+                              * This controls the maximum number of cached simulator builds retained in the .cache directory.
+                              * Not all Simulator backends support this feature.
+                              * A value of zero will disable the limit.
+                              * The default value is: 100
+                              * The setting can be changed with a property -Dspinal.sim.Config.maxCacheEntries=100
+                              */
+                            var _maxCacheEntries   : Int = Integer.getInteger("spinal.sim.Config.maxCacheEntries", 100),
                             var _cachePath         : String = null, // null => workspacePath + "/.cache"
                             var _disableCache      : Boolean = false,
                             var _withLogging       : Boolean = false,
