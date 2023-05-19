@@ -1,4 +1,0 @@
-[submodule "tester/src/test/python/cocotblib"]
-	path = tester/src/test/python/cocotblib
-	url = https://github.com/dlmiles/SpinalHDL-CocotbLib.git
-	branch = dlm-dev
