@@ -1,7 +1,7 @@
 import random
 
 import cocotb
-from cocotb.triggers import Timer
+from cocotb.triggers import RisingEdge, Timer
 
 from cocotblib.Apb3 import Apb3
 from cocotblib.Phase import PhaseManager, Infrastructure, PHASE_WAIT_TASKS_END
