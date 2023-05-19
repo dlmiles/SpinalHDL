@@ -4,6 +4,8 @@ from queue import Queue
 import cocotb
 from cocotb.result import TestFailure
 from cocotb.triggers import Timer, Edge, RisingEdge, Join, FallingEdge
+from cocotblib.misc import set_timeout
+
 
 @cocotb.coroutine
 def genClock(dut, nCycles):
@@ -33,6 +35,7 @@ def testDensity(dut, density):
 
 @cocotb.test()
 def main_test(dut):
+    set_timeout()
     dut.reset.value = 1
     yield genClock(dut, 2)
     dut.reset.value = 0

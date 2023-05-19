@@ -3,7 +3,7 @@ import random
 import cocotb
 from cocotb.triggers import Timer
 
-from cocotblib.misc import assertEquals, ClockDomainAsyncReset, Bundle, simulationSpeedPrinter, log2Up
+from cocotblib.misc import set_timeout, assertEquals, ClockDomainAsyncReset, Bundle, simulationSpeedPrinter, log2Up
 
 
 
@@ -50,6 +50,7 @@ def jtagBridgeReadAssert(ctrl, address, size,value,mask = -1):
 
 @cocotb.test()
 def jtagTest(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     random.seed(0)
 

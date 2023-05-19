@@ -1,11 +1,12 @@
 import cocotb
 from cocotb.triggers import RisingEdge
 
-from cocotblib.misc import assertEquals, ClockDomainAsyncReset, BoolRandomizer, simulationSpeedPrinter
+from cocotblib.misc import set_timeout, assertEquals, ClockDomainAsyncReset, BoolRandomizer, simulationSpeedPrinter
 
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     ref = [ 2,2,2,3,3,4,5,12,16,3,3,2,1,1,1,1,
             2,2,3,3,3,4,12,16,8,4,3,3,2,2,1,1,

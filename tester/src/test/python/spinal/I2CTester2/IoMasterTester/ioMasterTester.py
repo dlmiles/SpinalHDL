@@ -8,7 +8,7 @@ from cocotb.triggers import RisingEdge, FallingEdge, Event, Timer
 
 from cocotblib.Flow import Flow
 from cocotblib.Stream import Stream, StreamDriverMaster, Transaction
-from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, randBits, randBool
+from cocotblib.misc import set_timeout, assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, randBits, randBool
 from spinal.I2CTester2.lib.misc import OpenDrainInterconnect, I2cSoftMaster
 
 
@@ -226,6 +226,7 @@ class MasterThread:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
     cocotb.start_soon(simulationSpeedPrinter(dut.clk))
 

@@ -1,6 +1,7 @@
 import random
 import cocotb
 from cocotb.triggers import Timer
+from cocotblib.misc import set_timeout
 
 @cocotb.coroutine
 async def try_tri(pad, write, writeEnable, read):
@@ -20,6 +21,7 @@ async def try_tri(pad, write, writeEnable, read):
 
 @cocotb.test()
 async def test_tri_side(dut):
+    set_timeout()
     bundles = [
         (dut.simple_driver_pad, dut.simple_driver_tri_write, dut.simple_driver_tri_writeEnable, dut.simple_driver_tri_read),
         (dut.analog_bus_pad, dut.analog_bus_tri_write, dut.analog_bus_tri_writeEnable, dut.analog_bus_tri_read),

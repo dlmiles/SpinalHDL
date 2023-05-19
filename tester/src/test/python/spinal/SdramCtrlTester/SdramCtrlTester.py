@@ -4,7 +4,7 @@ import cocotb
 from cocotb.triggers import Timer
 from cocotblib.Phase import PhaseManager, Infrastructure, PHASE_WAIT_TASKS_END
 from cocotblib.Scorboard import ScorboardInOrder
-from cocotblib.misc import simulationSpeedPrinter, randBits, BoolRandomizer
+from cocotblib.misc import set_timeout, simulationSpeedPrinter, randBits, BoolRandomizer
 
 from cocotblib.Stream import StreamDriverSlave, StreamDriverMaster, Transaction, StreamMonitor, Stream
 
@@ -86,6 +86,7 @@ def ClockDomainAsyncResetCustom(clk,reset):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     random.seed(0)
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

@@ -2,13 +2,14 @@ import random
 
 import cocotb
 from cocotblib.Phase import PhaseManager
-from cocotblib.misc import ClockDomainAsyncReset, simulationSpeedPrinter
+from cocotblib.misc import set_timeout, ClockDomainAsyncReset, simulationSpeedPrinter
 
 from cocotblib.Axi4 import Axi4Shared, Axi4SharedMemoryChecker
 
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

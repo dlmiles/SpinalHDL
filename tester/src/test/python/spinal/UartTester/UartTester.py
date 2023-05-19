@@ -4,7 +4,7 @@ from queue import Queue
 import cocotb
 from cocotb.triggers import Edge, RisingEdge, FallingEdge
 
-from cocotblib.misc import assertEquals, ClockDomainAsyncReset, simulationSpeedPrinter
+from cocotblib.misc import set_timeout, assertEquals, ClockDomainAsyncReset, simulationSpeedPrinter
 
 UartParityType_NONE = 0
 UartParityType_EVEN = 1
@@ -102,6 +102,7 @@ def checkTx(dut,queue):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
 
     from cocotblib.misc import cocotbXHack

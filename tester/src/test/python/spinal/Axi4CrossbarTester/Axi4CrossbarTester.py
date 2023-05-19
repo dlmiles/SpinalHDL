@@ -4,7 +4,7 @@ from queue import Queue
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
 from cocotblib.Axi4 import Axi4
-from cocotblib.misc import ClockDomainAsyncReset, simulationSpeedPrinter, randBits, BoolRandomizer, assertEquals
+from cocotblib.misc import set_timeout, ClockDomainAsyncReset, simulationSpeedPrinter, randBits, BoolRandomizer, assertEquals
 
 from cocotblib.Stream import StreamDriverSlave, StreamDriverMaster, Transaction, StreamMonitor
 
@@ -229,6 +229,7 @@ class SlaveHandle:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     random.seed(0)
 

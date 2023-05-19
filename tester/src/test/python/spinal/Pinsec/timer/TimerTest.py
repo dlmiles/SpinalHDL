@@ -3,7 +3,7 @@ import random
 import cocotb
 from cocotb.triggers import Timer
 
-from cocotblib.misc import ClockDomainAsyncReset, simulationSpeedPrinter
+from cocotblib.misc import set_timeout, ClockDomainAsyncReset, simulationSpeedPrinter
 from spinal.Pinsec.common.HexLoader import loadIHex
 
 
@@ -32,6 +32,7 @@ def assertions(dut):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     random.seed(0)
 

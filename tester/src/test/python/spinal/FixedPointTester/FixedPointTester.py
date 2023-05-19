@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import Timer
 
-from cocotblib.misc import randSignal, assertEquals, truncUInt, sint
+from cocotblib.misc import set_timeout, randSignal, assertEquals, truncUInt, sint
 
 
 class Ref:
@@ -14,6 +14,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     #random.seed(0)
 

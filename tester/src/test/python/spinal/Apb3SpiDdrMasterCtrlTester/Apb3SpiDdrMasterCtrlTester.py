@@ -5,7 +5,7 @@ import cocotb
 from cocotb.triggers import Edge, RisingEdge, FallingEdge, Timer
 
 from cocotblib.Apb3 import Apb3
-from cocotblib.misc import assertEquals, ClockDomainAsyncReset, simulationSpeedPrinter, waitClockedCond
+from cocotblib.misc import set_timeout, assertEquals, ClockDomainAsyncReset, simulationSpeedPrinter, waitClockedCond
 
 
 @cocotb.coroutine
@@ -33,6 +33,7 @@ def genCLock(dut):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
 
     from cocotblib.misc import cocotbXHack

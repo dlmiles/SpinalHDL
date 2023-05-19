@@ -2,7 +2,7 @@ import cocotb
 from cocotb.result import TestFailure
 from cocotb.triggers import Timer
 
-from cocotblib.misc import randSignal, truncUInt, sint, truncSInt
+from cocotblib.misc import set_timeout, randSignal, truncUInt, sint, truncSInt
 import random
 
 def check(signal,bitCount,value):
@@ -27,6 +27,7 @@ def randSignalNotZero(that):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
 
     # itemDir = dut.uint4.__dict__

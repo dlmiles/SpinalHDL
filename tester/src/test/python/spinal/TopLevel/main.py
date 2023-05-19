@@ -1,11 +1,13 @@
 import cocotb
 from cocotb.triggers import Timer
+from cocotblib.misc import set_timeout
 
 @cocotb.test()
 def my_first_test(dut):
     """
     Try accessing the design
     """
+    set_timeout()
     dut._log.info("Running test!")
     dut.incrementBy = 2
     dut.clear = 0

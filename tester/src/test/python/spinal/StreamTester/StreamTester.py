@@ -5,7 +5,7 @@ import cocotb
 from cocotb.result import TestFailure
 from cocotb.triggers import RisingEdge, FallingEdge
 
-from cocotblib.misc import randSignal, assertEquals, ClockDomainAsyncReset, BoolRandomizer, StreamRandomizer,StreamReader, FlowRandomizer
+from cocotblib.misc import set_timeout, randSignal, assertEquals, ClockDomainAsyncReset, BoolRandomizer, StreamRandomizer,StreamReader, FlowRandomizer
 from functools import reduce
 
 
@@ -336,6 +336,7 @@ class ArbiterLowIdPortFragmentLockFirst:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     random.seed(0)
     from cocotblib.misc import cocotbXHack

@@ -3,7 +3,7 @@ import random
 import cocotb
 from cocotb.triggers import Timer, RisingEdge, FallingEdge
 
-from cocotblib.misc import assertEquals
+from cocotblib.misc import set_timeout, assertEquals
 
 
 @cocotb.coroutine
@@ -197,6 +197,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     #random.seed(0)
 

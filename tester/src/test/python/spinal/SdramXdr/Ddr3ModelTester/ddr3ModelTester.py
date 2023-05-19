@@ -1,6 +1,7 @@
 import random
 import cocotb
 from cocotb.triggers import Timer
+from cocotblib.misc import set_timeout
 
 from Verilog_VCD.Verilog_VCD import parse_vcd
 from spinal.SdramXdr.common.VcdLib import *
@@ -8,6 +9,7 @@ from spinal.SdramXdr.common.VcdLib import *
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     random.seed(0)
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

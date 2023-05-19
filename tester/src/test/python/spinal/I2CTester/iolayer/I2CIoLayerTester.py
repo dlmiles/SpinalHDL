@@ -5,6 +5,7 @@
 from cocotb.triggers import Timer
 
 from cocotblib.ClockDomain import ClockDomain, RESET_ACTIVE_LEVEL
+from cocotblib.misc import set_timeout
 from spinal.I2CTester.iolayer.I2CIoLayer       import *
 from spinal.I2CTester.iolayer.I2CMasterIoLayer import I2CMasterIoLayer
 from spinal.I2CTester.iolayer.I2CSlaveIoLayer  import I2CSlaveIoLayer
@@ -14,7 +15,7 @@ from spinal.I2CTester.iolayer.I2CSlaveIoLayer  import I2CSlaveIoLayer
 # Test (Scenario 1)
 @cocotb.test()
 def test_scenario(dut):
-
+    set_timeout()
     dut._log.info("Cocotb I2C IO Layer - Basic test")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

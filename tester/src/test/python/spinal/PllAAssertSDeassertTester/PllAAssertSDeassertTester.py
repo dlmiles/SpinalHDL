@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import RisingEdge, Timer
 
-from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsyncReset
+from cocotblib.misc import set_timeout, randSignal, assertEquals, truncUInt, ClockDomainAsyncReset
 
 
 @cocotb.coroutine
@@ -20,6 +20,7 @@ def genClkReset(dut):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
 
     cocotb.start_soon(genClkReset(dut))

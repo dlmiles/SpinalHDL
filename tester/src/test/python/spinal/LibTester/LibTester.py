@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import Timer
 
-from cocotblib.misc import randSignal, assertEquals, ClockDomainAsyncReset
+from cocotblib.misc import set_timeout, randSignal, assertEquals, ClockDomainAsyncReset
 
 
 class Ref:
@@ -10,6 +10,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

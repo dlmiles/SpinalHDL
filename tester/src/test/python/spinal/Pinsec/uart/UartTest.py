@@ -3,7 +3,7 @@ import random
 import cocotb
 from cocotb.triggers import Timer, Edge
 
-from cocotblib.misc import simulationSpeedPrinter
+from cocotblib.misc import set_timeout, simulationSpeedPrinter
 from spinal.Pinsec.common.CoreCom import readCoreValueAssert
 from spinal.Pinsec.common.HexLoader import loadIHex
 from spinal.Pinsec.common.Misc import pinsecClockGen
@@ -39,6 +39,7 @@ def assertions(dut):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     random.seed(0)
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

@@ -5,7 +5,7 @@ import cocotb
 from cocotb.triggers import RisingEdge
 from cocotblib.AhbLite3 import AhbLite3MasterDriver, AhbLite3SlaveMemory, AhbLite3TraficGenerator, AhbLite3MasterReadChecker
 
-from cocotblib.misc import ClockDomainAsyncReset, Bundle, simulationSpeedPrinter
+from cocotblib.misc import set_timeout, ClockDomainAsyncReset, Bundle, simulationSpeedPrinter
 
 
 class AhbLite3TraficGeneratorWithMemory(AhbLite3TraficGenerator):
@@ -47,6 +47,7 @@ class AhbLite3TraficGeneratorWithMemory(AhbLite3TraficGenerator):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     random.seed(0)
 

@@ -4,7 +4,7 @@ import cocotb
 from cocotb.result import TestFailure
 from cocotblib.Axi4 import Axi4, Axi4ReadOnly, Axi4WriteOnly, Axi4Shared
 from cocotblib.Phase import PhaseManager, Infrastructure, PHASE_CHECK_SCORBOARDS
-from cocotblib.misc import ClockDomainAsyncReset, simulationSpeedPrinter
+from cocotblib.misc import set_timeout, ClockDomainAsyncReset, simulationSpeedPrinter
 
 from spinal.Axi4CrossbarTester2.MasterDriver import WriteOnlyMasterDriver, ReadOnlyMasterDriver, SharedMasterDriver
 from spinal.Axi4CrossbarTester2.MasterMonitor import ReadOnlyMasterMonitor, WriteOnlyMasterMonitor, SharedMasterMonitor
@@ -40,6 +40,7 @@ class ErrorInfra(Infrastructure):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

@@ -2,7 +2,7 @@ import random
 
 import cocotb
 from cocotblib.Phase import PhaseManager
-from cocotblib.misc import ClockDomainAsyncReset, simulationSpeedPrinter, randBits
+from cocotblib.misc import set_timeout, ClockDomainAsyncReset, simulationSpeedPrinter, randBits
 
 from cocotblib.Stream import Transaction, Stream, StreamFifoTester
 
@@ -15,6 +15,7 @@ def bundleAGen():
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     random.seed(0)
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

@@ -3,12 +3,12 @@ import random
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
 
-from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsyncReset, Bundle
+from cocotblib.misc import set_timeout, randSignal, assertEquals, truncUInt, ClockDomainAsyncReset, Bundle
 
 
 @cocotb.test()
 def test1(dut):
-
+    set_timeout()
     dut._log.info("Cocotb test boot")
 
     def assertGpio(value):

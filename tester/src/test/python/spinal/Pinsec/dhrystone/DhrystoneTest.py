@@ -4,7 +4,7 @@ import cocotb
 from cocotb.result import TestFailure
 from cocotb.triggers import Timer, RisingEdge, FallingEdge
 
-from cocotblib.misc import simulationSpeedPrinter
+from cocotblib.misc import set_timeout, simulationSpeedPrinter
 from spinal.Pinsec.common.CoreCom import readCoreValueAssert
 from spinal.Pinsec.common.HexLoader import loadIHex
 from spinal.Pinsec.common.Misc import pinsecClockGen
@@ -50,6 +50,7 @@ def _unidiff_output(expected, actual):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     random.seed(0)

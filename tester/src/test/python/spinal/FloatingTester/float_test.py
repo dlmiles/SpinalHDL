@@ -2,6 +2,7 @@ import cocotb
 from cocotb.triggers import Timer, Edge, RisingEdge, FallingEdge
 from cocotb.result import TestFailure
 from cocotb import binary
+from cocotblib.misc import set_timeout
 
 from random import *
 import struct
@@ -140,6 +141,7 @@ def checkSIntToFloatZero(dut):
 
 @cocotb.test()
 def FloatTest(dut):
+    set_timeout()
     for sign in range(2):
         dut.io_inp_sign.value = sign
         yield checkZero(dut)

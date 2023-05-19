@@ -3,7 +3,7 @@ import random
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
 
-from cocotblib.misc import randSignal, ClockDomainAsyncReset, assertEquals
+from cocotblib.misc import set_timeout, randSignal, ClockDomainAsyncReset, assertEquals
 
 
 class Ref:
@@ -40,6 +40,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     random.seed(0)
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, None))

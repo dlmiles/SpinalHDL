@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import Timer
 
-from cocotblib.misc import assertEquals, Bundle, simulationSpeedPrinter, log2Up
+from cocotblib.misc import set_timeout, assertEquals, Bundle, simulationSpeedPrinter, log2Up
 from spinal.Pinsec.common.HexLoader import loadIHex
 from spinal.Pinsec.common.Jtag import JtagMaster
 from spinal.Pinsec.common.Misc import pinsecClockGen
@@ -50,6 +50,7 @@ def jtagBridgeReadAssert(ctrl, address, size,value,mask = -1):
 
 @cocotb.test()
 def jtagTest(dut):
+    set_timeout()
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
     uut = dut.uut

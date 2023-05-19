@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import RisingEdge
 
-from cocotblib.misc import assertEquals, truncUInt, ClockDomainAsyncReset
+from cocotblib.misc import set_timeout, assertEquals, truncUInt, ClockDomainAsyncReset
 
 
 class Ref:
@@ -10,6 +10,7 @@ class Ref:
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()

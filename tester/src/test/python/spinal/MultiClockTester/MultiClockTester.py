@@ -3,7 +3,7 @@ from queue import Queue
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
 
-from cocotblib.misc import randSignal, assertEquals, BoolRandomizer
+from cocotblib.misc import set_timeout, randSignal, assertEquals, BoolRandomizer
 
 
 class Packet:
@@ -68,6 +68,7 @@ def clockProcess(dut):
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
     from cocotblib.misc import cocotbXHack
     cocotbXHack()
