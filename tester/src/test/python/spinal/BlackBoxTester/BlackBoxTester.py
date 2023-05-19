@@ -1,11 +1,12 @@
 import cocotb
 from cocotb.triggers import RisingEdge
 
-from cocotblib.misc import randSignal, assertEquals, truncUInt, ClockDomainAsyncReset
+from cocotblib.misc import set_timeout, randSignal, assertEquals, truncUInt, ClockDomainAsyncReset
 
 
 @cocotb.test()
 def test1(dut):
+    set_timeout()
     dut._log.info("Cocotb test boot")
 
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset))
