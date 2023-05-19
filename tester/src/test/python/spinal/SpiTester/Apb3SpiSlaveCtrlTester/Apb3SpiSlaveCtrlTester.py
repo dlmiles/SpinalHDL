@@ -11,7 +11,7 @@ from cocotblib.Apb3 import Apb3
 from cocotblib.Flow import Flow
 from cocotblib.Spi import SpiMaster, SpiSlave, SpiSlaveMaster
 from cocotblib.Stream import Stream, StreamDriverMaster, Transaction
-from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, randBits, randBool, SimulationTimeout, TimerClk, testBit
+from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, randBits, randBool, set_timeout, TimerClk, testBit
 
 
 
@@ -154,7 +154,7 @@ def restart(dut):
 def test1(dut):
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,1000))
     cocotb.start_soon(simulationSpeedPrinter(dut.clk))
-    cocotb.start_soon(SimulationTimeout(1000*20e3))
+    set_timeout(1000*20e3)
 
     apb = Apb3(dut, "io_apb", dut.clk)
     apb.idle()

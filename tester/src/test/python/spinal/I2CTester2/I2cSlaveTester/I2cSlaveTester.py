@@ -7,7 +7,7 @@ from cocotb.triggers import RisingEdge, FallingEdge, Event, Timer
 
 from cocotblib.Flow import Flow
 from cocotblib.Stream import Stream
-from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, SimulationTimeout
+from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, set_timeout
 from spinal.I2CTester2.lib.misc import OpenDrainInterconnect, I2cSoftMaster
 
 @coroutine
@@ -155,7 +155,7 @@ def test1(dut):
     slaveThread = cocotb.start_soon(i2cSlaveThread(Bundle(dut,"io_bus_cmd"), Bundle(dut,"io_bus_rsp"),slaveCmds,slaveRsps, dut.clk))
 
     yield masterThread.join()
-    cocotb.start_soon(SimulationTimeout(100 * 2500000))
+    set_timeout(100 * 2500000)
     while True:
         if not slaveCmds and not slaveRsps and not masterRsps:
             break

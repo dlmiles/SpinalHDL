@@ -8,7 +8,7 @@ from cocotb.triggers import RisingEdge, FallingEdge, Event, Timer
 from cocotblib.Apb3 import Apb3
 from cocotblib.Flow import Flow
 from cocotblib.Stream import Stream
-from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, SimulationTimeout
+from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, set_timeout
 from spinal.I2CTester2.lib.misc import OpenDrainInterconnect, I2cSoftMaster
 
 
@@ -19,7 +19,7 @@ from spinal.I2CTester2.lib.misc import OpenDrainInterconnect, I2cSoftMaster
 def test1(dut):
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,100000))
     cocotb.start_soon(simulationSpeedPrinter(dut.clk))
-    cocotb.start_soon(SimulationTimeout(2000 * 2.5e6))
+    set_timeout(2000 * 2.5e6)
 
     sclInterconnect = OpenDrainInterconnect()
     sclInterconnect.addHardDriver(dut.io_i2c_scl_write)
