@@ -196,6 +196,8 @@ class VerilatorCacheTester extends SpinalAnyFunSuite {
     val durationWithCacheAvg = durationWithCacheTotal / durationWithCacheCount
 
     assert(durationWithCacheAvg < durationWithoutCacheAvg, "Verilator compilation needs more time when using the cache")
+
+    deleteCache()   // cleanup
   }
 }
 
