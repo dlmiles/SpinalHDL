@@ -4,7 +4,8 @@ import cocotb
 from cocotb.triggers import Timer
 
 from cocotblib.misc import set_timeout, assertEquals, ClockDomainAsyncReset, Bundle, simulationSpeedPrinter, log2Up
-
+from ..common.HexLoader import loadIHex
+from ..common.Jtag import JtagMaster
 
 
 @cocotb.coroutine
