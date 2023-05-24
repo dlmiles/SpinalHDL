@@ -1,6 +1,5 @@
 package spinal.tester.scalatest
 
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.sim._
 import spinal.lib.bus.amba4.axi._
 import spinal.lib.bus.amba4.axi.sim.{Axi4ReadOnlyMasterAgent, Axi4ReadOnlyMonitor, Axi4ReadOnlySlaveAgent, Axi4WriteOnlyMasterAgent, Axi4WriteOnlyMonitor, Axi4WriteOnlySlaveAgent}

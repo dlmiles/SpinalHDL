@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import spinal.core.sim._
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.sim.SimCompiled
 import spinal.lib.bus.amba4.axi.sim.{Axi4ReadOnlyMasterAgent, Axi4ReadOnlyMonitor, Axi4ReadOnlySlaveAgent, Axi4WriteOnlyMasterAgent, Axi4WriteOnlyMonitor, Axi4WriteOnlySlaveAgent}
 import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config, Axi4ReadOnly, Axi4ReadOnlyDownsizer, Axi4ReadOnlyIdRemover, Axi4ReadOnlyUpsizer, Axi4SharedIdRemover, Axi4WriteOnly, Axi4WriteOnlyDownsizer, Axi4WriteOnlyIdRemover, Axi4WriteOnlyUpsizer}

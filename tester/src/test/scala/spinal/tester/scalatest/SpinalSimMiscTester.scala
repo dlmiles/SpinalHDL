@@ -1,13 +1,11 @@
 package spinal.tester.scalatest
 
 import org.scalatest.{FixtureContext, Succeeded}
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 import spinal.sim._
 import spinal.core.sim.{SpinalSimConfig, _}
 import spinal.lib.{BufferCC, OHMasking, SetFromFirstOne}
 import spinal.tester
-import spinal.tester.scalatest
 
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps

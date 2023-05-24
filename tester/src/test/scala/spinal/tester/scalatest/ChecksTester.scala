@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import java.io.File
 import org.apache.commons.io.FileUtils
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 import spinal.core.internals.GraphUtils
 import spinal.lib.com.i2c._

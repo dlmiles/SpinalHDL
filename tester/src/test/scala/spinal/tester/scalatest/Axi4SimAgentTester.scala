@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import spinal.core.sim._
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.sim.SimCompiled
 import spinal.lib._
 import spinal.lib.bus.amba4.axi.sim.{

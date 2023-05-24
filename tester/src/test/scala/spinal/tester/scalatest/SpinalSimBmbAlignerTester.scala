@@ -1,7 +1,6 @@
 package spinal.tester.scalatest
 
 
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 import spinal.core.sim.SimConfig
 import spinal.lib.bus.bmb.{BmbAligner, BmbDownSizerBridge, BmbParameter}

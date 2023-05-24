@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import scala.collection.mutable
 import scala.util.Random
-import org.scalatest.funsuite.AnyFunSuite
 import spinal.core._
 import spinal.lib._
 import spinal.lib.sim._

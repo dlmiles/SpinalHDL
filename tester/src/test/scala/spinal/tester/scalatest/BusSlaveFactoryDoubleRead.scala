@@ -1,7 +1,6 @@
 package spinal.tester.scalatest
 
 
-import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.Assertions
 import spinal.core._
 import spinal.lib._

@@ -1,7 +1,6 @@
 package spinal.tester.scalatest
 
 import spinal.core._
-import org.scalatest.funsuite._
 
 import scala.language.postfixOps
 

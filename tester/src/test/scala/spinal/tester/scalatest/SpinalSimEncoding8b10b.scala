@@ -1,7 +1,5 @@
 package spinal.tester.scalatest
 
-import org.scalatest.funsuite.AnyFunSuite
-
 import spinal.sim._
 import spinal.core._
 import spinal.core.sim._
