@@ -169,7 +169,33 @@ object SpinalVerilatorSim {
     val sim = new SimVerilatorProxy(backend, backend.instanciate("test1", seed))
     sim.randSeed(seed)
     sim.randReset(2)
-    sim.commandArgs(backend.config.runFlags.toArray)
+
+    val argsArray = ArrayBuffer[String]()
+    argsArray ++= backend.config.runFlags
+    argsArray ++= Seq(
+      "--directory", new File(backend.workspacePath).getAbsolutePath  // ABS path?
+      //"--wave-path", "${NAME}${EXT}",
+      //"--wave-depth", backend.config.waveDepth.toString,
+      //"--coverage-path", "${NAME}${EXT}"
+    )
+
+    if(backend.config.waveFormat != WaveFormat.NONE) {
+      argsArray ++= Seq("--wave-path", "${NAME}${EXT}", "--enable-wave")
+    } else {
+      argsArray += "--disable-wave"
+    }
+
+    if(backend.config.waveDepth > 0) {
+      argsArray ++= Seq("--wave-depth", backend.config.waveDepth.toString)
+    }
+
+    if(backend.config.withCoverage) {
+      argsArray ++= Seq("--coverage-path", "${NAME}${EXT}", "--enable-coverage")
+    }
+
+    println(s"commandArgs=${argsArray.mkString(" ")}")
+
+    sim.commandArgs(argsArray.toArray)
     sim.userData = backend.config.signals
     sim
   }
