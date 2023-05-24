@@ -965,7 +965,7 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
         md.update(0.toByte)
       }
 
-      val hash = md.digest().map(x => (x & 0xFF).toHexString.padTo(2, '0')).mkString("")
+      val hash = md.digest().map(x => (x & 0xFF).toHexString.reverse.padTo(2, '0').reverse).mkString("")
       workspaceCacheDir = new File(s"${cachePath}/${hash}/${workspaceName}")
       hashCacheDir = new File(s"${cachePath}/${hash}")
 
