@@ -26,7 +26,7 @@ import spinal.core.internals.{BaseNode, DeclarationStatement, GraphUtils, PhaseC
 import spinal.core.{BaseType, Bits, BlackBox, Bool, Component, GlobalData, InComponent, Mem, MemSymbolesMapping, MemSymbolesTag, SInt, ScopeProperty, SpinalConfig, SpinalEnumCraft, SpinalReport, SpinalTag, SpinalTagReady, TimeNumber, UInt, Verilator, noLatchCheck}
 import spinal.sim._
 
-import scala.collection.mutable
+import scala.collection.{Seq, mutable}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 import scala.util.Random
@@ -193,7 +193,7 @@ object SpinalVerilatorSim {
       argsArray ++= Seq("--coverage-path", "${NAME}${EXT}", "--enable-coverage")
     }
 
-    println(s"commandArgs=${argsArray.mkString(" ")}")
+    println(s"commandArgs=${argsArray.mkString(" ")}")    // REMOVEME
 
     sim.commandArgs(argsArray.toArray)
     sim.userData = backend.config.signals
@@ -1064,7 +1064,34 @@ case class SpinalSimConfig(
             val raw = new SimVerilatorProxy(backend, backend.instanciate(name, seed))
             raw.randSeed(seed)
             raw.randReset(2)
-            raw.commandArgs(backend.config.runFlags.toArray)
+
+            val argsArray = ArrayBuffer[String]()
+            argsArray ++= backend.config.runFlags
+            argsArray ++= Seq(
+              "--directory", new File(backend.workspacePath).getAbsolutePath // ABS path?
+              //"--wave-path", "${NAME}${EXT}",
+              //"--wave-depth", backend.config.waveDepth.toString,
+              //"--coverage-path", "${NAME}${EXT}"
+            )
+
+            if (backend.config.waveFormat != WaveFormat.NONE) {
+              argsArray ++= Seq("--wave-path", "${NAME}${EXT}", "--enable-wave")
+            } else {
+              argsArray += "--disable-wave"
+            }
+
+            if (backend.config.waveDepth > 0) {
+              argsArray ++= Seq("--wave-depth", backend.config.waveDepth.toString)
+            }
+
+            if (backend.config.withCoverage) {
+              argsArray ++= Seq("--coverage-path", "${NAME}${EXT}", "--enable-coverage")
+            }
+
+            println(s"commandArgs=${argsArray.mkString(" ")}")    // REMOVEME
+
+            raw.commandArgs(argsArray.toArray)
+
             raw.userData = backend.config.signals
             raw
           }
