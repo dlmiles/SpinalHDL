@@ -7,6 +7,7 @@ import spinal.sim.Helper.toHex
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import scala.collection.JavaConverters.iterableAsScalaIterableConverter
+import scala.collection.mutable
 
 object SimError{
   def apply(message : String): Unit ={
@@ -54,15 +55,28 @@ sealed class WaveFormat(val ext : String = "???"){
 
 
 trait Backend{
-  val uniqueId       = Backend.allocateUniqueId()
+  val uniqueId : String
   def isBufferedWrite : Boolean
 }
 
 object Backend{
-  private var uniqueId = 0
-  def allocateUniqueId(): Int = {
+  private var uniqueIdInt = 0
+  private var uniqueId = 0.toString
+  private val uniqueSet = mutable.Set[String]()
+  def allocateUniqueId(id: String = null): String = {
     this.synchronized {
-      uniqueId = uniqueId + 1
+      uniqueIdInt = uniqueIdInt + 1
+      uniqueId = uniqueIdInt.toString
+
+      if (id != null) {
+        assert(!id.isBlank)
+        uniqueId = id
+      }
+
+      if (uniqueSet.contains(uniqueId)) // guarantee it is unique
+        throw new Exception(s"allocateUniqueId(${uniqueId}) is not unique")
+      uniqueSet.add(uniqueId)
+
       uniqueId
     }
   }

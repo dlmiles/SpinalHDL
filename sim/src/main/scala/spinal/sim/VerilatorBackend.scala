@@ -58,6 +58,18 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
   val wrapperCppName = s"V${config.toplevelName}__spinalWrapper.cpp"
   val wrapperCppPath = new File(s"${workspacePath}/${workspaceName}/$wrapperCppName").getAbsolutePath
 
+  val hash = MDHelper.digestHash(List.empty, config.rtlSourcesPaths, config.rtlIncludeDirs)
+  val hashForUniqueId = hash.substring(hash.length - 8)
+  println(s"hashForUniqueId=$hashForUniqueId")  // REMOVEME
+
+  Backend.allocateUniqueId()  // called to allocate a uniqueIdInt fore this Backend instance
+  // We a hex-string of a truncated hash computed from the content of the input sources
+  // The resulting hex string is a valid C++ symbol (assuming the Wrapper_ prefix)
+  // This has the effect of making the code-gen by verilator being reproducible in many more circumstances,
+  //  many-thread including parallel builds, modifying/randomizing test order, modifying number of tests
+  //  which using an ordinal number from uniqueId does not allow.
+  override val uniqueId: String = hashForUniqueId
+
   def cacheGlobalSynchronized(function: => Unit) = {
     if (cacheEnabled) {
       VerilatorBackend.cacheGlobalLock.synchronized {

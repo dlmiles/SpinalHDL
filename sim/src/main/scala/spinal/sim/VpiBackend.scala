@@ -51,6 +51,8 @@ abstract class VpiBackend(val config: VpiBackendConfig) extends Backend {
   val useCache        = config.useCache              
   val logSimProcess   = config.logSimProcess
 
+  override val uniqueId: String = Backend.allocateUniqueId()
+
   val sharedExtension = if(isWindows) "dll" else (if(isMac) "dylib" else "so")
   val sharedMemIfaceName = "shared_mem_iface." + sharedExtension
   val sharedMemIfacePath = pluginsPath + "/" + sharedMemIfaceName

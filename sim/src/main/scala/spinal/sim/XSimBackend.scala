@@ -47,6 +47,8 @@ class XSimBackend(config: XSimBackendConfig) extends Backend {
   val waveFormat = config.waveFormat
   val xilinxDevice = config.xilinxDevice
 
+  override val uniqueId: String = Backend.allocateUniqueId()
+
   val format: WaveFormat = {
     val availableFormats = Array(WaveFormat.WDB, WaveFormat.DEFAULT, WaveFormat.NONE)
     if (availableFormats contains waveFormat){
