@@ -1,11 +1,10 @@
 package spinal.sim
 
-import java.io.{BufferedInputStream, File, FileFilter, FileInputStream, FileNotFoundException, IOException, PrintWriter}
+import java.io.{File, FileFilter, FileInputStream, FileNotFoundException, IOException, PrintWriter}
 
 import javax.tools.JavaFileObject
 import net.openhft.affinity.impl.VanillaCpuLayout
 import org.apache.commons.io.FileUtils
-import java.security.MessageDigest
 
 import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
@@ -13,7 +12,6 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import sys.process._
-import scala.io.Source
 
 class VerilatorBackendConfig{
   var signals                = ArrayBuffer[Signal]()
@@ -929,43 +927,11 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
     if (cacheEnabled) {
       // calculate hash of verilator version+options and source file contents
 
-      val md = MessageDigest.getInstance("SHA-1")
+      val stringForHash = Seq(
+        cachePath, verilatorBinFilename, verilatorVersion, transformScriptForCacheHash(verilatorScript)
+      )
+      val hash = MDHelper.digestHash(stringForHash, config.rtlSourcesPaths, config.rtlIncludeDirs)
 
-      md.update(cachePath.getBytes())
-      md.update(0.toByte)
-      md.update(verilatorBinFilename.getBytes())
-      md.update(0.toByte)
-      md.update(verilatorVersion.getBytes())
-      md.update(0.toByte)
-      md.update(transformScriptForCacheHash(verilatorScript).getBytes(StandardCharsets.UTF_8))
-      md.update(0.toByte)
-
-      def hashFile(md: MessageDigest, file: File) = {
-        val bis = new BufferedInputStream(new FileInputStream(file))
-        val buf = new Array[Byte](1024)
-
-        Iterator.continually(bis.read(buf, 0, buf.length))
-          .takeWhile(_ >= 0)
-          .foreach(md.update(buf, 0, _))
-
-        bis.close()
-      }
-
-      config.rtlIncludeDirs.foreach { dirname =>
-        FileUtils.listFiles(new File(dirname), null, true).asScala.foreach { file =>
-          hashFile(md, file)
-          md.update(0.toByte)
-        }
-
-        md.update(0.toByte)
-      }
-
-      config.rtlSourcesPaths.foreach { filename =>
-        hashFile(md, new File(filename))
-        md.update(0.toByte)
-      }
-
-      val hash = md.digest().map(x => (x & 0xFF).toHexString.reverse.padTo(2, '0').reverse).mkString("")
       workspaceCacheDir = new File(s"${cachePath}/${hash}/${workspaceName}")
       hashCacheDir = new File(s"${cachePath}/${hash}")
 
