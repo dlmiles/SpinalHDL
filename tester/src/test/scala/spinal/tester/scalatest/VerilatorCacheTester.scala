@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils
 import spinal.lib.Delay
 
 import java.io.PrintStream
+import scala.language.postfixOps
 
 
 object VerilatorCacheTester {
