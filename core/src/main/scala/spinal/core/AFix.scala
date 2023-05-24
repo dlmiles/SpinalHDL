@@ -330,6 +330,7 @@ class AFix(val maxRaw: BigInt, val minRaw: BigInt, val exp: Int) extends MultiDa
             _roundFixedBigInt(i, exp, ROUNDUP)
           }
         }
+      case SCRAP => throw new IllegalArgumentException("SCRAP not implemented")
     }
   }
 

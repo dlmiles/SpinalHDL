@@ -277,6 +277,7 @@ class UInt extends BitVector with Num[UInt] with MinMaxProvider with DataPrimiti
       case RoundType.ROUNDTOINF    => this.roundToInf(roundN, false).sat(satN + 1)
       case RoundType.ROUNDTOEVEN   => this.roundToEven(roundN, false).sat(satN + 1)
       case RoundType.ROUNDTOODD    => this.roundToOdd(roundN, false).sat(satN + 1)
+      case RoundType.SCRAP         => throw new IllegalArgumentException("SCRAP not implemented")
     }
   }
 
