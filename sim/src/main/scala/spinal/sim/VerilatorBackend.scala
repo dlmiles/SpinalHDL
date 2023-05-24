@@ -84,7 +84,10 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
   }
 
   def clean(): Unit = {
-    FileUtils.deleteQuietly(new File(s"${workspacePath}/${workspaceName}"))
+    val dir = new File(s"${workspacePath}/${workspaceName}")
+    FileUtils.deleteQuietly(dir)
+    if(dir.exists())
+      println(s"[warning] - directory delete failed: ${dir}")  // candidate for build failure
   }
 
   val availableFormats = Array(WaveFormat.VCD, WaveFormat.FST, 
@@ -952,6 +955,8 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
               if (cacheEntries(0).getCanonicalPath() != hashCacheDir.getCanonicalPath()) {
                 cacheSynchronized(cacheEntries(0)) {
                   FileUtils.deleteQuietly(cacheEntries(0))
+                  if (cacheEntries(0).exists())
+                    println(s"[warning] - directory delete failed: ${cacheEntries(0)}") // candidate for build failure
                 }
               }
 
