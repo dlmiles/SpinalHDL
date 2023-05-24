@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import spinal.core.sim._
-import spinal.core.sim.SimCompiled
 import spinal.lib.bus.amba4.axi.sim.{Axi4ReadOnlyMasterAgent, Axi4ReadOnlyMonitor, Axi4ReadOnlySlaveAgent, Axi4WriteOnlyMasterAgent, Axi4WriteOnlyMonitor, Axi4WriteOnlySlaveAgent}
 import spinal.lib.bus.amba4.axi.{Axi4, Axi4Config, Axi4ReadOnly, Axi4ReadOnlyDownsizer, Axi4ReadOnlyIdRemover, Axi4ReadOnlyUpsizer, Axi4SharedIdRemover, Axi4WriteOnly, Axi4WriteOnlyDownsizer, Axi4WriteOnlyIdRemover, Axi4WriteOnlyUpsizer}
 import spinal.lib.bus.misc.SizeMapping
@@ -64,16 +63,16 @@ class Axi4UpsizerTester extends SpinalAnyFunSuite {
   }
 
   test("writeOnly_32_64") {
-    SimConfig.compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 64, 4))).doSim("test", 42)(writeTester)
+    SpinalTesterSimConfig(this, "writeOnly_32_64").compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 64, 4))).doSim("test", 42)(writeTester)
   }
   test("writeOnly_16_64") {
-    SimConfig.compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 16, 4), Axi4Config(20, 64, 4))).doSim("test", 42)(writeTester)
+    SpinalTesterSimConfig(this, "writeOnly_16_64").compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 16, 4), Axi4Config(20, 64, 4))).doSim("test", 42)(writeTester)
   }
   test("writeOnly_32_128") {
-    SimConfig.compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 128, 4))).doSim("test", 42)(writeTester)
+    SpinalTesterSimConfig(this, "writeOnly_32_128").compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 128, 4))).doSim("test", 42)(writeTester)
   }
   test("writeOnly_256_512") {
-    SimConfig.compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 256, 4), Axi4Config(20, 512, 4))).doSim("test", 42)(writeTester)
+    SpinalTesterSimConfig(this, "writeOnly_256_512").compile(Axi4WriteOnlyUpsizer(Axi4Config(20, 256, 4), Axi4Config(20, 512, 4))).doSim("test", 42)(writeTester)
   }
 
 
@@ -129,16 +128,16 @@ class Axi4UpsizerTester extends SpinalAnyFunSuite {
   }
 
   test("readOnly_32_64") {
-    SimConfig.compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 64, 4),4)).doSim("test", 42)(readTester)
+    SpinalTesterSimConfig(this, "readOnly_32_64").compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 64, 4),4)).doSim("test", 42)(readTester)
   }
   test("readOnly_16_64") {
-    SimConfig.compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 16, 4), Axi4Config(20, 64, 4),4)).doSim("test", 42)(readTester)
+    SpinalTesterSimConfig(this, "readOnly_16_64").compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 16, 4), Axi4Config(20, 64, 4),4)).doSim("test", 42)(readTester)
   }
   test("readOnly_32_128") {
-    SimConfig.compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 128, 4),4)).doSim("test", 42)(readTester)
+    SpinalTesterSimConfig(this, "readOnly_32_128").compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 32, 4), Axi4Config(20, 128, 4),4)).doSim("test", 42)(readTester)
   }
   test("readOnly_256_512") {
-    SimConfig.compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 256, 4), Axi4Config(20, 512, 4),4)).doSim("test", 42)(readTester)
+    SpinalTesterSimConfig(this, "readOnly_256_512").compile(Axi4ReadOnlyUpsizer(Axi4Config(20, 256, 4), Axi4Config(20, 512, 4),4)).doSim("test", 42)(readTester)
   }
 }
 
@@ -204,7 +203,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
     }
 
     test("writeOnly_32_64") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_32_64")
             .compile(
                 Axi4WriteOnlyDownsizer(
                     Axi4Config(20, 64, 4, useBurst = false, useId = false),
@@ -214,7 +213,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
             .doSim("test", 42)((dut: Axi4WriteOnlyDownsizer) => writeTester(dut))
     }
     test("writeOnly_16_64") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_16_64")
             .compile(
                 Axi4WriteOnlyDownsizer(
                     Axi4Config(20, 64, 4, useBurst = false, useId = false),
@@ -224,7 +223,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
             .doSim("test", 42)((dut: Axi4WriteOnlyDownsizer) => writeTester(dut))
     }
     test("writeOnly_32_128") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_32_128")
             .compile(
                 Axi4WriteOnlyDownsizer(
                     Axi4Config(20, 128, 4, useBurst = false, useId = false),
@@ -234,7 +233,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
             .doSim("test", 42)((dut: Axi4WriteOnlyDownsizer) => writeTester(dut))
     }
     test("writeOnly_32_128_pipelined") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_32_128_pipelined")
             .compile(
                 Axi4WriteOnlyDownsizer(
                     Axi4Config(20, 128, 4, useBurst = false, useId = false),
@@ -318,7 +317,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
     }
 
   test("readOnly_32_64") {
-    SimConfig
+    SpinalTesterSimConfig(this, "readOnly_32_64")
       .compile(
         Axi4ReadOnlyDownsizer(
           Axi4Config(20, 64, 4, useBurst = false, useId = false),
@@ -328,7 +327,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
       .doSim("test", 42)((dut: Axi4ReadOnlyDownsizer) => readTester(dut))
   }
   test("readOnly_16_64") {
-    SimConfig
+    SpinalTesterSimConfig(this, "readOnly_16_64")
       .compile(
         Axi4ReadOnlyDownsizer(
           Axi4Config(20, 64, 4, useBurst = false, useId = false),
@@ -338,7 +337,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
       .doSim("test", 42)((dut: Axi4ReadOnlyDownsizer) => readTester(dut))
   }
   test("readOnly_32_128") {
-    SimConfig
+    SpinalTesterSimConfig(this, "readOnly_32_128")
       .compile(
         Axi4ReadOnlyDownsizer(
           Axi4Config(20, 128, 4, useBurst = false, useId = false),
@@ -348,7 +347,7 @@ class Axi4DownsizerTester extends SpinalAnyFunSuite {
       .doSim("test", 42)((dut: Axi4ReadOnlyDownsizer) => readTester(dut))
   }
   test("readOnly_32_128_pipelined") {
-    SimConfig
+    SpinalTesterSimConfig(this, "readOnly_32_128_pipelined")
       .compile(
         Axi4ReadOnlyDownsizer(
           Axi4Config(20, 128, 4, useBurst = false, useId = false),
@@ -407,7 +406,7 @@ class Axi4IdRemoverTester extends SpinalAnyFunSuite {
   }
 
   test("writeOnly") {
-    SimConfig.compile(new Axi4WriteOnlyIdRemover(Axi4Config(20, 32, 4))).doSim("test", 42)(writeTester)
+    SpinalTesterSimConfig(this, "writeOnly").compile(new Axi4WriteOnlyIdRemover(Axi4Config(20, 32, 4))).doSim("test", 42)(writeTester)
   }
 
   def readTester(dut : Axi4ReadOnlyIdRemover): Unit ={
@@ -460,7 +459,7 @@ class Axi4IdRemoverTester extends SpinalAnyFunSuite {
   }
 
   test("readOnly") {
-    SimConfig.compile(new Axi4ReadOnlyIdRemover(Axi4Config(20, 32, 4))).doSim("test", 42)(readTester)
+    SpinalTesterSimConfig(this, "readOnly").compile(new Axi4ReadOnlyIdRemover(Axi4Config(20, 32, 4))).doSim("test", 42)(readTester)
   }
 
   def sharedTester(dut: Axi4SharedIdRemoverDut): Unit = {
@@ -585,6 +584,6 @@ class Axi4IdRemoverTester extends SpinalAnyFunSuite {
   }
 
   test("shared") {
-    SimConfig.compile(new Axi4SharedIdRemoverDut(Axi4Config(20, 32, 4))).doSim("test", 42)(sharedTester)
+    SpinalTesterSimConfig(this, "shared").compile(new Axi4SharedIdRemoverDut(Axi4Config(20, 32, 4))).doSim("test", 42)(sharedTester)
   }
 }

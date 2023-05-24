@@ -38,7 +38,7 @@ class PR990TesterDut extends Component {
 
 class PR990Tester extends SpinalSimFunSuite {
     test("ccexercise") {
-        val sim =SpinalSimConfig().allOptimisation.compile(new PR990TesterDut)
+        val sim = SpinalTesterSimConfig(this, "ccexercise").allOptimisation.compile(new PR990TesterDut)
         sim.doSimUntilVoid("ccexercise") { dut =>
             val mainCd = dut.clockDomain
             val otherCd = dut.otherCd

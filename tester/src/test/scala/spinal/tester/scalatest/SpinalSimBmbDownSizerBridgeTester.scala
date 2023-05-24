@@ -1,6 +1,5 @@
 package spinal.tester.scalatest
 
-import spinal.core.sim._
 import spinal.lib.bus.amba3.apb.Apb3Config
 import spinal.lib.bus.amba3.apb.sim.Apb3Monitor
 import spinal.lib.bus.bmb.{BmbDownSizerBridge, BmbParameter, BmbToApb3Bridge}
@@ -13,7 +12,7 @@ import scala.util.Random
 
 class SpinalSimBmbDownSizerBridgeTester extends SpinalSimFunSuite{
   test("test1"){
-    SimConfig.compile{
+    SpinalTesterSimConfig(this, "test1").compile{
       BmbDownSizerBridge(
         inputParameter = BmbParameter(
           addressWidth = 16,
@@ -47,7 +46,7 @@ class SpinalSimBmbDownSizerBridgeTester extends SpinalSimFunSuite{
   }
 
   test("test2"){
-    SimConfig.compile{
+    SpinalTesterSimConfig(this, "test2").compile{
       val inputParameter = BmbParameter(
         addressWidth = 16,
         dataWidth = 64,
@@ -73,7 +72,7 @@ class SpinalSimBmbDownSizerBridgeTester extends SpinalSimFunSuite{
   }
 
   test("test3"){
-    SimConfig.compile{
+    SpinalTesterSimConfig(this, "test3").compile{
       val inputParameter = BmbParameter(
         addressWidth = 16,
         dataWidth = 256,

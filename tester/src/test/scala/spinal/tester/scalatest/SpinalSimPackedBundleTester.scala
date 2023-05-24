@@ -157,7 +157,7 @@ class SpinalSimPackedBundleTester extends SpinalAnyFunSuite {
   }
 
   test("pack") {
-    SimConfig.withWave
+    SpinalTesterSimConfig(this, "pack").withWave
       .compile(new Component {
         val packedBundle = new PackedBundle {
           val a = Bits(3 bit) // 0 to 2
@@ -232,7 +232,7 @@ class SpinalSimPackedBundleTester extends SpinalAnyFunSuite {
   }
 
   test("unpack") {
-    SimConfig.withWave
+    SpinalTesterSimConfig(this, "unpack").withWave
       .compile(new Component {
         val packedBundle = new PackedBundle {
           val a = Bits(3 bit) // 0 to 2

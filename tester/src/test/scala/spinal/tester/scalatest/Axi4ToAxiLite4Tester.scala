@@ -196,14 +196,14 @@ class Axi4ToAxiLite4Tester extends SpinalAnyFunSuite {
   }
 
   test("no_burst") {
-    SimConfig.compile(new Axi4ToAxiLite4TesterComp(
+    SpinalTesterSimConfig(this, "no_burst").compile(new Axi4ToAxiLite4TesterComp(
       Axi4Config(addressWidth = 32,
         dataWidth = 32, useId = true, idWidth = 4, useBurst = false, useLen = false, useSize = false)))
       .doSim{dut => tester(dut)}
   }
 
   test("unburst") {
-    SimConfig.compile(new Axi4ToAxiLite4TesterComp(
+    SpinalTesterSimConfig(this, "unburst").compile(new Axi4ToAxiLite4TesterComp(
       Axi4Config(addressWidth = 32,
         dataWidth = 32, useId = true, idWidth = 4)))
       .doSim{dut => tester(dut)}

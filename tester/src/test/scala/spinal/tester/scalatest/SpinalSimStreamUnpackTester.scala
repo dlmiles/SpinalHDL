@@ -151,27 +151,27 @@ class SpinalSimStreamUnpackTester extends SpinalAnyFunSuite {
   }
 
   test("aligned, always ready") {
-    SimConfig.compile(StreamUnpackFixture())
+    SpinalTesterSimConfig(this, "aligned, always ready").compile(StreamUnpackFixture())
       .doSim(simDriver(doRandom = false) _)
   }
 
   test("aligned, random ready") {
-    SimConfig.compile(StreamUnpackFixture())
+    SpinalTesterSimConfig(this, "aligned, random ready").compile(StreamUnpackFixture())
       .doSim(simDriver(doRandom = true) _)
   }
 
   test("unaligned, always ready") {
-    SimConfig.compile(StreamUnpackFixture(2))
+    SpinalTesterSimConfig(this, "unaligned, always ready").compile(StreamUnpackFixture(2))
       .doSim(simDriver(doRandom = false) _)
   }
 
   test("unaligned, random ready") {
-    SimConfig.compile(StreamUnpackFixture(2))
+    SpinalTesterSimConfig(this, "unaligned, random ready").compile(StreamUnpackFixture(2))
       .doSim(simDriver(doRandom = true) _)
   }
 
   test("contiguous") {
-    SimConfig.compile(StreamUnpackFixture(contiguousLayout = true))
+    SpinalTesterSimConfig(this, "contiguous").compile(StreamUnpackFixture(contiguousLayout = true))
       .doSim(simDriver(doRandom = false) _)
   }
 }

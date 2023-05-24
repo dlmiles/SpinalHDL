@@ -11,7 +11,7 @@ import scala.util.Random
 
 class SpinalSimPhaseTester extends SpinalSimFunSuite{
   test("test1") {
-    //    val compiled = SimConfig.withWave.compile(StreamFifo(UInt(8 bits),16))
+    //    val compiled = SpinalTesterSimConfig(this, "test1").withWave.compile(StreamFifo(UInt(8 bits),16))
     case class Transaction() extends Bundle {
       val flag = Bool()
       val data = Bits(8 bits)
@@ -20,7 +20,7 @@ class SpinalSimPhaseTester extends SpinalSimFunSuite{
       override def clone = Transaction()
     }
 
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "test1").allOptimisation.compile(
       rtl = new StreamFifo(
         dataType = Transaction(),
         depth = 32

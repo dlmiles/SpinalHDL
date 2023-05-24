@@ -40,7 +40,7 @@ class Issue963Tester extends SpinalAnyFunSuite {
       io.source <-< x
     }
 
-    SimConfig
+    SpinalTesterSimConfig(this, "Minimal example for Issue963 which fails Spinal elaboration")
       .withConfig(SpinalConfig(defaultClockDomainFrequency = FixedFrequency(4000 Hz)))
       .compile(new Component {
         val issue = new Dut()

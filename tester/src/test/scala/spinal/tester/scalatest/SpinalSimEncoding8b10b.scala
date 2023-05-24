@@ -355,7 +355,7 @@ class Encoding8b10bTest extends SpinalAnyFunSuite {
   )
 
   test("encode") {
-    val compiled = SimConfig.withWave.compile {
+    val compiled = SpinalTesterSimConfig(this, "encode").withWave.compile {
       val dut = Encoding8b10b.Encoder()
       dut
     }
@@ -413,7 +413,7 @@ class Encoding8b10bTest extends SpinalAnyFunSuite {
     }
   }
   test("decode") {
-    val compiled = SimConfig.withWave.compile {
+    val compiled = SpinalTesterSimConfig(this, "decode").withWave.compile {
       val dut = Encoding8b10b.Decoder()
       dut
     }

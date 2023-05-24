@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import spinal.core.sim._
-import spinal.core.sim.SimCompiled
 import spinal.lib._
 import spinal.lib.bus.amba4.axi.sim.{
     Axi4ReadOnlyMasterAgent,
@@ -76,47 +75,47 @@ class Axi4SimAgentTester extends SpinalAnyFunSuite {
     }
 
     test("writeOnly") {
-        SimConfig.compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4))).doSim("test", 42)(writeTester)
+        SpinalTesterSimConfig(this, "writeOnly").compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4))).doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_strb") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_strb")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useStrb = false)))
             .doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_id") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_id")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useId = false)))
             .doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_size") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_size")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useSize = false)))
             .doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_resp") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_resp")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useResp = false)))
             .doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_last") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_last")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useLast = false)))
             .doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_burst") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_burst")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useBurst = false)))
             .doSim("test", 42)(writeTester)
     }
 
     test("writeOnly_disable_len") {
-        SimConfig
+        SpinalTesterSimConfig(this, "writeOnly_disable_len")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useLen = false)))
             .doSim("test", 42)(writeTester)
     }
@@ -166,47 +165,47 @@ class Axi4SimAgentTester extends SpinalAnyFunSuite {
     }
 
     test("readOnly") {
-        SimConfig.compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4))).doSim("test", 42)(readTester)
+        SpinalTesterSimConfig(this, "readOnly").compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4))).doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_strb") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_strb")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useStrb = false)))
             .doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_id") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_id")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useId = false)))
             .doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_size") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_size")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useSize = false)))
             .doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_resp") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_resp")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useResp = false)))
             .doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_last") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_last")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useLast = false)))
             .doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_burst") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_burst")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useBurst = false)))
             .doSim("test", 42)(readTester)
     }
 
     test("readOnly_disable_len") {
-        SimConfig
+        SpinalTesterSimConfig(this, "readOnly_disable_len")
             .compile(Axi4PassthroughFixture(Axi4Config(20, 32, 4, useLen = false)))
             .doSim("test", 42)(readTester)
     }

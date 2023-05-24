@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 
 import spinal.core._
-import spinal.core.sim.SimConfig
 import spinal.lib.bus.bmb.{BmbAligner, BmbDownSizerBridge, BmbParameter}
 import spinal.lib.bus.bmb.sim.BmbBridgeTester
 
@@ -10,7 +9,7 @@ class SpinalSimBmbAlignerTester extends SpinalAnyFunSuite {
   for(w <- List(false, true); r <- List(false, true);   if w || r) {
     val header = "_" + (if(w) "w" else "") + (if(r) "r" else "")
     test("BmbAligner_bypass" + header) {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "BmbAligner_bypass" + header).compile {
         val c = BmbAligner(
           ip = BmbParameter(
             addressWidth = 16,
@@ -39,7 +38,7 @@ class SpinalSimBmbAlignerTester extends SpinalAnyFunSuite {
     }
 
     test("BmbAligner_4" + header) {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "BmbAligner_4" + header).compile {
         BmbAligner(
           ip = BmbParameter(
             addressWidth = 16,
@@ -64,7 +63,7 @@ class SpinalSimBmbAlignerTester extends SpinalAnyFunSuite {
     }
 
     test("BmbAligner_3" + header) {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "BmbAligner_3" + header).compile {
         BmbAligner(
           ip = BmbParameter(
             addressWidth = 16,
@@ -89,7 +88,7 @@ class SpinalSimBmbAlignerTester extends SpinalAnyFunSuite {
     }
 
     test("BmbAligner_1" + header) {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "BmbAligner_1" + header).compile {
         val c = BmbAligner(
           ip = BmbParameter(
             addressWidth = 16,

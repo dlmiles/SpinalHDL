@@ -1,12 +1,11 @@
 package spinal.tester.scalatest
 
-import spinal.core.sim.SimConfig
 import spinal.lib.bus.bmb.sim.BmbBridgeTester
 import spinal.lib.bus.bmb.{BmbAccessParameter, BmbLengthFixer, BmbParameter, BmbSourceParameter, BmbUnburstify}
 
 class SpinalSimBmbUnburstifyTester extends SpinalAnyFunSuite {
   test("miaou") {
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "miaou").compile {
       val c = BmbUnburstify(
         inputParameter = BmbAccessParameter(
           addressWidth = 16,
@@ -34,7 +33,7 @@ class SpinalSimBmbUnburstifyTester extends SpinalAnyFunSuite {
   }
 
   test("miaou2") {
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "miaou2").compile {
       val c = BmbUnburstify(
         inputParameter = BmbAccessParameter(
           addressWidth = 16,

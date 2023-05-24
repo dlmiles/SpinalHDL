@@ -26,7 +26,7 @@ case class SimRandomizeTester() extends Component {
 }
 
 class SpinalSimRandomizeTest extends SpinalAnyFunSuite {
-  val dut = SimConfig.compile { SimRandomizeTester() }
+  val dut = SpinalTesterSimConfig(this).compile { SimRandomizeTester() }
 
   test("randomize returns the value driven next") {
     dut.doSim("randomize returns the value driven next") { dut =>

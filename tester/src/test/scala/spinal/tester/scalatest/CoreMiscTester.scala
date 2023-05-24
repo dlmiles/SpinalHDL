@@ -8,7 +8,7 @@ import scala.language.postfixOps
 import scala.util.Random
 class CoreMiscTester extends SpinalAnyFunSuite{
   test("SlowArea"){
-    SimConfig.withConfig(SpinalConfig(defaultClockDomainFrequency = FixedFrequency(4000 Hz))).compile(new Component{
+    SpinalTesterSimConfig(this, "SlowArea").withConfig(SpinalConfig(defaultClockDomainFrequency = FixedFrequency(4000 Hz))).compile(new Component{
       val counter = out(RegInit(U"0000"))
       counter := counter + 1
       assert(clockDomain.samplingRate.getValue.toInt == 4000)
@@ -31,7 +31,7 @@ class CoreMiscTester extends SpinalAnyFunSuite{
   }
 
   test("reg_nextValue"){
-    SimConfig.compile(new Component{
+    SpinalTesterSimConfig(this, "reg_nextValue").compile(new Component{
       val conds = in(Vec.fill(8)(Bool()))
       val a, b, c, d, e = out(Reg(UInt(8 bits)) init(0))
 
@@ -98,7 +98,7 @@ class CoreMiscTester extends SpinalAnyFunSuite{
 
   test("uint_wrap_comparison"){
     val width = 8
-    SimConfig.compile(new Component{
+    SpinalTesterSimConfig(this, "uint_wrap_comparison").compile(new Component{
       val smaller, bigger, eq_smaller, eq_bigger = out(Bool())
       val x, y = in(UInt(width bits))
 
@@ -130,7 +130,7 @@ class CoreMiscTester extends SpinalAnyFunSuite{
   }
 
   test("reverse_by_shuffle"){
-    SimConfig.compile(new Component{
+    SpinalTesterSimConfig(this, "reverse_by_shuffle").compile(new Component{
       val data = in(Bits(64 bits))
       val outData = out(UInt(64 bits))
 
@@ -154,7 +154,7 @@ class CoreMiscTester extends SpinalAnyFunSuite{
   }
 
   test("reverse_by_shuffle_with_size"){
-    SimConfig.compile(new Component{
+    SpinalTesterSimConfig(this, "reverse_by_shuffle_with_size").compile(new Component{
       val data = in(Bits(64 bits))
       val outData = out(UInt(64 bits))
 

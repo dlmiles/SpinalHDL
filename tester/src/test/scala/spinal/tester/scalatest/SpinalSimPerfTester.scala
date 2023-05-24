@@ -30,7 +30,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
     var compiled: SimCompiled[SpinalSimPerfTester.SpinalSimPerfTesterDut] = null
 
     test(prefix + "compile") {
-      compiled = SimConfig
+      compiled = SpinalTesterSimConfig(this, "compile")
         .allOptimisation
         //      .withGhdl
         .compile(new SpinalSimPerfTester.SpinalSimPerfTesterDut())
@@ -164,7 +164,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
       val stages = 100
       val states = (100*designFactor).toInt
       val operands = 5
-      SimConfig.withConfig(SpinalConfig(verbose = true)).allOptimisation.doSim(new Component {
+      SpinalTesterSimConfig(this, "compilationSpeed").withConfig(SpinalConfig(verbose = true)).allOptimisation.doSim(new Component {
         val inputs = Vec(in UInt (8 bits), states)
         val outputs = Vec(out UInt (8 bits), states)
         var ptr = inputs

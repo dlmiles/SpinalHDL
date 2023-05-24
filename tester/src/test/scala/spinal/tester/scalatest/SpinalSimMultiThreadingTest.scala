@@ -29,7 +29,7 @@ class SpinalSimMultiThreadingTest extends SpinalSimFunSuite {
         override def run() = {
           for (i <- 0 to 5) {
             try {
-              SimConfig
+              SpinalTesterSimConfig(this, s"Test1_thread${t}_${i}")
                 .withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC)))
                 //        .compile()
                 //                .withWave

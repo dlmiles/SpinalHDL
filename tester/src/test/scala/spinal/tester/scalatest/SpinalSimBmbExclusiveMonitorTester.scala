@@ -23,7 +23,7 @@ private object WRITE_RSP
 
 class SpinalSimBmbExclusiveMonitorTester extends SpinalAnyFunSuite{
   test("miaou") {
-    SimConfig.compile(
+    SpinalTesterSimConfig(this, "miaou").compile(
       new BmbExclusiveMonitor(
         inputParameter = BmbParameter(
           BmbAccessParameter(

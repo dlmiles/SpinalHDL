@@ -42,7 +42,7 @@ class Apb3I2cSlaveTester extends SpinalTesterCocotbBase {
 
 object Apb3I2cSlaveTesterSpinalSim extends App {
   import spinal.core.sim._
-  SimConfig.withFstWave.compile(new Apb3I2cCtrl(
+  SpinalTesterSimConfig(this).withFstWave.compile(new Apb3I2cCtrl(
     I2cSlaveMemoryMappedGenerics(
       ctrlGenerics = I2cSlaveGenerics(
         samplingWindowSize = 3,

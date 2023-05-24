@@ -210,7 +210,7 @@ class SpinalSimVerilatorIoTest extends SpinalAnyFunSuite {
     }
 
     test(prefix + "compile") {
-      compiled = SimConfig.compile(new SpinalSimVerilatorIoTest.SpinalSimVerilatorIoTestTop)
+      compiled = SpinalTesterSimConfig(this, "compile").compile(new SpinalSimVerilatorIoTest.SpinalSimVerilatorIoTestTop)
     }
 
     test(prefix + "test1") {

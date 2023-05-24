@@ -6,7 +6,7 @@ import spinal.lib.bus.bmb.{BmbAligner, BmbLengthFixer, BmbParameter}
 
 class SpinalSimBmbLengthFixerTester extends SpinalSimFunSuite {
   test("bypass") {
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "bypass").compile {
       val c = BmbLengthFixer(
         ip = BmbParameter(
           addressWidth = 16,
@@ -34,7 +34,7 @@ class SpinalSimBmbLengthFixerTester extends SpinalSimFunSuite {
   }
 
   test("3") {
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "3").compile {
       val c = BmbLengthFixer(
         ip = BmbParameter(
           addressWidth = 16,
@@ -62,7 +62,7 @@ class SpinalSimBmbLengthFixerTester extends SpinalSimFunSuite {
   }
 
   test("4") {
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "4").compile {
       val c = BmbLengthFixer(
         ip = BmbParameter(
           addressWidth = 16,

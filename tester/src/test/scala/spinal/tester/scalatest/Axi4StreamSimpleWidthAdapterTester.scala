@@ -149,46 +149,46 @@ class Axi4StreamSimpleWidthAdapterTester extends SpinalAnyFunSuite {
   }
 
   test("downsize_coprime_last") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(4, 3)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "downsize_coprime_last").compile(Axi4StreamSimpleWidthAdapterFixture(4, 3)).doSim("test")(widthAdapterTest)
   }
 
   test("upsize_coprime_last") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(3, 4)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "upsize_coprime_last").compile(Axi4StreamSimpleWidthAdapterFixture(3, 4)).doSim("test")(widthAdapterTest)
   }
 
   test("downsize_even_last") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(8, 4)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "downsize_even_last").compile(Axi4StreamSimpleWidthAdapterFixture(8, 4)).doSim("test")(widthAdapterTest)
   }
 
   test("upsize_even_last") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(4, 8)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "upsize_even_last").compile(Axi4StreamSimpleWidthAdapterFixture(4, 8)).doSim("test")(widthAdapterTest)
   }
 
   test("equal_sizes_last") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(4, 4)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "equal_sizes_last").compile(Axi4StreamSimpleWidthAdapterFixture(4, 4)).doSim("test")(widthAdapterTest)
   }
 
   /*
 
    */
   test("downsize_coprime") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(4, 3, useLast = false)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "downsize_coprime").compile(Axi4StreamSimpleWidthAdapterFixture(4, 3, useLast = false)).doSim("test")(widthAdapterTest)
   }
 
   test("upsize_coprime") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(3, 4, useLast = false)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "upsize_coprime").compile(Axi4StreamSimpleWidthAdapterFixture(3, 4, useLast = false)).doSim("test")(widthAdapterTest)
   }
 
   test("downsize_even") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(8, 4, useLast = false)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "downsize_even").compile(Axi4StreamSimpleWidthAdapterFixture(8, 4, useLast = false)).doSim("test")(widthAdapterTest)
   }
 
   test("upsize_even") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(4, 8, useLast = false)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "upsize_even").compile(Axi4StreamSimpleWidthAdapterFixture(4, 8, useLast = false)).doSim("test")(widthAdapterTest)
   }
 
   test("equal_sizes") {
-    SimConfig.compile(Axi4StreamSimpleWidthAdapterFixture(4, 4, useLast = false)).doSim("test")(widthAdapterTest)
+    SpinalTesterSimConfig(this, "equal_sizes").compile(Axi4StreamSimpleWidthAdapterFixture(4, 4, useLast = false)).doSim("test")(widthAdapterTest)
   }
 
 }

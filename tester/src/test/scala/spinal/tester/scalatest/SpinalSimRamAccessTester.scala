@@ -11,7 +11,7 @@ class SpinalSimRamAccessTester extends SpinalSimFunSuite {
   ghdlEnabled = false //TODO
   
   test("test1") {
-    SimConfig.compile(new Component{
+    SpinalTesterSimConfig(this, "test1").compile(new Component{
       val mem = Mem(UInt(16 bits), 32).simPublic()
       val write = slave(mem.writePort)
       val read = new Area{
@@ -71,7 +71,7 @@ class SpinalSimRamAccessTester extends SpinalSimFunSuite {
   }
 
   test("test2") {
-    SimConfig.compile(new Component{
+    SpinalTesterSimConfig(this, "test2").compile(new Component{
       val mem = Mem(UInt(16 bits), 32).simPublic()
       val write = new Area{
         val valid = in Bool()

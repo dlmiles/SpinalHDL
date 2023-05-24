@@ -364,7 +364,7 @@ class SpinalSimApbI2C extends SpinalSimFunSuite {
       masterGenerics = I2cMasterMemoryMappedGenerics(timerWidth = 32)
     )
 
-    SimConfig.withConfig(SpinalConfig(defaultClockDomainFrequency = FixedFrequency(50 MHz))).compile(new Apb3I2cCtrl(configI2C)).doSim { dut =>
+    SpinalTesterSimConfig(this, "1 Master <-> 1 Slave").withConfig(SpinalConfig(defaultClockDomainFrequency = FixedFrequency(50 MHz))).compile(new Apb3I2cCtrl(configI2C)).doSim { dut =>
 
       val apb = Apb3Sim(dut.io.apb, dut.clockDomain)
       val i2c = I2CHelper(apb)

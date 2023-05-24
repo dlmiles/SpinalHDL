@@ -51,7 +51,7 @@ class SpinalSimStreamFifoCCTester extends SpinalSimFunSuite {
     val postfix = s"${pushResetLevel}_${popResetLevel}_${popResetEnable}"
     test("testAsyncReset_" + postfix) {
       //Compile the simulator
-      val compiled = SimConfig.allOptimisation.compile(
+      val compiled = SpinalTesterSimConfig(this, "testAsyncReset_" + postfix).allOptimisation.compile(
         rtl = new StreamFifoCC(
           dataType = Bits(32 bits),
           depth = 32,
@@ -95,7 +95,7 @@ class SpinalSimStreamFifoCCTester extends SpinalSimFunSuite {
 
     test("testSyncReset_" + postfix) {
       //Compile the simulator
-      val compiled = SimConfig.withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))).allOptimisation.compile(
+      val compiled = SpinalTesterSimConfig(this, "testSyncReset_" + postfix).withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))).allOptimisation.compile(
         rtl = new StreamFifoCC(
           dataType = Bits(32 bits),
           depth = 32,
@@ -148,7 +148,7 @@ class SpinalSimStreamFifoCCTester extends SpinalSimFunSuite {
 
   test("testBootReset") {
     //Compile the simulator
-    val compiled = SimConfig.withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = BOOT))).allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "testBootReset").withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = BOOT))).allOptimisation.compile(
       rtl = new StreamFifoCC(
         dataType = Bits(32 bits),
         depth = 32,
@@ -208,7 +208,7 @@ object TesterBugPlay extends App{
       simSuccess()
     }
   }
-  val compiled = SimConfig.withIVerilog.withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))).allOptimisation.compile(
+  val compiled = SpinalTesterSimConfig(this).withIVerilog.withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))).allOptimisation.compile(
     rtl = new StreamFifoCC(
       dataType = Bits(32 bits),
       depth = 32,

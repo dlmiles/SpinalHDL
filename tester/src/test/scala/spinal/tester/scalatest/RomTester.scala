@@ -147,7 +147,7 @@ class SpinalSimRomTester extends SpinalAnyFunSuite {
   test("test1"){
     import spinal.core.sim._
     import spinal.sim._
-    SimConfig.compile(new RomTesterSymbols()).doSim{ dut =>
+    SpinalTesterSimConfig(this, "test1").compile(new RomTesterSymbols()).doSim{ dut =>
       val rom = Seq(
         BigInt(0x01234567l),
         BigInt(0x12345670l),
@@ -170,7 +170,7 @@ class SpinalSimRomTester extends SpinalAnyFunSuite {
   test("testSInt"){
     import spinal.core.sim._
     import spinal.sim._
-    SimConfig.compile(new RomTesterSymbolsSInt()).doSim{ dut =>
+    SpinalTesterSimConfig(this, "testSInt").compile(new RomTesterSymbolsSInt()).doSim{ dut =>
       val rom = Seq(
         BigInt(0x01234567),
         BigInt(0x12345670),

@@ -15,7 +15,7 @@ import scala.util.Random
 class SpinalSimStreamFifoTester extends SpinalSimFunSuite {
   test("testBits") {
     //Compile the simulator
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "testBits").allOptimisation.compile(
       rtl = new StreamFifo(
         dataType = Bits(32 bits),
         depth = 32
@@ -59,7 +59,7 @@ class SpinalSimStreamFifoTester extends SpinalSimFunSuite {
 
   test("testOne") {
     //Compile the simulator
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "testOne").allOptimisation.compile(
       rtl = new StreamFifo(
         dataType = Bits(32 bits),
         depth = 1
@@ -111,7 +111,7 @@ class SpinalSimStreamFifoTester extends SpinalSimFunSuite {
       override def clone = Transaction()
     }
 
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "testBundle").allOptimisation.compile(
       rtl = new StreamFifo(
         dataType = Transaction(),
         depth = 32
@@ -155,7 +155,7 @@ class SpinalSimStreamFifoTester extends SpinalSimFunSuite {
       val color = Rgb(5, 6, 5)
     }
 
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "testTwoDepth").allOptimisation.compile(
       rtl = new StreamFifo(
         dataType = Transaction(),
         depth = 2
@@ -200,7 +200,7 @@ class SpinalSimStreamFifoTester extends SpinalSimFunSuite {
       val color = Rgb(5, 6, 5)
     }
 
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "lowLatency_0").allOptimisation.compile(
       rtl = new StreamFifoLowLatency(
         dataType = Transaction(),
         depth = 2,
@@ -239,7 +239,7 @@ class SpinalSimStreamFifoTester extends SpinalSimFunSuite {
       val color = Rgb(5, 6, 5)
     }
 
-    val compiled = SimConfig.allOptimisation.compile(
+    val compiled = SpinalTesterSimConfig(this, "lowLatency_1").allOptimisation.compile(
       rtl = new StreamFifoLowLatency(
         dataType = Transaction(),
         depth = 4,

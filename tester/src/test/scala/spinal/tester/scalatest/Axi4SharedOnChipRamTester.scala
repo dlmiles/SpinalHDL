@@ -114,7 +114,7 @@ class Axi4SharedOnChipRamMultiPortTester extends SpinalAnyFunSuite {
         memory.clear()
 
         val idWidth = log2Up(ports)
-        val compiled = SimConfig.compile {
+        val compiled = SpinalTesterSimConfig(this, "ports_" + ports.toString).compile {
             val byteCount = 1 MiB
             val config = Axi4Config(
                 addressWidth = log2Up(byteCount),
@@ -162,7 +162,7 @@ class Axi4SharedOnChipRamMultiPortTester extends SpinalAnyFunSuite {
 
         val ports   = 2
         val idWidth = log2Up(ports)
-        val compiled = SimConfig.compile {
+        val compiled = SpinalTesterSimConfig(this, "softreset").compile {
             val byteCount = 1 MiB
             val config = Axi4Config(
                 addressWidth = log2Up(byteCount),

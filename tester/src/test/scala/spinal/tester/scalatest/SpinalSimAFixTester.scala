@@ -48,7 +48,7 @@ class SpinalSimAFixTester extends SpinalAnyFunSuite {
   }
 
   test("random") {
-    SimConfig.compile(new AFixTester()).doSim(seed = 0) { dut =>
+    SpinalTesterSimConfig(this, "random").compile(new AFixTester()).doSim(seed = 0) { dut =>
       val OPS = 0 to 2
       val ROUNDS = 0 to 9
       for(op <- OPS) {
@@ -66,7 +66,7 @@ class SpinalSimAFixTester extends SpinalAnyFunSuite {
   }
 
   test("sweep") {
-    SimConfig.compile(new AFixTester()).doSim(seed = 0) { dut =>
+    SpinalTesterSimConfig(this, "sweep").compile(new AFixTester()).doSim(seed = 0) { dut =>
       val OPS = 0 to 2
       val ROUNDS = 0 to 9
       for(op <- OPS) {
@@ -193,7 +193,7 @@ class SpinalSimAFixTester extends SpinalAnyFunSuite {
     val ROUNDING_EXAMPLES = List(-16.5625, -16.5, -16.4375, -0.0625, 0, 0.0625, 16.4375, 16.5, 16.5625)
     val ROUNDING_EXP = 4
     val ROUNDING_MODES = 0 until 9
-    SimConfig.compile(new Component {
+    SpinalTesterSimConfig(this,  "round").compile(new Component {
       for (mode <- ROUNDING_MODES) {
         for (example <- ROUNDING_EXAMPLES) {
           val deciBounds = List(example, example - 5)

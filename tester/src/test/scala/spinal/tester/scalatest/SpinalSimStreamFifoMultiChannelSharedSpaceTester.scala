@@ -13,7 +13,7 @@ import scala.util.Random
 
 class SpinalSimStreamFifoMultiChannelSharedSpaceTester extends SpinalAnyFunSuite {
   test("t1") {
-    SimConfig.compile(new StreamFifoMultiChannelSharedSpace(Bits(32 bits), 4, 16)).doSimUntilVoid(seed = 42) { dut =>
+    SpinalTesterSimConfig(this, "t1").compile(new StreamFifoMultiChannelSharedSpace(Bits(32 bits), 4, 16)).doSimUntilVoid(seed = 42) { dut =>
       val queueModel = ArrayBuffer.fill(4)(mutable.Queue[Long]())
 
       SimTimeout(1000000)

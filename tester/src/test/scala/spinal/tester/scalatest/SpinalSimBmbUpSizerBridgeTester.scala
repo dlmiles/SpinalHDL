@@ -11,7 +11,7 @@ class SpinalSimBmbUpSizerBridgeTester extends SpinalSimFunSuite{
   for((canRead, canWrite) <- List((true,true),(true, false), (false, true))) {
     val prefix = (if(canRead) "R" else "") + (if(canWrite) "W" else "") + "_"
     test(prefix + "test1") {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "test1").compile {
         val inputParameter = BmbAccessParameter(
           addressWidth = 16,
           dataWidth = 32
@@ -39,7 +39,7 @@ class SpinalSimBmbUpSizerBridgeTester extends SpinalSimFunSuite{
     }
 
     test(prefix + "test2") {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "test2").compile {
         val inputParameter = BmbAccessParameter(
           addressWidth = 16,
           dataWidth = 16
@@ -66,7 +66,7 @@ class SpinalSimBmbUpSizerBridgeTester extends SpinalSimFunSuite{
     }
 
     test(prefix + "test3") {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "test3").compile {
         val inputParameter = BmbAccessParameter(
           addressWidth = 16,
           dataWidth = 32

@@ -3,7 +3,7 @@ package spinal.tester.scalatest
 import org.scalatest.{FixtureContext, Succeeded}
 import spinal.core._
 import spinal.sim._
-import spinal.core.sim.{SpinalSimConfig, _}
+import spinal.core.sim._
 import spinal.lib.{BufferCC, OHMasking, SetFromFirstOne}
 import spinal.tester
 
@@ -114,7 +114,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     var compiled: SimCompiled[tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter] = null
 
     test(prefix + "testForkSensitive") {
-      SimConfig.compile(new Component {
+      SpinalTesterSimConfig(this, prefix + "testForkSensitive").compile(new Component {
         val a, b = in UInt (8 bits)
         val result = out UInt (8 bits)
         result := RegNext(a + b) init (0)
@@ -136,7 +136,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "compile") {
-      compiled = SimConfig.compile(new tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter)
+      compiled = SpinalTesterSimConfig(this, prefix + "compile").compile(new tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter)
     }
 
     def doStdtest(name: String): Unit = {
@@ -291,7 +291,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     }
 
     test(prefix + "testRecompile1") {
-      SimConfig.doSim(new tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter)(dut => {
+      SpinalTesterSimConfig(this, prefix + "testRecompile1").doSim(new tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter)(dut => {
         dut.clockDomain.forkStimulus(10)
 
         var counterModel = 0
@@ -310,7 +310,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "testRecompile2") {
-      SimConfig.doSim(new tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter)(dut => {
+      SpinalTesterSimConfig(this, prefix + "testRecompile2").doSim(new tester.scalatest.SpinalSimMiscTester.SpinalSimMiscTesterCounter)(dut => {
         dut.clockDomain.forkStimulus(10)
 
         var counterModel = 0
@@ -329,7 +329,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "testCompInWhen") {
-      SimConfig.compile(new Component {
+      SpinalTesterSimConfig(this, prefix + "testCompInWhen").compile(new Component {
         val src = in Bool()
         val sel = in Bool()
         val dst = out Bool()
@@ -354,7 +354,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     }
 
     test(prefix + "NonBB") {
-      SimConfig.compile(new Component {
+      SpinalTesterSimConfig(this, prefix + "NonBB").compile(new Component {
         val bb = new BlackBox {
           clearBlackBox()
           val a, b = in UInt (8 bits)
@@ -382,7 +382,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
       var i = 35
 
       try {
-        SimConfig.doSim(new Component {
+        SpinalTesterSimConfig(this, prefix + "testCatchAssert").doSim(new Component {
           val a = in UInt (8 bits)
           spinal.core.assert(a =/= 42, "rawrr", FAILURE)
         }) { dut =>
@@ -405,7 +405,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "intLongBigInt") {
-      SimConfig.doSim(new Component {
+      SpinalTesterSimConfig(this, prefix + "intLongBigInt").doSim(new Component {
         val x = out Bits (31 bits)
         val y = out Bits (63 bits)
         val z = out Bits (128 bits)
@@ -422,7 +422,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     }
 
     test(prefix + "SetFromFirstOne"){
-      SimConfig.compile(new Component {
+      SpinalTesterSimConfig(this, prefix + "SetFromFirstOne").compile(new Component {
         val sel = in Bits(16 bits)
         val mask = out(SetFromFirstOne(sel))
       }).doSim(seed = 54){dut =>
@@ -438,7 +438,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     }
 
     test(prefix + "OhMaskingFirst"){
-      SimConfig.compile(new Component {
+      SpinalTesterSimConfig(this, prefix + "OhMaskingFirst").compile(new Component {
         LutInputs.set(6)
         val sel = in Bits(42 bits)
         val mask = out(OHMasking.first(sel))

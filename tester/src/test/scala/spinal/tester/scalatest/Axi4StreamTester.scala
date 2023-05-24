@@ -95,12 +95,12 @@ class Axi4StreamTester extends SpinalAnyFunSuite {
   }
 
   test("stream") {
-    SimConfig.compile(Axi4StreamEndianFixture(Axi4StreamConfig(dataWidth = 4), Bits(32 bit)))
+    SpinalTesterSimConfig(this, "stream").compile(Axi4StreamEndianFixture(Axi4StreamConfig(dataWidth = 4), Bits(32 bit)))
       .doSim("test")(duplexTest)
   }
 
   test("fragment") {
-    SimConfig.compile(Axi4StreamFragmentFixture(Axi4StreamConfig(dataWidth = 4, useLast = true), Bits(32 bit)))
+    SpinalTesterSimConfig(this, "fragment").compile(Axi4StreamFragmentFixture(Axi4StreamConfig(dataWidth = 4, useLast = true), Bits(32 bit)))
       .doSim("test")(duplexFragmentTest)
   }
 }

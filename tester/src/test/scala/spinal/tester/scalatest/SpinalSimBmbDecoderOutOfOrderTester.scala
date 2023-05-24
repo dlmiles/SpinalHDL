@@ -25,7 +25,7 @@ class SpinalSimBmbDecoderOutOfOrderTester extends SpinalAnyFunSuite {
       sourceWidth  = log2Up(sourceCount),
       contextWidth = 16
     )
-    SimConfig.compile(new BmbDecoderOutOfOrder(
+    SpinalTesterSimConfig(this, s"doIt_${outputCount}_${sourceCount}_${withDefault}").compile(new BmbDecoderOutOfOrder(
       p             = p,
       mappings      = Seq.tabulate(outputCount)(e => if(e == 0 && withDefault) DefaultMapping else SizeMapping(0x40000*e, 0x40000)),
       capabilities  = Seq.fill(outputCount)(p),
@@ -69,7 +69,7 @@ class SpinalSimBmbDecoderOutOfOrderTester extends SpinalAnyFunSuite {
     val p = ap.toBmbParameter()
     val outputCount = 4
     val withDefault = false
-    SimConfig.compile(new BmbDecoderOutOfOrder(
+    SpinalTesterSimConfig(this, "mixed").compile(new BmbDecoderOutOfOrder(
       p             = p,
       mappings      = Seq.tabulate(outputCount)(e => if(e == 0 && withDefault) DefaultMapping else SizeMapping(0x40000*e, 0x40000)),
       capabilities  = Seq.fill(outputCount)(p),
@@ -103,7 +103,7 @@ class SpinalSimBmbDecoderInOrderTester extends SpinalAnyFunSuite {
       sourceWidth  = 2,
       contextWidth = 16
     )
-    SimConfig.compile(BmbDecoder(
+    SpinalTesterSimConfig(this, s"t1_${pipelinedDecoder}_${pipelinedHalfPipe}").compile(BmbDecoder(
       p             = p,
       mappings      = Seq(DefaultMapping, SizeMapping(0x40000, 0x40000)),
       capabilities  = Seq.fill(2)(p),
@@ -135,7 +135,7 @@ class SpinalSimBmbDecoderInOrderPerSourceTester extends SpinalAnyFunSuite {
       sourceWidth  = 2,
       contextWidth = 16
     )
-    SimConfig.compile(BmbDecoderPerSource(
+    SpinalTesterSimConfig(this, "t1").compile(BmbDecoderPerSource(
       p             = p,
       mappings      = Seq(DefaultMapping, SizeMapping(0x40000, 0x40000), SizeMapping(0x80000, 0x40000)),
       capabilities  = Seq.fill(3)(p),
@@ -163,7 +163,7 @@ class SpinalSimBmbDecoderInOrderPerSourceTester extends SpinalAnyFunSuite {
       sourceWidth  = 2,
       contextWidth = 16
     )
-    SimConfig.withWave.compile(BmbDecoderPerSource(
+    SpinalTesterSimConfig(this, "t2").withWave.compile(BmbDecoderPerSource(
       p             = p,
       mappings      = Seq(SizeMapping(0x40000, 0x40000), SizeMapping(0x80000, 0x40000)),
       capabilities  = Seq.fill(2)(p),

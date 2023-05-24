@@ -9,7 +9,7 @@ import scala.language.postfixOps
 
 class SpinalSimOneEntryRamTester extends SpinalSimFunSuite{
   test("general") {
-    SimConfig.doSim(new Component {
+    SpinalTesterSimConfig(this, "general").doSim(new Component {
       val mem = Mem(Bits(8 bits), 1).randBoot()
       val writePort = slave(mem.writePort)
       val readSyncPort = slave(mem.readSyncPort)
@@ -50,7 +50,7 @@ class SpinalSimOneEntryRamTester extends SpinalSimFunSuite{
   }
 
   test("rwPort") {
-    SimConfig.doSim(new Component {
+    SpinalTesterSimConfig(this, "rwPort").doSim(new Component {
       val mem = Mem(Bits(8 bits), 1).randBoot()
       val readWrite = new Area {
         val address = U""
@@ -103,7 +103,7 @@ class SpinalSimOneEntryRamTester extends SpinalSimFunSuite{
   }
 
   test("rom") {
-    SimConfig.doSim(new Component {
+    SpinalTesterSimConfig(this, "rom").doSim(new Component {
       val mem = Mem(Bits(8 bits), 1) init (Seq(B"xAA"))
       val readSyncPort = slave(mem.readSyncPort)
       val readAsyncPort = new Area {
@@ -139,7 +139,7 @@ class SpinalSimOneEntryRamTester extends SpinalSimFunSuite{
 
 class SpinalSimRamTester extends SpinalAnyFunSuite {
   test("general") {
-    SimConfig.withConfig(SpinalConfig(device = Device.XILINX)).compile(new Component {
+    SpinalTesterSimConfig(this, "general").withConfig(SpinalConfig(device = Device.XILINX)).compile(new Component {
       val ram = Mem(Bits(32 bits), 256)
 
       val wrEnable = in Bool()

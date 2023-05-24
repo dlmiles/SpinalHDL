@@ -40,7 +40,7 @@ class SpinalSimSpiXdrMaster extends SpinalAnyFunSuite {
     var compiled: SimCompiled[SpiXdrMasterCtrl.TopLevel] = null
 
     def doCompile(): Unit ={
-      compiled = SimConfig.withConfig(SpinalConfig(verbose = true)).compile(
+      compiled = SpinalTesterSimConfig(this).withConfig(SpinalConfig(verbose = true)).compile(
         SpiXdrMasterCtrl(
           SpiXdrMasterCtrl.Parameters(12, 12, SpiXdrParameter(dataWidth = 4, ioRate = 2, ssWidth = 3))
             .addFullDuplex(0, rate = 1, ddr = false)

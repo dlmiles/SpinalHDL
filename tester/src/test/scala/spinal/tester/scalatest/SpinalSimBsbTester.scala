@@ -12,7 +12,7 @@ import spinal.lib.system.dma.sg.{DmaSg, DmaSgTester, SgDmaTestsParameter}
 
 class SpinalSimBsbTester extends SpinalAnyFunSuite{
   test("upsizerSparse"){
-    SimConfig.doSim(new BsbUpSizerSparse(
+    SpinalTesterSimConfig(this, "upsizerSparse").doSim(new BsbUpSizerSparse(
       p = BsbParameter(
         byteCount   = 2,
         sourceWidth = 3,
@@ -31,7 +31,7 @@ class SpinalSimBsbTester extends SpinalAnyFunSuite{
   }
 
   test("downSizerSparse"){
-    SimConfig.compile(new BsbDownSizerSparse(
+    SpinalTesterSimConfig(this, "downSizerSparse").compile(new BsbDownSizerSparse(
       p = BsbParameter(
         byteCount   = 8,
         sourceWidth = 3,
@@ -54,7 +54,7 @@ class SpinalSimBsbTester extends SpinalAnyFunSuite{
 
   for(id <- List(0,1)) {
     test(s"BsbDownSizerAlignedMultiWidth0_$id") {
-      SimConfig.withWave.compile(new BsbDownSizerAlignedMultiWidth(
+      SpinalTesterSimConfig(this, s"BsbDownSizerAlignedMultiWidth0_$id").withWave.compile(new BsbDownSizerAlignedMultiWidth(
         p = BsbParameter(
           byteCount = 8,
           sourceWidth = 3,
@@ -79,7 +79,7 @@ class SpinalSimBsbTester extends SpinalAnyFunSuite{
 
   for(id <- List(0,1)) {
     test(s"BsbDownSizerAlignedMultiWidth1_$id") {
-      SimConfig.withWave.compile(new BsbDownSizerAlignedMultiWidth(
+      SpinalTesterSimConfig(this, s"BsbDownSizerAlignedMultiWidth1_$id").withWave.compile(new BsbDownSizerAlignedMultiWidth(
         p = BsbParameter(
           byteCount = 8,
           sourceWidth = 3,
@@ -106,7 +106,7 @@ class SpinalSimBsbTester extends SpinalAnyFunSuite{
 
 
   test("upSizerDense"){
-    SimConfig.compile(new BsbUpSizerDense(
+    SpinalTesterSimConfig(this, "upSizerDense").compile(new BsbUpSizerDense(
       p = BsbParameter(
         byteCount   = 2,
         sourceWidth = 2,

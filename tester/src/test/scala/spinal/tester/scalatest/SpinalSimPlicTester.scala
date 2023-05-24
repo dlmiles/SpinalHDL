@@ -29,7 +29,7 @@ class SpinalSimPlicTester extends SpinalSimFunSuite {
     val plicMapping = PlicMapping.sifive
     import plicMapping._
 
-    val compiled = SimConfig.compile(
+    val compiled = SpinalTesterSimConfig(this, "test1").compile(
       rtl = new Component {
         val io = new Bundle {
           val apb = slave(Apb3(24, 32))

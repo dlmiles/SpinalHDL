@@ -1,7 +1,6 @@
 package spinal.tester.scalatest
 
 import spinal.core._
-import spinal.core.sim.SpinalSimConfig
 import spinal.lib.bus.bmb._
 import spinal.lib.memory.sdram.sdr.{MT41K128M16JT, MT47H64M16HR, MT48LC16M16A2, SdramInterface}
 import spinal.lib.memory.sdram.xdr.{BmbPortParameter, CoreParameter, CtrlParameter, CtrlWithPhy, CtrlWithoutPhy, PhyLayout, SdramTiming, SoftConfig, mt48lc16m16a2_model}
@@ -527,7 +526,7 @@ object SdramXdrTesterHelpers{
 
     import spinal.core.sim._
     val phyClkRatio = pl.phaseCount
-    val simConfig = SimConfig
+    val simConfig = SpinalTesterSimConfig(this)
 //    simConfig.withWave
     simConfig.withWave(1)
     simConfig.addSimulatorFlag("-Wno-MULTIDRIVEN")

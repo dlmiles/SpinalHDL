@@ -182,7 +182,7 @@ object SpinalSimBmbInterconnectGeneratorTester {
 class SpinalSimBmbInterconnectGeneratorTester  extends SpinalSimFunSuite{
 
   test("test1") {
-    SimConfig.allOptimisation.compile(SpinalSimBmbInterconnectGeneratorTester.f).doSimUntilVoid("test1", 42) { dut => //TODO remove seed
+    SpinalTesterSimConfig(this, "test1").allOptimisation.compile(SpinalSimBmbInterconnectGeneratorTester.f).doSimUntilVoid("test1", 42) { dut => //TODO remove seed
       Phase.boot()
       Phase.setup {
         dut.clockDomain.forkStimulus(10)

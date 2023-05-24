@@ -8,7 +8,7 @@ import scala.language.postfixOps
 
 class TuplePimperBaseTest extends AnyFunSuite {
   test("tuple_assignment_matching") {
-    SimConfig.compile(new Component {
+    SpinalTesterSimConfig(this, "tuple_assignment_matching").compile(new Component {
       val right = in port Bits(4 bit)
       val lefth = out port Bits(2 bit)
       val leftl = out port Bits(2 bit)
@@ -24,7 +24,7 @@ class TuplePimperBaseTest extends AnyFunSuite {
   }
 
   test("tuple_assignment_multiple") {
-    SimConfig.compile(new Component {
+    SpinalTesterSimConfig(this, "tuple_assignment_multiple").compile(new Component {
       val righth = in port Bool()
       val rightl = in port Bits(3 bit)
       val lefth = out port Bits(2 bit)
@@ -43,7 +43,7 @@ class TuplePimperBaseTest extends AnyFunSuite {
   }
 
   test("tuple_assignment_resized") {
-    SimConfig.compile(new Component {
+    SpinalTesterSimConfig(this, "tuple_assignment_resized").compile(new Component {
       val right = in port Bits(3 bit)
       val leftl = out port Bits(2 bit)
       val lefth = out port Bits(2 bit)

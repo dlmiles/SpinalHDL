@@ -10,7 +10,7 @@ class LatchTester extends SpinalAnyFunSuite {
     var didRaise = false
 
     try {
-      SimConfig.compile(new Component {
+      SpinalTesterSimConfig(this, "bad latch").compile(new Component {
         val myCond = Bool
         val inVal = Bits(8 bits)
         val latchVal = Bits(8 bits)
@@ -78,11 +78,11 @@ class LatchTester extends SpinalAnyFunSuite {
   SpinalSimTester { env =>
     import env._
     test(prefix + "Latch") {
-      SimConfig.compile(new LatchDut).doSim(simDriver _)
+      SpinalTesterSimConfig(this, prefix + "Latch").compile(new LatchDut).doSim(simDriver _)
     }
 
     test(prefix + "LatchWhen") {
-      SimConfig.compile(new LatchWhenDut).doSim(simDriver _)
+      SpinalTesterSimConfig(this, prefix + "LatchWhen").compile(new LatchWhenDut).doSim(simDriver _)
     }
   }
 }

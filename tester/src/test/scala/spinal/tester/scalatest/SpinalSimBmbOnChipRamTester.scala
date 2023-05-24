@@ -1,6 +1,5 @@
 package spinal.tester.scalatest
 
-import spinal.core.sim._
 import spinal.lib.sim._
 import spinal.core._
 import spinal.lib._
@@ -19,7 +18,7 @@ class SpinalSimBmbOnChipRamTester extends SpinalSimFunSuite {
     val memInit = new Array[Byte](64 * 1024)
     Random.nextBytes(memInit)
 
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "test1").compile {
       val dut = BmbOnChipRam(
         p = BmbOnChipRam.busCapabilities(size = 64 KiB, dataWidth = 32).copy(
           sourceWidthMax = 4,

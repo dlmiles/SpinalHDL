@@ -73,7 +73,7 @@ class SpinalSimStreamExtenderTester extends SpinalSimFunSuite {
 
     test("testRandomInOut") {
         val lastQueue = mutable.Queue[Boolean]()
-        val compiled = SimConfig.allOptimisation.compile {
+        val compiled = SpinalTesterSimConfig(this, "testRandomInOut").allOptimisation.compile {
             val dut = new StreamTransactionExtender(
                 UInt(32 bits),
                 UInt(33 bits),
@@ -95,7 +95,7 @@ class SpinalSimStreamExtenderTester extends SpinalSimFunSuite {
 
     test("testRandomIn") {
         val lastQueue = mutable.Queue[Boolean]()
-        val compiled = SimConfig.allOptimisation.compile {
+        val compiled = SpinalTesterSimConfig(this, "testRandomIn").allOptimisation.compile {
             val dut = new StreamTransactionExtender(
                 UInt(32 bits),
                 UInt(33 bits),
@@ -117,7 +117,7 @@ class SpinalSimStreamExtenderTester extends SpinalSimFunSuite {
 
     test("testRandomOut") {
         val lastQueue = mutable.Queue[Boolean]()
-        val compiled = SimConfig.allOptimisation.compile {
+        val compiled = SpinalTesterSimConfig(this, "testRandomOut").allOptimisation.compile {
             val dut = new StreamTransactionExtender(
                 UInt(32 bits),
                 UInt(33 bits),
@@ -139,7 +139,7 @@ class SpinalSimStreamExtenderTester extends SpinalSimFunSuite {
 
     test("testFullPipeline") {
         val lastQueue = mutable.Queue[Boolean]()
-        val compiled = SimConfig.allOptimisation.compile {
+        val compiled = SpinalTesterSimConfig(this, "testFullPipeline").allOptimisation.compile {
             val dut = new StreamTransactionExtender(
                 UInt(32 bits),
                 UInt(33 bits),

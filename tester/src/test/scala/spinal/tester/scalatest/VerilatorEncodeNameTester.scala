@@ -1,7 +1,7 @@
 package spinal.tester.scalatest
 
 import org.scalatest.funsuite.AnyFunSuite
-import spinal.core.sim.{SimBoolPimper, SimConfig}
+import spinal.core.sim.SimBoolPimper
 import spinal.core.{Bool, Bundle, Component, in, out}
 import spinal.tester.scalatest.VerilatorEncodeNameTester.VerilatorEncodeName
 
@@ -25,7 +25,7 @@ object VerilatorEncodeNameTester {
 
 class VerilatorEncodeNameTester extends AnyFunSuite {
   test("verilator encodeName") {
-    val cfg = SimConfig
+    val cfg = SpinalTesterSimConfig(this, "verilator encodeName")
 
     // try to compile once to keep testsuite speed up
     cfg

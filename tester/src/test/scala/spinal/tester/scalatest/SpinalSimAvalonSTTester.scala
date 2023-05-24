@@ -46,7 +46,9 @@ class AvalonSTTester extends SpinalAnyFunSuite {
       val text2 = if (m2s) "_m2s" else ""
       test(s"pipeline${text1}${text2}_lat${lat}_allow${allow}") {
         val config = AvalonSTConfig(4, readyLatency = lat, readyAllowance = allow)
-        SimConfig.compile(AvalonSTPipelineFixture(config, m2s = m2s, s2m = s2m)).doSim((dut) => {
+        SpinalTesterSimConfig(this, s"pipeline${text1}${text2}_lat${lat}_allow${allow}", config)
+          .compile(AvalonSTPipelineFixture(config, m2s = m2s, s2m = s2m))
+          .doSim((dut) => {
           dut.clockDomain.forkStimulus(10)
           SimTimeout(1000000L)
 
@@ -78,7 +80,8 @@ class AvalonSTTester extends SpinalAnyFunSuite {
       allow_s <- List(0, 2, 8)) {
     test(s"delay_adapt_lat${lat_s}_allow${allow_s}_to_lat${lat_m}_allow${allow_m}") {
       val config = AvalonSTConfig(4)
-      SimConfig.compile(AvalonSTDelayAdapterFixture(config,
+      SpinalTesterSimConfig(this, s"delay_adapt_lat${lat_s}_allow${allow_s}_to_lat${lat_m}_allow${allow_m}", config)
+        .compile(AvalonSTDelayAdapterFixture(config,
         lat_s = lat_s, allow_s = allow_s,
         lat_m = lat_m, allow_m = allow_m)).doSim((dut) => {
         dut.clockDomain.forkStimulus(10)

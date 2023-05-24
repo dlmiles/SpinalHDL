@@ -30,7 +30,7 @@ class SpinalSimMacTester extends SpinalAnyFunSuite{
 
   test("Crc32"){
 //    println(frameCorrectA.map(v => f"0x$v%02X").mkString(","))
-    SimConfig.compile(Crc(kind = CrcKind.Crc32, dataWidth = 4)).doSim(seed = Random.nextInt) { dut =>
+    SpinalTesterSimConfig(this, "Crc32").compile(Crc(kind = CrcKind.Crc32, dataWidth = 4)).doSim(seed = Random.nextInt) { dut =>
       dut.clockDomain.forkStimulus(10)
 
 
@@ -64,7 +64,7 @@ class SpinalSimMacTester extends SpinalAnyFunSuite{
   test("MacRxPreamble") {
     val frameA = List(0x00, 0x55, 0x55, 0x55, 0xD5, 0x00, 0x21, 0x43, 0x65, 0x87, 0xA9)
     val frameARef = List(0x0, 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA)
-    SimConfig.compile(MacRxPreamble(dataWidth = 4)).doSim(seed = Random.nextInt()) { dut => //-295653402
+    SpinalTesterSimConfig(this, "MacRxPreamble").compile(MacRxPreamble(dataWidth = 4)).doSim(seed = Random.nextInt()) { dut => //-295653402
       dut.clockDomain.forkStimulus(10)
 
       StreamReadyRandomizer(dut.io.output, dut.clockDomain)
@@ -112,7 +112,7 @@ class SpinalSimMacTester extends SpinalAnyFunSuite{
 
 
     val frameOk = hexStringToFrame("33330000 0002000A CD2C1594 86DD600B DD410008 3AFFFE80 00000000 0000FC3B 9A3CE0E2 3955FF02 00000000 00000000 00000000 00028500 CC860000 00005901 A328")
-    SimConfig.compile(MacRxChecker(dataWidth = 4)).doSim(seed = Random.nextInt) { dut =>
+    SpinalTesterSimConfig(this, "MacRxChecker").compile(MacRxChecker(dataWidth = 4)).doSim(seed = Random.nextInt) { dut =>
       dut.clockDomain.forkStimulus(10)
 
       def drive(frame : Seq[Int]): Unit ={
@@ -154,7 +154,7 @@ class SpinalSimMacTester extends SpinalAnyFunSuite{
   def testMacEth(aligned : Boolean, tid : Int = 1): Unit = {
     test(s"MacMii_aligned=${aligned}_$tid") {
       val header = Seq(0x55, 0x55, 0xD5)
-      SimConfig.compile(MacEth(
+      SpinalTesterSimConfig(this, s"MacMii_aligned=${aligned}_$tid").compile(MacEth(
         p = MacEthParameter(
           phy = PhyParameter(
             txDataWidth = 4,
@@ -350,7 +350,7 @@ class SpinalSimMacTester extends SpinalAnyFunSuite{
   }
 
   test("MacTxBuffer") {
-    SimConfig.compile(MacTxBuffer(
+    SpinalTesterSimConfig(this, "MacTxBuffer").compile(MacTxBuffer(
       pushCd    = ClockDomain.external("pushCd"),
       popCd     = ClockDomain.external("popCd"),
       pushWidth = 32,

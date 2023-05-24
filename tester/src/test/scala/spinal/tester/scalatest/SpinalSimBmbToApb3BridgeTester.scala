@@ -1,6 +1,5 @@
 package spinal.tester.scalatest
 
-import spinal.core._
 import spinal.core.sim._
 import spinal.lib.bus.amba3.apb.Apb3Config
 import spinal.lib.bus.amba3.apb.sim.Apb3Monitor
@@ -18,7 +17,7 @@ class SpinalSimBmbToApb3BridgeTester extends SpinalSimFunSuite{
     val memInit = new Array[Byte](64 * 1024)
     Random.nextBytes(memInit)
 
-    SimConfig.compile {
+    SpinalTesterSimConfig(this, "test1").compile {
       BmbToApb3Bridge(
         apb3Config = Apb3Config(16, 32),
         bmbParameter = BmbToApb3Bridge.busCapabilities(addressWidth = 16, dataWidth = 32).copy(

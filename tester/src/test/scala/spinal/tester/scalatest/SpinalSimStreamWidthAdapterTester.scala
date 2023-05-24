@@ -16,7 +16,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
   test("test2xOut") {
     //Compile the simulator
     val baseWidth = 32
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xOut").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth bits))
       val output = master Stream(UInt(baseWidth*2 bits))
       val rtl = StreamWidthAdapter(input, output)
@@ -55,7 +55,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
   test("test2xIn") {
     //Compile the simulator
     val baseWidth = 32
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xIn").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth*2 bits))
       val output = master Stream(UInt(baseWidth bits))
       val rtl = StreamWidthAdapter(input, output)
@@ -105,7 +105,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
   test("test2xOutHighFirst") {
     //Compile the simulator
     val baseWidth = 32
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xOutHighFirst").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth bits))
       val output = master Stream(UInt(baseWidth*2 bits))
       val rtl = StreamWidthAdapter(input, output, order = HIGHER_FIRST)
@@ -144,7 +144,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
   test("test2xInHighFirst") {
     //Compile the simulator
     val baseWidth = 32
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xInHighFirst").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth*2 bits))
       val output = master Stream(UInt(baseWidth bits))
       val rtl = StreamWidthAdapter(input, output, order = HIGHER_FIRST)
@@ -195,7 +195,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
     //Compile the simulator
     val baseWidth = 16
     val extraWidth = -2
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xOutWithNegPadding").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth bits))
       val output = master Stream(UInt(baseWidth*2+extraWidth bits))
       val rtl = StreamWidthAdapter(input, output, padding=true)
@@ -236,7 +236,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
     //Compile the simulator
     val baseWidth = 16
     val extraWidth = -2
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xInWithNegPadding").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth*2+extraWidth bits))
       val output = master Stream(UInt(baseWidth bits))
       val rtl = StreamWidthAdapter(input, output, padding=true)
@@ -287,7 +287,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
     //Compile the simulator
     val baseWidth = 16
     val extraWidth = 2
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xInWithPosPadding").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth*2+extraWidth bits))
       val output = master Stream(UInt(baseWidth bits))
       val rtl = StreamWidthAdapter(input, output, padding=true)
@@ -342,7 +342,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
     //Compile the simulator
     val baseWidth = 16
     val extraWidth = 2
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xOutWithPosPadding").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth bits))
       val output = master Stream(UInt(baseWidth*2+extraWidth bits))
       val rtl = StreamWidthAdapter(input, output, padding=true)
@@ -385,7 +385,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
     //Compile the simulator
     val baseWidth = 32
     val extraWidth = -2
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xOutHighFirstPadding").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth bits))
       val output = master Stream(UInt(baseWidth*2+extraWidth bits))
       val rtl = StreamWidthAdapter(input, output, order = HIGHER_FIRST, padding=true)
@@ -426,7 +426,7 @@ class SpinalSimStreamWidthAdapterTester extends SpinalSimFunSuite {
     //Compile the simulator
     val baseWidth = 32
     val extraWidth = -2
-    val compiled = SimConfig.allOptimisation.compile(rtl = new Component{
+    val compiled = SpinalTesterSimConfig(this, "test2xInHighFirstPadding").allOptimisation.compile(rtl = new Component{
       val input = slave Stream(UInt(baseWidth*2+extraWidth bits))
       val output = master Stream(UInt(baseWidth bits))
       val rtl = StreamWidthAdapter(input, output, order = HIGHER_FIRST, padding=true)

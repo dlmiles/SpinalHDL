@@ -135,7 +135,7 @@ class RegIfAxiLite4Tester extends SpinalAnyFunSuite {
   }
 
   test("random") {
-    SimConfig
+    SpinalTesterSimConfig(this, "random")
       .compile(new RegIfTester()).doSim { dut =>
       dut.clockDomain.forkStimulus(10 ns)
 

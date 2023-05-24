@@ -1,6 +1,5 @@
 package spinal.tester.scalatest
 
-import spinal.core.sim.SimConfig
 import spinal.lib.bus.bmb.sim.BmbBridgeTester
 import spinal.lib.bus.bmb.{BmbAccessParameter, BmbAlignedSpliter, BmbParameter, BmbSourceParameter}
 
@@ -8,7 +7,7 @@ class SpinalSimBmbLengthSpliterTester extends SpinalAnyFunSuite {
   for(w <- List(false, true); r <- List(false, true);   if w || r) {
     val header = "_" + (if (w) "w" else "") + (if (r) "r" else "")
     test("bypass" + header) {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "bypass" + header).compile {
         val c = BmbAlignedSpliter(
           ip = BmbAccessParameter(
             addressWidth = 16,
@@ -36,7 +35,7 @@ class SpinalSimBmbLengthSpliterTester extends SpinalAnyFunSuite {
     }
 
     test("8" + header) {
-      SimConfig.withWave.compile {
+      SpinalTesterSimConfig(this, "8" + header).withWave.compile {
         val c = BmbAlignedSpliter(
           ip = BmbAccessParameter(
             addressWidth = 16,
@@ -64,7 +63,7 @@ class SpinalSimBmbLengthSpliterTester extends SpinalAnyFunSuite {
     }
 
     test("16" + header) {
-      SimConfig.compile {
+      SpinalTesterSimConfig(this, "16" + header).compile {
         val c = BmbAlignedSpliter(
           ip = BmbAccessParameter(
             addressWidth = 16,

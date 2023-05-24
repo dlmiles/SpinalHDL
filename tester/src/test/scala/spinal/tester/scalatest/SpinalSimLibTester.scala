@@ -13,7 +13,7 @@ import scala.util.Random
 class SpinalSimLibTester extends SpinalAnyFunSuite {
   for (n <- 0 until 12) {
     test("Vec (op) Vec on " + n + " elements") {
-      SimConfig.noOptimisation
+      SpinalTesterSimConfig(this, "Vec (op) Vec on " + n + " elements").noOptimisation
         .compile(new Component {
           val a, b = in Vec (SInt(8 bits), n)
           val xor = out(a ^ b)
@@ -42,7 +42,7 @@ class SpinalSimLibTester extends SpinalAnyFunSuite {
   for (bitCount <- 0 until 12) {
     test("CountOnes" + bitCount) {
       LutInputs(Random.nextInt(5) + 2).on {
-        SimConfig.noOptimisation
+        SpinalTesterSimConfig(this, "CountOnes" + bitCount).noOptimisation
           .compile(new Component {
             val input = in Bits (bitCount bits)
             val output = out(CountOne(input))
@@ -60,7 +60,7 @@ class SpinalSimLibTester extends SpinalAnyFunSuite {
 
   for (bitCount <- 0 until 12) {
     test("CountOneOnEach" + bitCount) {
-      SimConfig.noOptimisation
+      SpinalTesterSimConfig(this, "CountOneOnEach" + bitCount).noOptimisation
         .compile(new Component {
           val input = in Bits (bitCount bits)
           val output = out Vec (CountOneOnEach(input))

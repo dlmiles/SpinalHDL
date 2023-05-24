@@ -51,7 +51,7 @@ class SpinalSimAccessSubComponents extends SpinalAnyFunSuite {
 
     var compiled: SimCompiled[SpinalSimAccessSubComponents.Dut] = null
     test(prefix + "compile") {
-      compiled = SimConfig.compile {
+      compiled = SpinalTesterSimConfig(this, prefix + "compile").compile {
         val dut = new SpinalSimAccessSubComponents.Dut
         dut.subInst.subSubInst.miaouVec.simPublic()
         dut.subInst.subSubInst.io.a.simPublic()

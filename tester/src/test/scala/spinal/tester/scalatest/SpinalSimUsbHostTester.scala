@@ -30,7 +30,8 @@ class SpinalSimUsbHostTester extends SpinalAnyFunSuite{
     )
 
     val cdCfg = ClockDomainConfig(resetKind = SYNC)
-    SimConfig.withConfig(SpinalConfig(defaultConfigForClockDomains = cdCfg, defaultClockDomainFrequency = FixedFrequency(100 MHz))).compile(new UsbOhciTbTop(p)).doSim(seed = seed){dut =>
+    // simulation seed change only per iteration
+    SpinalTesterSimConfig(this, "host").withConfig(SpinalConfig(defaultConfigForClockDomains = cdCfg, defaultClockDomainFrequency = FixedFrequency(100 MHz))).compile(new UsbOhciTbTop(p)).doSim(seed = seed){dut =>
       val utils = new TesterUtils(dut)
       import utils._
 
