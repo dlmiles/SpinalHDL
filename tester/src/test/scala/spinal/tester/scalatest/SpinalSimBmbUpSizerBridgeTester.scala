@@ -1,6 +1,5 @@
 package spinal.tester.scalatest
 
-import spinal.core.sim._
 import spinal.lib.bus.bmb.sim.BmbBridgeTester
 import spinal.lib.bus.bmb.{BmbAccessParameter, BmbParameter, BmbSourceParameter, BmbUpSizerBridge}
 
