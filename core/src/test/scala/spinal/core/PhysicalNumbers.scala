@@ -2,8 +2,6 @@ package spinal.core
 
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.language.postfixOps
-
 class PhysicalNumbers extends AnyFunSuite {
   val hz100 = 100 Hz
   val hz100_2 = 100 Hz
