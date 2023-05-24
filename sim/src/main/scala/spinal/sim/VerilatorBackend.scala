@@ -903,8 +903,10 @@ JNIEXPORT void API JNICALL ${jniPrefix}topFinal_1${uniqueId}
        | --Mdir ${workspaceName}
        | --top-module ${config.toplevelName}
        | $rtlIncludeDirsArgs
-       | -cc ${config.rtlSourcesPaths.filter(e => e.endsWith(".v") || 
-                                                  e.endsWith(".sv") || 
+       | -cc ${config.rtlSourcesPaths.filter(e => e.endsWith(".v") ||
+                                                  e.endsWith(".vh") ||
+                                                  e.endsWith(".sv") ||
+                                                  e.endsWith(".svh") ||
                                                   e.endsWith(".h"))
                                      .map(new File(_).getAbsolutePath)
                                      .map('"' + _.replace("\\","/") + '"')
