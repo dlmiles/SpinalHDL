@@ -140,17 +140,26 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
   def genWrapperCpp(verilatorVersionDeci: BigDecimal): Boolean = {
     val jniPrefix = "Java_" + s"wrapper_${workspaceName}".replace("_", "_1") + "_VerilatorNative_"
     val wrapperString = s"""
+// UniqueId: ${uniqueId}
 #include <stdint.h>
+#include <stdlib.h>
 #include <string>
 #include <memory>
 #include <jni.h>
 #include <iostream>
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
 
 #include "V${config.toplevelName}.h"
 #ifdef TRACE
 #include "verilated_${format.ext}_c.h"
 #endif
 #include "V${config.toplevelName}__Syms.h"
+
+#ifndef TRACE_WAVE_DEPTH_DEFAULT
+ #define TRACE_WAVE_DEPTH_DEFAULT 99
+#endif
 
 using namespace std;
 
@@ -320,6 +329,177 @@ using namespace std::chrono;
 #define SIM_TIME(handle) ((handle)->time())
 #define SIM_TIMEINC(handle, v) ((handle)->timeInc(v))
 
+// We expect this to be overridden by runtime process argument
+static string GlobalDirectory = string(".");
+static string find_and_replace_all(const string &s, const string &find, const string &replace) {
+  const size_t findlen = find.length();
+  const size_t replacelen = replace.length();
+  string result = s;
+  size_t pos = 0;
+  size_t n;
+  while((n = result.find(find, pos)) != string::npos) {
+    result = result.replace(n, findlen, replace);
+    pos = n + replacelen;
+  }
+  return result;
+}
+static string ResolveDirectory(const string &filepath, const string &name, const string &ext) {
+#if __cplusplus >= 201703L
+  const char sep_char = std::filesystem::path::preferred_separator;
+#elif (defined(_WIN32) || defined(__CYGWIN__))
+  const char sep_char = '\\\\';
+#else
+  const char sep_char = '/';
+#endif
+  const auto sep = string(1, sep_char);
+
+std::cout << "ResolveDirectory(sep=" << sep << " " << sep_char << ") = SEP" << endl;
+
+  // if path isAbs, return path
+  // else return concat GlobalDirectory+path+name
+
+  auto path = GlobalDirectory + sep + filepath;
+
+#if __cplusplus >= 201703L
+  if(std::filesystem::path(filepath)) {
+std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << ") = " << path << " ABS1" << endl;
+     path = filepath;
+  }
+#elif (defined(_WIN32) || defined(__CYGWIN__))
+  size_t colon_at = filepath.find(":");
+  size_t sep1_at = filepath.find("\\\\");
+  size_t sep2_at = filepath.find("/");
+  if(colon_at == 1 &&
+    (sep1_at == string::npos || colon_at < sep1_at) &&
+    (sep2_at == string::npos || colon_at < sep2_at)) {   // absolute
+std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << ") = " << path  << " ABS2" << endl;
+     path = filepath;   // C:\\dir\\file  C:/dir/file
+  } else if(filepath.find("//") == 0) {
+std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << ") = " << path  << " ABS3" << endl;
+     path = filepath;   // //C/dir/file  //C:/dir/file
+  }
+#else
+  if(filepath.find(sep) == 0) {  // absolute
+std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << ") = " << path  << " ABS4" << endl;
+    path = filepath;
+  }
+#endif
+
+std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << ") = " << path  << " PREREPLACE" << endl;
+
+  // substitute $${NAME}
+  path = find_and_replace_all(path, "$${NAME}", name);
+  // substitute $${EXT}
+  path = find_and_replace_all(path, "$${EXT}", ext);
+
+std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << ") = " << path << endl;
+
+  return path;
+}
+#ifdef TRACE
+ #define DEFAULT_WAVE_FILENAME "wave"
+ #if VM_TRACE_VCD > 0
+  #define DEFAULT_WAVE_FILENAME_EXT ".${WaveFormat.VCD.ext}"
+ #endif
+ #if VM_TRACE_FST > 0
+  #define DEFAULT_WAVE_FILENAME_EXT ".${WaveFormat.FST.ext}"
+ #endif
+ #ifndef DEFAULT_WAVE_FILENAME_EXT
+  #define DEFAULT_WAVE_FILENAME_EXT ".???"
+ #endif
+
+ // We expect this to be overridden by runtime process argument
+ static int GlobalWaveDepth = TRACE_WAVE_DEPTH_DEFAULT;
+ static string GlobalWavePath = string(DEFAULT_WAVE_FILENAME);
+ static string GlobalWaveExt  = string(DEFAULT_WAVE_FILENAME_EXT);
+ static string ResolveWavePath(const string &name) {
+   return ResolveDirectory(GlobalWavePath, name, GlobalWaveExt);
+ }
+#endif
+
+#ifdef COVERAGE
+ #define DEFAULT_COVERAGE_FILENAME "coverage.dat"
+
+ // We expect this to be overridden by runtime process argument
+ static string GlobalCoveragePath = string(DEFAULT_COVERAGE_FILENAME);
+
+ static string ResolveCoveragePath(const string &name) {
+   return ResolveDirectory(GlobalCoveragePath, name, ".dat");
+ }
+#endif
+
+static void wrapperCommandArgs(int argc, const char **argv) {
+  for(int i = 0; i < argc; i++) {
+cout << "wrapperCommandArgs(LOOP) " << argv[i] << " " << argc << endl;
+    int consume = 0;
+    if(!consume && strcmp("--directory", argv[i]) == 0 && i+1 < argc) {
+      // The base directory relative paths are resolved with
+      GlobalDirectory = argv[i+1];
+      consume = 2;
+cout << "wrapperCommandArgs(DIR) " << argv[i] << " " << argv[i+1] << endl;
+    }
+    if(!consume && strcmp("--wave-path", argv[i]) == 0 && i+1 < argc) {
+#ifdef TRACE
+      // A relative or absolute path for the wave trace file
+      GlobalWavePath = argv[i+1];
+#endif
+      consume = 2;
+cout << "wrapperCommandArgs(WAVE) " << argv[i] << " " << argv[i+1] << endl;
+    }
+    if(!consume && strcmp("--coverage-path", argv[i]) == 0 && i+1 < argc) {
+#ifdef COVERAGE
+      // A relative or absolute path for the coverage data file
+      GlobalCoveragePath = argv[i+1];
+#endif
+      consume = 2;
+cout << "wrapperCommandArgs(COVERAGE) " << argv[i] << " " << argv[i+1] << endl;
+    }
+    if(!consume && strcmp("--wave-depth", argv[i]) == 0 && i+1 < argc) {
+#ifdef TRACE
+      // An integer between 0 and a positive value
+      char *endptr = (char *)argv[i+1];
+      const char *datptr = endptr;
+      unsigned long int val = strtoul(datptr, &endptr, 10);
+      if(endptr != datptr && *endptr == '\\0' && val <= INT_MAX)
+         GlobalWaveDepth = (int)val;
+#endif
+      consume = 2;
+cout << "wrapperCommandArgs(WAVE_DEPTH) " << argv[i] << " " << argv[i+1] << endl;
+    }
+    if(consume > 0) {
+      for(int j = 0; j < consume; j++)
+        argv[i+j] = nullptr;  // we eat this option
+      i += consume-1;  // for() has +1 already
+    }
+  }
+cout << "wrapperCommandArgs() " << argc << " \\\"" << "" << "\\\"" << endl;  // REMOVEME
+}
+
+static int compactCommandArgs(int argc, const char **argv) {
+  assert(argc >= 0 && argc < 1023);
+  const char *tmp[argc]; // GCC allows this dynamic implicit alloca
+  int removed = 0;
+  int di = 0;
+  for(int si = 0; si < argc; si++) {
+    if(argv[si] == nullptr) {
+cout << "compactCommandArgs() " << argc << " si=" << si << " removed=" << removed << " " << endl;  // REMOVEME
+      removed++;
+    } else {
+cout << "compactCommandArgs() " << argc << " si=" << si << " removed=" << removed << " di=" << di << endl;  // REMOVEME
+      tmp[di++] = argv[si];
+    }
+  }
+  int argc_return = di;
+  while(di < argc) {
+cout << "compactCommandArgs() " << argc << " null-out" << " removed=" << removed << " di=" << di << endl;  // REMOVEME
+    argv[di++] = nullptr;
+  }
+cout << "compactCommandArgs() " << argc << " " << sizeof(&tmp[0])*argc << " " << sizeof(tmp) << " " << argc_return << " " << removed << endl;  // REMOVEME
+  memcpy(argv, tmp, sizeof(tmp));
+  return argc_return;
+}
+
+
 class Wrapper_${uniqueId}{
 public:
 #ifdef EMIT_THREAD_LOCAL_HANDLE
@@ -377,11 +557,6 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
 
       signalInits.mkString("")
     }
-#ifdef TRACE
-      VERILATED_CONTEXTP(contextp)traceEverOn(true);
-      top->trace(&tfp, 99);
-      tfp.open((std::string("${new File(config.vcdPath).getAbsolutePath.replace("\\","\\\\")}/${if(config.vcdPrefix != null) config.vcdPrefix + "_" else ""}") + name + ".${format.ext}").c_str());
-#endif
       this->name = name;
 #if (VERILATOR_VERSION_INTEGER >= 4034000L)
       this->time_precision = VERILATED_CONTEXTP(contextp)timeprecision();
@@ -402,12 +577,21 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       tfp.close();
 #endif
 #ifdef COVERAGE
-      VERILATED_COV(contextp)write((("${new File(config.vcdPath).getAbsolutePath.replace("\\","\\\\")}/${if(config.vcdPrefix != null) config.vcdPrefix + "_" else ""}") + name + ".dat").c_str());
+      VERILATED_COV(contextp)write(ResolveCoveragePath(name).c_str());
 #endif
 
       top = nullptr;
 #ifdef USE_VERILATED_CONTEXT
       contextp = nullptr;
+#endif
+    }
+
+    void afterCommandArgs() {
+#ifdef TRACE
+      VERILATED_CONTEXTP(contextp)traceEverOn(true);
+      top->trace(&tfp, GlobalWaveDepth);
+cout << "GlobalWaveDepth=" << GlobalWaveDepth << endl;
+      tfp.open(ResolveWavePath(name).c_str());
 #endif
     }
 
@@ -622,7 +806,23 @@ JNIEXPORT void API JNICALL ${jniPrefix}commandArgs_1${uniqueId}
     }
   }
 
-  VERILATED_CONTEXTP(handle->contextp)commandArgs(argc, (char**)(argc>0) ? argv : empty);
+  // The Wrapper gets first refusal with options, it can also remove those options
+  //  by nullptr out the entries, then we compact what is left to present to Verilator.
+  {
+    // Need a copy so we can edit the copy, keep the original to release Java strings before return
+    const char *tmp_argv[argc];
+    memcpy(tmp_argv, argv, sizeof(tmp_argv));
+    wrapperCommandArgs(argc, tmp_argv);
+    argc = compactCommandArgs(argc, tmp_argv);
+
+    const char **argv_resolved = (argc>0) ? (const char**)tmp_argv : empty;
+for(int ii = 0; ii < argc; ii++) {
+  cout << "LEFT args: " << argv_resolved[ii] << endl;
+}
+    VERILATED_CONTEXTP(handle->contextp)commandArgs(argc, argv_resolved);
+  }
+
+  handle->afterCommandArgs();
 
   if(argv) {
     for(jint i = 0; i < size; i++) {
