@@ -620,12 +620,14 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
 
     void afterCommandArgs() {
 #ifdef TRACE
-      waveEnabled = GlobalWaveEnable;
-      VERILATED_CONTEXTP(contextp)traceEverOn(true);
-      top->trace(&tfp, GlobalWaveDepth);
+      if(GlobalWaveEnable) {
+        waveEnabled = true;
+        VERILATED_CONTEXTP(contextp)traceEverOn(true);
+        top->trace(&tfp, GlobalWaveDepth);
 cout << "GlobalWaveDepth=" << GlobalWaveDepth << endl;
 cout << "ResolveWavePath=" << ResolveWavePath(name) << endl;
-      tfp.open(ResolveWavePath(name).c_str());
+        tfp.open(ResolveWavePath(name).c_str());
+      }
 #endif
     }
 
