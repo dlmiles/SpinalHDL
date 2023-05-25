@@ -19,7 +19,7 @@ object SpinalTesterSimConfig {
     val PATH = System.getenv("PATH")
     PATH.split(File.pathSeparator).map(pathElement => new File(pathElement)).foreach(parentDir => {
       val filepath = new File(parentDir, exe)
-      println(s"pathContainsBinary ${_} => ${filepath}");
+      println(s"pathContainsBinary ${parentDir}  ${exe}  =>  ${filepath}");
       if(filepath.isFile)
         return true
       if(isWindows) {
