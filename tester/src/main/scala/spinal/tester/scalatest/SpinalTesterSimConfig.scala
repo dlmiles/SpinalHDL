@@ -18,8 +18,8 @@ object SpinalTesterSimConfig {
 
   def computeHash(input: String): String = {
     val bytes = input.getBytes(Charset.forName("UTF8"))
-    val md5 = MessageDigest.getInstance("MD5")
-    val result = toHex(md5.digest(bytes))
+    val md = MessageDigest.getInstance("MD5")
+    val result = toHex(md.digest(bytes))
     //println(s"MD5 ${input} => ${result}") // Unit Test comparison
     result
   }
@@ -45,8 +45,8 @@ object SpinalTesterSimConfig {
 
   /**
     *
-    * @param test
-    *  used to obtain the context of the test for naming
+    * @param testObject
+    *  used to obtain the context of the test for providing a namespace (directory)
     * @param suffix
     *  provide a unique-id directly ?
     * @param suffixObject
@@ -64,35 +64,25 @@ object SpinalTesterSimConfig {
 //      case _ => null
 //    }
 
-    val stackTrace = Thread.currentThread().getStackTrace
-    for(i <- 0 until stackTrace.length) {
-      val ele = stackTrace(i)
-      val className = ele.getClassName
-      if(className.startsWith("spinal.tester.")) {
-        val fileName = ele.getFileName
-
-      }
-    }
-
     assert(test != null)
-    val testClassName = if(test != null) test.getClass.getSimpleName else "test"  // FIXME "verilator" ?
+    val testClassName = if(test != null) test.getClass.getSimpleName else "test"
     val suffixCanon = if(suffix != null) suffix else ""
     val suffixObjectToString = if(suffixObject != null) "_" + suffixObject.toString else ""
 
     var workspaceName: String = null
     val suffixCanonical = sanitizeStringForFilename(suffixCanon + suffixObjectToString)
     println(s"sanitizeStringForFilename(${suffixCanon + suffixObjectToString}) = ${suffixCanonical}")
-    if(suffixCanonical.length > 20) {
+    val DIRECTORY_NAME_LENGTH = 32
+    val HASH_TRUNCATED_LENGTH = 8
+    if(suffixCanonical.length > DIRECTORY_NAME_LENGTH) {
       // prune down the total length to something identifiable, unique enough and manageable
       val hashAsString = computeHash(suffixCanonical)
-      workspaceName = suffixCanonical.substring(0, 12) + hashAsString.substring(hashAsString.length - 8)
+      workspaceName = suffixCanonical.substring(0, DIRECTORY_NAME_LENGTH-HASH_TRUNCATED_LENGTH) + hashAsString.substring(hashAsString.length - HASH_TRUNCATED_LENGTH)
     } else {
       workspaceName = suffixCanonical
     }
     if(workspaceName == null || workspaceName.isEmpty)
-      workspaceName = "test"  // FIXME
-
-    //val suffixCanonical = testClassName + suffixCanon + suffixObjectToString
+      workspaceName = "test"  // fallback
 
     val config = SpinalSimConfig()
 
