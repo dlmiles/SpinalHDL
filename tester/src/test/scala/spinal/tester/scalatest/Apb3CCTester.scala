@@ -12,7 +12,7 @@ class Apb3CCTester extends SpinalSimFunSuite{
   iverilogEnabled = false
 
   def doIt(name : String, pIn : Int, pOut : Int) = test(name) {
-    SimConfig.compile(new Apb3CC(
+    SpinalTesterSimConfig(this).compile(new Apb3CC(
       config = Apb3Config(16,8),
       inputClock = ClockDomain.external("input"),
       outputClock = ClockDomain.external("output")
