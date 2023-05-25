@@ -110,7 +110,10 @@ object SpinalTesterFormalConfig {
     // This is configured in SpinalAnyFunSuite so we relocate under there ./simWorkspace
     if(testClassName != null) {
       val defaultTargetDirectory = getDefaultTargetDirectory()
-      val workspacePath = defaultTargetDirectory + File.separator + testClassName  // relocate
+      var workspacePath = defaultTargetDirectory + File.separator + testClassName  // relocate
+
+      if(!workspacePath.endsWith("/formal"))
+        workspacePath += "/formal"    // follows "./simWorkspace/formal"
 
       println(s"MARK defaultTargetDirectory=${SpinalConfig.defaultTargetDirectory} => ${defaultTargetDirectory}")
       println(s"MARK workspacePath=${workspacePath}")
