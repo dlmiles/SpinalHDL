@@ -2,16 +2,17 @@ package spinal.tester.scalatest
 
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.SpinalConfig
-import spinal.core.sim.SpinalSimConfig
+import spinal.core.formal.SpinalFormalConfig
 import spinal.lib.DoCmd.isWindows
+import spinal.lib.formal.SpinalFormalFunSuite
 
 import java.io.File
 import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.util.concurrent.atomic.AtomicReference
-//import spinal.tester.scalatest.SpinalSimFunSuite
+//import spinal.tester.scalatest.SpinalFormalFunSuite
 
-object SpinalTesterSimConfig {
+object SpinalTesterFormalConfig {
 
   def pathContainsBinary(exe: String): Boolean = {
     assert(!exe.contains('/') && !exe.contains('\\') && !exe.contains(".."))
@@ -19,9 +20,9 @@ object SpinalTesterSimConfig {
     val PATH = System.getenv("PATH")
     PATH.split(File.pathSeparator).map(pathElement => new File(pathElement)).foreach(parentDir => {
       val filepath = new File(parentDir, exe)
-      println(s"pathContainsBinary ${parentDir}  ${exe}  =>  ${filepath}");
       if(filepath.isFile)
         return true
+
       if(isWindows) {
         val filepath_exe = new File(parentDir, exe + ".exe")
         if (filepath_exe.isFile)
@@ -79,20 +80,9 @@ object SpinalTesterSimConfig {
       case _ => null
     }
     // It looked useful to have visibility on this
-    val simTest: SpinalSimFunSuite = testObject match {
-      case suite: SpinalSimFunSuite => suite
+    val formalTest: SpinalFormalFunSuite = testObject match {
+      case suite: SpinalFormalFunSuite => suite
       case _ => null
-    }
-
-    var prefix = ""
-    if(simTest != null) {
-      if (simTest.testName.startsWith("verilator_")) {
-        prefix = "V"
-      } else if (simTest.testName.startsWith("ghdl_")) {
-        prefix = "G"
-      } else if (simTest.testName.startsWith("iverilog_")) {
-        prefix = "I"
-      }
     }
 
     assert(test != null)
@@ -101,8 +91,8 @@ object SpinalTesterSimConfig {
     val suffixObjectToString = if(suffixObject != null) "_" + suffixObject.toString else ""
 
     var workspaceName: String = null
-    val suffixCanonical = sanitizeStringForFilename(prefix + suffixCanon + suffixObjectToString)
-    println(s"sanitizeStringForFilename(${prefix + suffixCanon + suffixObjectToString}) = ${suffixCanonical}")
+    val suffixCanonical = sanitizeStringForFilename(suffixCanon + suffixObjectToString)
+    println(s"sanitizeStringForFilename(${suffixCanon + suffixObjectToString}) = ${suffixCanonical}")
     val DIRECTORY_NAME_LENGTH = 32
     val HASH_TRUNCATED_LENGTH = 8
     if(suffixCanonical.length > DIRECTORY_NAME_LENGTH) {
@@ -113,21 +103,18 @@ object SpinalTesterSimConfig {
       workspaceName = suffixCanonical
     }
     if(workspaceName == null || workspaceName.isEmpty)
-      workspaceName = "test"  // fallback
+      workspaceName = "formal"  // fallback
 
-    val config = SpinalSimConfig()
+    val config = SpinalFormalConfig()
 
     // This is configured in SpinalAnyFunSuite so we relocate under there ./simWorkspace
     if(testClassName != null) {
       val defaultTargetDirectory = getDefaultTargetDirectory()
-      val cachePath = defaultTargetDirectory + File.separator + ".cache"  // don't relocate, share it
       val workspacePath = defaultTargetDirectory + File.separator + testClassName  // relocate
 
       println(s"MARK defaultTargetDirectory=${SpinalConfig.defaultTargetDirectory} => ${defaultTargetDirectory}")
-      println(s"MARK cachePath=${cachePath}")
       println(s"MARK workspacePath=${workspacePath}")
 
-      config.cachePath(cachePath)
       config.workspacePath(workspacePath)
     }
 
@@ -135,12 +122,6 @@ object SpinalTesterSimConfig {
       config.workspaceName(workspaceName)
       println(s"MARK workspaceName(${workspaceName})")
     }
-
-    //config.withFstWave
-    //config.withWave(49)
-    //config.withVcdWave
-
-    //config.withCoverage
 
     config
   }

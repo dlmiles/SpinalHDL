@@ -13,25 +13,6 @@ import java.util.concurrent.atomic.AtomicReference
 
 object SpinalTesterSimConfig {
 
-  def pathContainsBinary(exe: String): Boolean = {
-    assert(!exe.contains('/') && !exe.contains('\\') && !exe.contains(".."))
-
-    val PATH = System.getenv("PATH")
-    PATH.split(File.pathSeparator).map(pathElement => new File(pathElement)).foreach(parentDir => {
-      val filepath = new File(parentDir, exe)
-      println(s"pathContainsBinary ${parentDir}  ${exe}  =>  ${filepath}");
-      if(filepath.isFile)
-        return true
-      if(isWindows) {
-        val filepath_exe = new File(parentDir, exe + ".exe")
-        if (filepath_exe.isFile)
-          return true
-      }
-    })
-
-    false
-  }
-
   def toHex(bytes: Array[Byte]): String = {
     bytes.map(x => (x & 0xFF).toHexString.reverse.padTo(2, '0').reverse).mkString("")
   }
