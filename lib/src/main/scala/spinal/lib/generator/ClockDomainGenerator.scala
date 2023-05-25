@@ -270,7 +270,7 @@ case class ClockDomainResetGenerator() extends ClockDomainResetGeneratorIf {
     generator.reset.load(reset)
     generator.sensitivity.load(sensitivity)
     generator.kind.load(ASYNC)
-    generator
+    generator     // FIXME method returns Unit not Handle[ResetGenerator]
   }
 
 
