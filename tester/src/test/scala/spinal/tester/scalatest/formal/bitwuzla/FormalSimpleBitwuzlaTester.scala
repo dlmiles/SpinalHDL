@@ -23,8 +23,8 @@ class FormalSimpleBitwuzlaTester extends SpinalFormalFunSuite {
     }
   }
 
-  def startFormalWithBMC(initialValue: Int = 2) = {
-    SpinalTesterFormalConfig(this).withEngies(engines).withBMC(15).doVerify(new Component {
+  def startFormalWithBMC(initialValue: Int = 2, label: String = null) = {
+    SpinalTesterFormalConfig(this, label).withEngies(engines).withBMC(15).doVerify(new Component {
       val dut = FormalDut(new LimitedCounterEmbedded(initialValue))
       assumeInitial(ClockDomain.current.isResetActive)
     })
@@ -32,10 +32,10 @@ class FormalSimpleBitwuzlaTester extends SpinalFormalFunSuite {
 
   test("Formal_bitwuzla_Simple_pass") {
     assume(SpinalTesterFormalConfig.pathContainsBinary("bitwuzla"), "Skipping: bitwuzla missing from $PATH")
-    startFormalWithBMC()
+    startFormalWithBMC(label="Formal_bitwuzla_Simple_pass")
   }
   test("Formal_bitwuzla_Simple_fail") {
     assume(SpinalTesterFormalConfig.pathContainsBinary("bitwuzla"), "Skipping: bitwuzla missing from $PATH")
-    shouldFail(startFormalWithBMC(1))
+    shouldFail(startFormalWithBMC(1, label="Formal_bitwuzla_Simple_fail"))
   }
 }

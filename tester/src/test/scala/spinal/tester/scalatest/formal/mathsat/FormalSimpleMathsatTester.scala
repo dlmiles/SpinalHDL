@@ -11,7 +11,7 @@ class FormalSimpleMathsatTester extends SpinalFormalFunSuite {
 
   val engines = Seq(SmtBmc(solver = SmtBmcSolver.mathsat))
 
-  class LimitedCounterEmbedded(initialValue: Int = 2) extends Component {
+  class LimitedCounterEmbedded(initialValue: Int = 2, label: String = null) extends Component {
     val value = Reg(UInt(4 bits)) init (initialValue)
     when(value < 10) {
       value := value + 1
@@ -23,8 +23,8 @@ class FormalSimpleMathsatTester extends SpinalFormalFunSuite {
     }
   }
 
-  def startFormalWithBMC(initialValue: Int = 2) = {
-    SpinalTesterFormalConfig(this).withEngies(engines).withBMC(15).doVerify(new Component {
+  def startFormalWithBMC(initialValue: Int = 2, label: String = null) = {
+    SpinalTesterFormalConfig(this, label).withEngies(engines).withBMC(15).doVerify(new Component {
       val dut = FormalDut(new LimitedCounterEmbedded(initialValue))
       assumeInitial(ClockDomain.current.isResetActive)
     })
@@ -32,10 +32,10 @@ class FormalSimpleMathsatTester extends SpinalFormalFunSuite {
 
   test("Formal_mathsat_Simple_pass") {
     assume(SpinalTesterFormalConfig.pathContainsBinary("mathsat"), "Skipping: mathsat missing from $PATH")
-    startFormalWithBMC()
+    startFormalWithBMC(label="Formal_mathsat_Simple_pass")
   }
   test("Formal_mathsat_Simple_fail") {
     assume(SpinalTesterFormalConfig.pathContainsBinary("mathsat"), "Skipping: mathsat missing from $PATH")
-    shouldFail(startFormalWithBMC(1))
+    shouldFail(startFormalWithBMC(1, label="Formal_mathsat_Simple_fail"))
   }
 }
