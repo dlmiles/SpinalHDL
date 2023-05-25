@@ -120,7 +120,7 @@ class SimVerilator(backend : VerilatorBackend,
 class SimVerilatorProxy(backend: VerilatorBackend,
                         handle: Long) extends SimVerilator(backend, handle) {
 
-  val verbose = false;
+  val verbose = false
   override def getIntMem(signal: Signal,
                          index: Long): Int = {
     val rc = super.getIntMem(signal, index)
