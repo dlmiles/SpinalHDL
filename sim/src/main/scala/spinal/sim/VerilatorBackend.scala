@@ -146,6 +146,7 @@ class VerilatorBackend(val config: VerilatorBackendConfig) extends Backend {
 #include <string>
 #include <memory>
 #include <jni.h>
+#include <climits>
 #include <iostream>
 #if __cplusplus >= 201703L
 #include <filesystem>
