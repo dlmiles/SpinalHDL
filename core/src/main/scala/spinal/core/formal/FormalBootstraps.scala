@@ -54,7 +54,7 @@ object SpinalFormalBackendSel {
 /** SpinalSim configuration
   */
 case class SpinalFormalConfig(
-    var _workspacePath: String = System.getenv().getOrDefault("SPINALSIM_WORKSPACE", "./simWorkspace"),
+    var _workspacePath: String = System.getenv().getOrDefault("SPINALSIM_WORKSPACE", "./simWorkspace/formal"),
     var _workspaceName: String = null,
     var _spinalConfig: SpinalConfig = SpinalConfig().includeFormal,
     var _additionalRtlPath: ArrayBuffer[String] = ArrayBuffer[String](),
