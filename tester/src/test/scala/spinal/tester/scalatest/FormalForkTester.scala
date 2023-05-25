@@ -8,8 +8,8 @@ import spinal.lib.formal._
 import scala.language.postfixOps
 
 class FormalForkTester extends SpinalFormalFunSuite {
-  def formalfork (synchronous: Boolean = false, back2BackCheck: Boolean = false ) = {
-    FormalConfig
+  def formalfork (synchronous: Boolean = false, back2BackCheck: Boolean = false, label: String = null ) = {
+    SpinalTesterFormalConfig(this, label)
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -94,14 +94,14 @@ class FormalForkTester extends SpinalFormalFunSuite {
   }
 
   test("fork-verify sync") {
-    formalfork(true,false)
+    formalfork(true,false, label="fork-verify sync")
   }
 
   test("fork-verify sync back2Back fail") {
-    shouldFail(formalfork(true,true))
+    shouldFail(formalfork(true,true, label="fork-verify sync back2Back fail"))
   }
   
   test("fork-verify async") {
-    formalfork(false,true)
+    formalfork(false,true, label="fork-verify async")
   }
 }

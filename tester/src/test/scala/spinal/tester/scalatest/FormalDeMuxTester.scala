@@ -8,8 +8,8 @@ import spinal.lib.formal._
 import scala.language.postfixOps
 
 class FormalDeMuxTester extends SpinalFormalFunSuite {
-  def formaldemux(selWithCtrl: Boolean = false) = {
-    FormalConfig
+  def formaldemux(selWithCtrl: Boolean = false, label: String = null) = {
+    SpinalTesterFormalConfig(this, label)
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -68,14 +68,14 @@ class FormalDeMuxTester extends SpinalFormalFunSuite {
       })
   }
   test("demux_sel_with_control") {
-    formaldemux(true)
+    formaldemux(true, label="demux_sel_with_control")
   }
   test("demux_sel_without_control") {
-    shouldFail(formaldemux(false))
+    shouldFail(formaldemux(false, label="demux_sel_without_control"))
   }
 
   test("demux_with_selector") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "demux_with_selector")
       .withProve(20)
       .withCover(20)
       .doVerify(new Component {

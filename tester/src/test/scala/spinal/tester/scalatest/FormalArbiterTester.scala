@@ -148,7 +148,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
     }
 
   test("Arbiter-sequentialOrder-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-sequentialOrder-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -178,7 +178,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
   }
 
   test("Arbiter-lowerfirst-none-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-lowerfirst-none-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -208,7 +208,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
   }
 
   test("Arbiter-lowerfirst-transactionLock-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-lowerfirst-transactionLock-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -243,7 +243,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
   }
 
   test("Arbiter-lowerfirst-fragment-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-lowerfirst-fragment-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -273,7 +273,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
   }
 
   test("Arbiter-roundrobin-none-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-roundrobin-none-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -309,7 +309,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
   }
 
   test("Arbiter-roundrobin-transactionLock-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-roundrobin-transactionLock-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)
@@ -348,7 +348,7 @@ class FormalArbiterTester extends SpinalFormalFunSuite {
   }
 
   test("Arbiter-roundrobin-fragment-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "Arbiter-roundrobin-fragment-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)

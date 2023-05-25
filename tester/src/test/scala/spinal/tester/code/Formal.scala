@@ -1,6 +1,7 @@
 package spinal.tester.code
 
 import spinal.core._
+import spinal.tester.scalatest.SpinalTesterFormalConfig
 
 import scala.language.postfixOps
 
@@ -18,7 +19,7 @@ object LimitedCounterFormal extends App {
   import spinal.core.formal._
 
   // Here we run a formal verification which will explore the state space up to 15 cycles to find an assertion failure
-  FormalConfig.withBMC(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withBMC(15).doVerify(new Component {
     // Instantiate our LimitedCounter DUT as a FormalDut, which ensures that all the outputs of the dut are :
     // - directly and indirectly driven (no latch / no floating wire)
     // - allows the current toplevel to read every signal across the hierarchy
@@ -36,7 +37,7 @@ object LimitedCounterFormal extends App {
 object LimitedCounterProveFormal extends App {
   import spinal.core.formal._
 
-  FormalConfig.withProve(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withProve(15).doVerify(new Component {
     val dut = FormalDut(new LimitedCounter())
 
     assumeInitial(ClockDomain.current.isResetActive)
@@ -61,7 +62,7 @@ class LimitedCounterEmbedded extends Component{
 object LimitedCounterEmbeddedFormal extends App {
   import spinal.core.formal._
 
-  FormalConfig.withBMC(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withBMC(15).doVerify(new Component {
     val dut = FormalDut(new LimitedCounterEmbedded())
     assumeInitial(ClockDomain.current.isResetActive)
   })
@@ -80,7 +81,7 @@ class LimitedCounterInc extends Component{
 object LimitedCounterIncFormal extends App {
   import spinal.core.formal._
 
-  FormalConfig.withBMC(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withBMC(15).doVerify(new Component {
     val dut = FormalDut(new LimitedCounterInc())
     assumeInitial(ClockDomain.current.isResetActive)
     assert(dut.value >= 2)
@@ -95,7 +96,7 @@ object LimitedCounterIncFormal extends App {
 object LimitedCounterMoreAssertFormal extends App {
   import spinal.core.formal._
 
-  FormalConfig.withBMC(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withBMC(15).doVerify(new Component {
     val dut = FormalDut(new LimitedCounter())
     assumeInitial(ClockDomain.current.isResetActive)
 
@@ -111,7 +112,7 @@ object LimitedCounterMoreAssertFormal extends App {
 object LimitedCounterCoverFormal extends App {
   import spinal.core.formal._
 
-  FormalConfig.withCover(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withCover(15).doVerify(new Component {
     assumeInitial(ClockDomain.current.isResetActive)
 
     val dut = FormalDut(new LimitedCounterInc())
@@ -127,7 +128,7 @@ object LimitedCounterCoverFormal extends App {
 object LimitedCounterAllFormal extends App {
   import spinal.core.formal._
 
-  FormalConfig.withCover(15).withBMC(15).withProve(15).doVerify(new Component {    
+  SpinalTesterFormalConfig(this).withCover(15).withBMC(15).withProve(15).doVerify(new Component {
     assumeInitial(ClockDomain.current.isResetActive)
 
     val dut = FormalDut(new LimitedCounterInc())
@@ -162,7 +163,7 @@ class DutWithRam extends Component{
 object FormalRam extends App {
   import spinal.core.formal._
 
-  FormalConfig.withBMC(15).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withBMC(15).doVerify(new Component {
     val dut = FormalDut(new DutWithRam())
     assumeInitial(ClockDomain.current.isResetActive)
 

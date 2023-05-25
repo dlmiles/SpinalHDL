@@ -12,7 +12,7 @@ class FormalFifoTester extends SpinalFormalFunSuite {
     val initialCycles = 2
     val inOutDelay = 2
     val coverCycles = 10
-    FormalConfig
+    SpinalTesterFormalConfig(this, "fifo-verify all")
       .withBMC(10)
       .withProve(10)
       .withCover(coverCycles)

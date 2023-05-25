@@ -3,6 +3,7 @@ package spinal.tester.code
 import spinal.core.formal._
 import spinal.core._
 import spinal.lib.{CountOne, Stream, StreamFifo, Timeout, master, slave}
+import spinal.tester.scalatest.SpinalTesterFormalConfig
 
 import scala.language.postfixOps
 
@@ -75,8 +76,8 @@ object FormalFifo extends App {
     }
   }
 
-  def fifoBmcTest(error: Any, trigger: Any, depth: Int = 12) = {
-    FormalConfig
+  def fifoBmcTest(error: Any, trigger: Any, depth: Int = 12, label: String = null) = {
+    SpinalTesterFormalConfig(this, label)
       .withBMC(depth)
       .doVerify(new Component {
         val dut = new StreamFifoWrapper(error, trigger)
@@ -121,8 +122,8 @@ object FormalFifo extends App {
       })
   }
 
-  def fifoTest(error: Any, trigger: Any) = {
-    FormalConfig
+  def fifoTest(error: Any, trigger: Any, label: String = null) = {
+    SpinalTesterFormalConfig(this, label)
       .withBMC(10)
       .withProve(10)
       .withCover(10)
@@ -176,9 +177,9 @@ object FormalFifo extends App {
     trigger <- Trigger.all
   ) {
     println("Processing " +s"fifo-$error-$trigger "+"verification.")
-    shouldFail(fifoTest(error, trigger))
+    shouldFail(fifoTest(error, trigger, label="Processing " +s"fifo-$error-$trigger "+"verification."))
   }
   println("Processing right FIFO verification.")
-  fifoTest(null, Trigger.ANY)
+  fifoTest(null, Trigger.ANY, label="Processing right FIFO verification.")
 
 }

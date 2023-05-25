@@ -67,8 +67,8 @@ object Util {
 }
 
 class FormalAxi4DownsizerTester extends SpinalFormalFunSuite {
-  def writeTester(inConfig: Axi4Config, outConfig: Axi4Config) {
-    FormalConfig
+  def writeTester(inConfig: Axi4Config, outConfig: Axi4Config, label: String = null) {
+    SpinalTesterFormalConfig(this, label)
       .withBMC(10)
       // .withProve(10)
       .withCover(10)
@@ -146,8 +146,8 @@ class FormalAxi4DownsizerTester extends SpinalFormalFunSuite {
       })
   }
 
-  def readTester(inConfig: Axi4Config, outConfig: Axi4Config) {
-    FormalConfig
+  def readTester(inConfig: Axi4Config, outConfig: Axi4Config, label: String = null) {
+    SpinalTesterFormalConfig(this, label)
       .withBMC(10)
       .withProve(10)
       .withCover(10)
@@ -420,10 +420,10 @@ class FormalAxi4DownsizerTester extends SpinalFormalFunSuite {
   val outConfig = Axi4Config(20, 32, 4, useBurst = false, useId = false, useLock = false)
 
   test("64_32_write") {
-    writeTester(inConfig, outConfig)
+    writeTester(inConfig, outConfig, label="64_32_write")
   }
 
   test("64_32_read") {
-    readTester(inConfig, outConfig)
+    readTester(inConfig, outConfig, label="64_32_read")
   }
 }

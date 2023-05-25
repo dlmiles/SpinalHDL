@@ -66,12 +66,12 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
     }
   }
 
-  def testMain(pushPeriod: Int, popPeriod: Int, seperateReset: Boolean = false) = {
+  def testMain(pushPeriod: Int, popPeriod: Int, seperateReset: Boolean = false, label: String = null) = {
     val proveCycles = 8
     val coverCycles = 8
     val maxPeriod = Math.max(pushPeriod, popPeriod)
 
-    FormalConfig
+    SpinalTesterFormalConfig(this, label)
       .withProve(maxPeriod * proveCycles)
       .withCover(maxPeriod * coverCycles)
       .withAsync
@@ -81,43 +81,43 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
   }
 
   test("fifo-verify fast pop") {
-    testMain(5, 3)
+    testMain(5, 3, label="fifo-verify fast pop")
   }
 
   test("fifo-verify fast push") {
-    testMain(3, 5)
+    testMain(3, 5, label="fifo-verify fast push")
   }
 
 //   test("fifo-verify ultra fast pop") {
-//     testMain(11, 2)
+//     testMain(11, 2, label="fifo-verify ultra fast pop")
 //   }
 
 //   test("fifo-verify ultra fast push") {
-//     testMain(2, 11)
+//     testMain(2, 11, label="fifo-verify ultra fast push")
 //   }
 
   test("fifo-verify fast pop reset separately") {
-    testMain(5, 3, true)
+    testMain(5, 3, true, label="fifo-verify fast pop reset separately")
   }
 
   test("fifo-verify fast push reset separately") {
-    testMain(3, 5, true)
+    testMain(3, 5, true, label="fifo-verify fast push reset separately")
   }
 
 //   test("fifo-verify ultra fast pop reset separately") {
-//     testMain(11, 2, true)
+//     testMain(11, 2, true, label="fifo-verify ultra fast pop reset separately")
 //   }
 
 //   test("fifo-verify ultra fast push reset separately") {
-//     testMain(2, 11, true)
+//     testMain(2, 11, true, label="fifo-verify ultra fast push reset separately")
 //   }
 
-  def testNoLoss(pushPeriod: Int, popPeriod: Int, separateReset: Boolean = false) = {
+  def testNoLoss(pushPeriod: Int, popPeriod: Int, separateReset: Boolean = false, label: String = null) = {
     val proveCycles = 8
     val coverCycles = 8
     val maxPeriod = Math.max(pushPeriod, popPeriod)
 
-    FormalConfig
+    SpinalTesterFormalConfig(this, label)
       .withCover(maxPeriod * coverCycles)
       .withAsync
       .withDebug
@@ -160,35 +160,35 @@ class FormalFifoCCTester extends SpinalFormalFunSuite {
   }
 
   test("noloss fast pop") {
-    shouldFail(testNoLoss(5, 3))
+    shouldFail(testNoLoss(5, 3, label="noloss fast pop"))
   }
 
   test("noloss fast push") {
-    shouldFail(testNoLoss(3, 5))
+    shouldFail(testNoLoss(3, 5, label="noloss fast push"))
   }
 
   // test("noloss ultra fast pop") {
-  //   shouldFail(testNoLoss(11, 2))
+  //   shouldFail(testNoLoss(11, 2, label="noloss ultra fast pop"))
   // }
 
   // test("noloss ultra fast push") {
-  //   shouldFail(testNoLoss(2, 11))
+  //   shouldFail(testNoLoss(2, 11, label="noloss ultra fast push"))
   // }
 
   test("noloss fast pop reset separately") {
-    shouldFail(testNoLoss(5, 3, true))
+    shouldFail(testNoLoss(5, 3, true, label="noloss fast pop reset separately"))
   }
 
   test("noloss fast push reset separately") {
-    shouldFail(testNoLoss(3, 5, true))
+    shouldFail(testNoLoss(3, 5, true, label="noloss fast push reset separately"))
   }
 
   // test("noloss ultra fast pop reset separately") {
-  //   shouldFail(testNoLoss(11, 2, true))
+  //   shouldFail(testNoLoss(11, 2, true, label="noloss ultra fast pop reset separately"))
   // }
 
   // test("noloss ultra fast push reset separately") {
-  //   shouldFail(testNoLoss(2, 11, true))
+  //   shouldFail(testNoLoss(2, 11, true, label="noloss ultra fast push reset separately"))
   // }
 
 }

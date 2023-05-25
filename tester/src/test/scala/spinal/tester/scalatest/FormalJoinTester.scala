@@ -22,7 +22,7 @@ class StreamJoin[T1 <: Data, T2 <: Data](dataType_0: T1, dataType_1: T2) extends
 
 class FormalJoinTester extends SpinalFormalFunSuite {
   test("StreamJoinTester-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "StreamJoinTester-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(20)

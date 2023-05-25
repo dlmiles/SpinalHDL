@@ -9,7 +9,7 @@ import scala.language.postfixOps
 
 class FormalDispatcherSequentialTester extends SpinalFormalFunSuite {
   test("DispatcherSequential-verify") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "DispatcherSequential-verify")
       .withBMC(20)
       .withProve(20)
       .withCover(40)

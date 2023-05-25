@@ -14,6 +14,7 @@ import spinal.lib.eda.bench._
 import spinal.lib.graphic.Rgb
 import spinal.lib.io.{InOutWrapper, TriState, TriStateArray}
 import spinal.lib.soc.pinsec.{Pinsec, PinsecConfig}
+import spinal.tester.scalatest.SpinalTesterFormalConfig
 
 import scala.collection.mutable.ArrayBuffer
 import scala.language.postfixOps
@@ -1628,7 +1629,7 @@ object PlayFormal extends App{
     }
   }
   val rtl = SpinalConfig(defaultConfigForClockDomains=ClockDomainConfig(resetActiveLevel=HIGH)).includeFormal.generateSystemVerilog(new testCounter(2,10))
-  val verf = FormalConfig.withProve(2).doVerify(rtl)
+  val verf = SpinalTesterFormalConfig(this).withProve(2).doVerify(rtl)
 }
 
 object PlayFormal2 extends App {
@@ -1646,7 +1647,7 @@ object PlayFormal2 extends App {
     value := counter
   }
 
-  FormalConfig
+  SpinalTesterFormalConfig(this)
     .withProve(40)
     .doVerify(new Component {
       val dut = new Toplevel()
@@ -1684,7 +1685,7 @@ object PlayFormalFifo extends App {
   import spinal.core.GenerationFlags._
   import spinal.core.formal._
 
-  FormalConfig
+  SpinalTesterFormalConfig(this)
     .withProve(10)
     .doVerify(new Component {
       val dut = StreamFifo(UInt(7 bits), 4)
@@ -1744,7 +1745,7 @@ object PlayFormalFifo extends App {
 object PlayFormalDev extends App {
   import spinal.core.formal._
 
-  FormalConfig.withBMC(10).doVerify(new Component {
+  SpinalTesterFormalConfig(this).withBMC(10).doVerify(new Component {
 //    assumeInitial(ClockDomain.current.isResetActive)
 
     val sub = FormalDut(new Component{

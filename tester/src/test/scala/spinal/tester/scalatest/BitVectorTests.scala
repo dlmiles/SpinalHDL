@@ -2,7 +2,6 @@ package spinal.tester.scalatest
 
 import spinal.core._
 import org.scalatest.funsuite.AnyFunSuite
-import spinal.core.formal.{FormalConfig, SpinalFormalConfig}
 import spinal.lib.formal.SpinalFormalFunSuite
 
 import scala.language.postfixOps
@@ -57,7 +56,8 @@ class SubdivideInTest extends SpinalFormalFunSuite {
   }
   
   test("mix of slicing operations") {
-    SpinalFormalConfig(_keepDebugInfo = true)
+    SpinalTesterFormalConfig(this, "mix of slicing operations")
+      .withDebug
       .withBMC(5)
       .withProve(5)
       .doVerify(new Component {

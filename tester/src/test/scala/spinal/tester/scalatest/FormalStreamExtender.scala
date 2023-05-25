@@ -9,7 +9,7 @@ import scala.language.postfixOps
 
 class FormalStreamExtender extends SpinalFormalFunSuite {
   def counterTester() {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "counterTester")
       // .withBMC(10)
       .withProve(10)
       .withCover(10)
@@ -59,7 +59,7 @@ class FormalStreamExtender extends SpinalFormalFunSuite {
   }
 
   def counterNoDelayTester() {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "counterNoDelayTester")
       // .withBMC(10)
       .withProve(10)
       .withCover(10)
@@ -108,7 +108,7 @@ class FormalStreamExtender extends SpinalFormalFunSuite {
   }
 
   def extenderTester() {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "extenderTester")
       // .withBMC(10)
       .withProve(10)
       .withCover(10)
@@ -147,7 +147,7 @@ class FormalStreamExtender extends SpinalFormalFunSuite {
   
 
   def extenderNoDelayTester() {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "extenderNoDelayTester")
       // .withBMC(10)
       .withProve(10)
       .withCover(10)

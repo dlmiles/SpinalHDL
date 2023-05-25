@@ -9,7 +9,7 @@ import scala.language.postfixOps
 
 class FormalHistoryModifyableTester extends SpinalFormalFunSuite {
   test("pop_any") {
-    FormalConfig
+    SpinalTesterFormalConfig(this, "pop_any")
       .withBMC(10)
       .withProve(10)
       .withCover(10)
