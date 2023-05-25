@@ -473,24 +473,28 @@ cout << "wrapperCommandArgs(WAVE_DEPTH) " << argv[i] << " " << argv[i+1] << endl
 #ifdef TRACE
       GlobalWaveEnable = true;
 #endif
+      consume = 1;
 cout << "wrapperCommandArgs(ENABLE_WAVE) " << argv[i] << endl;
     }
     if(!consume && strcmp("--disable-wave", argv[i]) == 0) {
 #ifdef TRACE
       GlobalWaveEnable = false;
 #endif
+      consume = 1;
 cout << "wrapperCommandArgs(DISABLE_WAVE) " << argv[i] << endl;
     }
-if(!consume && strcmp("--enable-coverage", argv[i]) == 0) {
+    if(!consume && strcmp("--enable-coverage", argv[i]) == 0) {
 #ifdef COVERAGE
       GlobalCoverageEnable = true;
 #endif
+      consume = 1;
 cout << "wrapperCommandArgs(ENABLE_COVERAGE) " << argv[i] << endl;
     }
     if(!consume && strcmp("--disable-coverage", argv[i]) == 0) {
 #ifdef COVERAGE
       GlobalCoverageEnable = false;
 #endif
+      consume = 1;
 cout << "wrapperCommandArgs(DISABLE_COVERAGE) " << argv[i] << endl;
     }
     if(consume > 0) {
@@ -616,7 +620,7 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
 
     void afterCommandArgs() {
 #ifdef TRACE
-      waveEnabled = GlobalWaveEnable
+      waveEnabled = GlobalWaveEnable;
       VERILATED_CONTEXTP(contextp)traceEverOn(true);
       top->trace(&tfp, GlobalWaveDepth);
 cout << "GlobalWaveDepth=" << GlobalWaveDepth << endl;
