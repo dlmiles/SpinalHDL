@@ -2,7 +2,7 @@ package spinal.tester.scalatest.formal.cvc5
 
 import spinal.core._
 import spinal.lib.formal._
-import spinal.tester.scalatest.SpinalTesterSimConfig
+import spinal.tester.scalatest.SpinalTesterFormalConfig
 
 import scala.language.postfixOps
 
@@ -24,18 +24,18 @@ class FormalSimpleCvc5Tester extends SpinalFormalFunSuite {
   }
 
   def startFormalWithBMC(initialValue: Int = 2) = {
-    FormalConfig.withEngies(engines).withBMC(15).doVerify(new Component {
+    SpinalTesterFormalConfig(this).withEngies(engines).withBMC(15).doVerify(new Component {
       val dut = FormalDut(new LimitedCounterEmbedded(initialValue))
       assumeInitial(ClockDomain.current.isResetActive)
     })
   }
 
   test("Formal_cvc5_Simple_pass") {
-    assume(SpinalTesterSimConfig.pathContainsBinary("cvc5"), "Skipping: cvc5 missing from $PATH")
+    assume(SpinalTesterFormalConfig.pathContainsBinary("cvc5"), "Skipping: cvc5 missing from $PATH")
     startFormalWithBMC()
   }
   test("Formal_cvc5_Simple_fail") {
-    assume(SpinalTesterSimConfig.pathContainsBinary("cvc5"), "Skipping: cvc5 missing from $PATH")
+    assume(SpinalTesterFormalConfig.pathContainsBinary("cvc5"), "Skipping: cvc5 missing from $PATH")
     shouldFail(startFormalWithBMC(1))
   }
 }

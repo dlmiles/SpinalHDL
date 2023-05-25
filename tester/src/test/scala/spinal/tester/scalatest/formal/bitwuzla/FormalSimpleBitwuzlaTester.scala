@@ -2,7 +2,7 @@ package spinal.tester.scalatest.formal.bitwuzla
 
 import spinal.core._
 import spinal.lib.formal._
-import spinal.tester.scalatest.SpinalTesterSimConfig
+import spinal.tester.scalatest.SpinalTesterFormalConfig
 
 import scala.language.postfixOps
 
@@ -24,18 +24,18 @@ class FormalSimpleBitwuzlaTester extends SpinalFormalFunSuite {
   }
 
   def startFormalWithBMC(initialValue: Int = 2) = {
-    FormalConfig.withEngies(engines).withBMC(15).doVerify(new Component {
+    SpinalTesterFormalConfig(this).withEngies(engines).withBMC(15).doVerify(new Component {
       val dut = FormalDut(new LimitedCounterEmbedded(initialValue))
       assumeInitial(ClockDomain.current.isResetActive)
     })
   }
 
   test("Formal_bitwuzla_Simple_pass") {
-    assume(SpinalTesterSimConfig.pathContainsBinary("bitwuzla"), "Skipping: bitwuzla missing from $PATH")
+    assume(SpinalTesterFormalConfig.pathContainsBinary("bitwuzla"), "Skipping: bitwuzla missing from $PATH")
     startFormalWithBMC()
   }
   test("Formal_bitwuzla_Simple_fail") {
-    assume(SpinalTesterSimConfig.pathContainsBinary("cvc4"), "Skipping: bitwuzla missing from $PATH")
+    assume(SpinalTesterFormalConfig.pathContainsBinary("bitwuzla"), "Skipping: bitwuzla missing from $PATH")
     shouldFail(startFormalWithBMC(1))
   }
 }
