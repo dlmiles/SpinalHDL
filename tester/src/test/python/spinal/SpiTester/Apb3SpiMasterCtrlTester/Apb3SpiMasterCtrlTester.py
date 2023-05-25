@@ -11,7 +11,7 @@ from cocotblib.Apb3 import Apb3
 from cocotblib.Flow import Flow
 from cocotblib.Spi import SpiMaster
 from cocotblib.Stream import Stream, StreamDriverMaster, Transaction
-from cocotblib.misc import set_timeout, assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, randBits, randBool, set_timeout, TimerClk, testBit, \
+from cocotblib.misc import assertEquals, randInt, ClockDomainAsyncReset, simulationSpeedPrinter, clockedWaitTrue, Bundle, randBits, randBool, set_timeout, TimerClk, testBit, \
     setBit
 
 
@@ -250,7 +250,6 @@ def spiSlaveAgent(dut, spi, queue, clk):
 
 @cocotb.test()
 def test1(dut):
-    set_timeout()
     cocotb.start_soon(ClockDomainAsyncReset(dut.clk, dut.reset,1000))
     cocotb.start_soon(simulationSpeedPrinter(dut.clk))
     set_timeout(1000*20e3)
