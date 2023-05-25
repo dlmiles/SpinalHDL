@@ -84,6 +84,7 @@ class SpinalSimFunSuite extends SpinalAnyFunSuite{
   var durationFactor = 0.0
   var ghdlEnabled = true
   var iverilogEnabled = true
+  var testName = ""
 
   def onlyVerilator(): Unit ={
     iverilogEnabled = false
@@ -93,16 +94,19 @@ class SpinalSimFunSuite extends SpinalAnyFunSuite{
     super.test("verilator_" + testName) {
       tester = SpinalSimTesterVerilator
       durationFactor = SpinalSimTesterVerilator.durationFactor
+      this.testName = "verilator_" + testName
       testFun
     }
     if(ghdlEnabled) super.test("ghdl_" + testName) {
       tester = SpinalSimTesterGhdl
       durationFactor = SpinalSimTesterGhdl.durationFactor
+      this.testName = "ghdl_" + testName
       testFun
     }
     if(iverilogEnabled) super.test("iverilog_" + testName) {
       tester = SpinalSimTesterIVerilog
       durationFactor = SpinalSimTesterIVerilog.durationFactor
+      this.testName = "iverilog_" + testName
       testFun
     }
   }

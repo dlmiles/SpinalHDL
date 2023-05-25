@@ -3,6 +3,7 @@ package spinal.tester.scalatest
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.SpinalConfig
 import spinal.core.sim.SpinalSimConfig
+import spinal.lib.DoCmd.isWindows
 
 import java.io.File
 import java.nio.charset.Charset
@@ -11,6 +12,25 @@ import java.util.concurrent.atomic.AtomicReference
 //import spinal.tester.scalatest.SpinalSimFunSuite
 
 object SpinalTesterSimConfig {
+
+  def pathContainsBinary(exe: String): Boolean = {
+    assert(!exe.contains('/') && !exe.contains('\\') && !exe.contains(".."))
+
+    val PATH = System.getenv("PATH")
+    PATH.split(File.pathSeparator).map(pathElement => new File(pathElement)).foreach(parentDir => {
+      val filepath = new File(parentDir, exe)
+      println(s"pathContainsBinary ${_} => ${filepath}");
+      if(filepath.isFile)
+        return true
+      if(isWindows) {
+        val filepath_exe = new File(parentDir, exe + ".exe")
+        if (filepath_exe.isFile)
+          return true
+      }
+    })
+
+    false
+  }
 
   def toHex(bytes: Array[Byte]): String = {
     bytes.map(x => (x & 0xFF).toHexString.reverse.padTo(2, '0').reverse).mkString("")
@@ -59,10 +79,19 @@ object SpinalTesterSimConfig {
       case _ => null
     }
     // It looked useful to have visibility on this
-//    var simTest: SpinalSimFunSuite = testObject match {
-//      case suite: SpinalSimFunSuite => suite
-//      case _ => null
-//    }
+    val simTest: SpinalSimFunSuite = testObject match {
+      case suite: SpinalSimFunSuite => suite
+      case _ => null
+    }
+
+    var prefix = ""
+    if(simTest.testName.startsWith("verilator_")) {
+      prefix = "V"
+    } else if(simTest.testName.startsWith("ghdl_")) {
+      prefix = "G"
+    } else if (simTest.testName.startsWith("iverilog_")) {
+      prefix = "I"
+    }
 
     assert(test != null)
     val testClassName = if(test != null) test.getClass.getSimpleName else "test"
@@ -70,8 +99,8 @@ object SpinalTesterSimConfig {
     val suffixObjectToString = if(suffixObject != null) "_" + suffixObject.toString else ""
 
     var workspaceName: String = null
-    val suffixCanonical = sanitizeStringForFilename(suffixCanon + suffixObjectToString)
-    println(s"sanitizeStringForFilename(${suffixCanon + suffixObjectToString}) = ${suffixCanonical}")
+    val suffixCanonical = sanitizeStringForFilename(prefix + suffixCanon + suffixObjectToString)
+    println(s"sanitizeStringForFilename(${prefix + suffixCanon + suffixObjectToString}) = ${suffixCanonical}")
     val DIRECTORY_NAME_LENGTH = 32
     val HASH_TRUNCATED_LENGTH = 8
     if(suffixCanonical.length > DIRECTORY_NAME_LENGTH) {
