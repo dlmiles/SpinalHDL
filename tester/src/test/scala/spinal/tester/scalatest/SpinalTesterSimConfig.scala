@@ -85,12 +85,14 @@ object SpinalTesterSimConfig {
     }
 
     var prefix = ""
-    if(simTest.testName.startsWith("verilator_")) {
-      prefix = "V"
-    } else if(simTest.testName.startsWith("ghdl_")) {
-      prefix = "G"
-    } else if (simTest.testName.startsWith("iverilog_")) {
-      prefix = "I"
+    if(simTest != null) {
+      if (simTest.testName.startsWith("verilator_")) {
+        prefix = "V"
+      } else if (simTest.testName.startsWith("ghdl_")) {
+        prefix = "G"
+      } else if (simTest.testName.startsWith("iverilog_")) {
+        prefix = "I"
+      }
     }
 
     assert(test != null)
