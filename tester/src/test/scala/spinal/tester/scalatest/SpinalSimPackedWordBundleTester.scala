@@ -5,6 +5,8 @@ import spinal.core._
 import spinal.lib._
 import spinal.core.sim._
 
+import scala.language.postfixOps
+
 class SpinalSimPackedWordBundleTester extends AnyFunSuite {
   test("pack") {
     SpinalTesterSimConfig(this, "pack").withWave
