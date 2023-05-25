@@ -1086,6 +1086,8 @@ case class SpinalSimConfig(
 
             if (backend.config.withCoverage) {
               argsArray ++= Seq("--coverage-path", "${NAME}${EXT}", "--enable-coverage")
+            } else {
+              argsArray += "--disable-coverage"
             }
 
             println(s"commandArgs=${argsArray.mkString(" ")}")    // REMOVEME
