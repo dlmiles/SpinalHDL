@@ -7,7 +7,7 @@ import spinal.core.sim._
 
 class SpinalSimPackedWordBundleTester extends AnyFunSuite {
   test("pack") {
-    SimConfig.withWave
+    SpinalTesterSimConfig(this, "pack").withWave
       .compile(new Component {
         val packedBundle = new PackedWordBundle(8 bit) {
           val a = Bits(4 bit).pack(3 downto 0)
@@ -59,7 +59,7 @@ class SpinalSimPackedWordBundleTester extends AnyFunSuite {
   }
 
   test("unpack") {
-    SimConfig.withWave
+    SpinalTesterSimConfig(this, "unpack").withWave
       .compile(new Component {
         val packedBundle = new PackedWordBundle(8 bit) {
           val a = Bits(4 bit).pack(3 downto 0)

@@ -8,7 +8,7 @@ import scala.language.postfixOps
 
 class SpinalSimPackedBundleTester extends SpinalAnyFunSuite {
   test("pack legacy") {
-    SimConfig.withWave
+    SpinalTesterSimConfig(this, "pack legacy").withWave
       .compile(new Component {
         val packedBundle = new PackedBundle {
           val a = Bits(3 bit) // 0 to 2
@@ -83,7 +83,7 @@ class SpinalSimPackedBundleTester extends SpinalAnyFunSuite {
   }
 
   test("unpack legacy") {
-    SimConfig.withWave
+    SpinalTesterSimConfig(this, "unpack legacy").withWave
       .compile(new Component {
         val packedBundle = new PackedBundle {
           val a = Bits(3 bit) // 0 to 2
