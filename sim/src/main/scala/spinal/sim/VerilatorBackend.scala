@@ -410,6 +410,7 @@ std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << "
  #endif
 
  // We expect this to be overridden by runtime process argument
+ static bool GlobalWaveEnable = true;
  static int GlobalWaveDepth = TRACE_WAVE_DEPTH_DEFAULT;
  static string GlobalWavePath = string(DEFAULT_WAVE_FILENAME);
  static string GlobalWaveExt  = string(DEFAULT_WAVE_FILENAME_EXT);
@@ -422,6 +423,7 @@ std::cout << "ResolveDirectory(" << filepath << ", " << name << ", " << ext << "
  #define DEFAULT_COVERAGE_FILENAME "coverage.dat"
 
  // We expect this to be overridden by runtime process argument
+ static bool GlobalCoverageEnable = true;
  static string GlobalCoveragePath = string(DEFAULT_COVERAGE_FILENAME);
 
  static string ResolveCoveragePath(const string &name) {
@@ -466,6 +468,30 @@ cout << "wrapperCommandArgs(COVERAGE) " << argv[i] << " " << argv[i+1] << endl;
 #endif
       consume = 2;
 cout << "wrapperCommandArgs(WAVE_DEPTH) " << argv[i] << " " << argv[i+1] << endl;
+    }
+    if(!consume && strcmp("--enable-wave", argv[i]) == 0) {
+#ifdef TRACE
+      GlobalWaveEnable = true;
+#endif
+cout << "wrapperCommandArgs(ENABLE_WAVE) " << argv[i] << endl;
+    }
+    if(!consume && strcmp("--disable-wave", argv[i]) == 0) {
+#ifdef TRACE
+      GlobalWaveEnable = false;
+#endif
+cout << "wrapperCommandArgs(DISABLE_WAVE) " << argv[i] << endl;
+    }
+if(!consume && strcmp("--enable-coverage", argv[i]) == 0) {
+#ifdef COVERAGE
+      GlobalCoverageEnable = true;
+#endif
+cout << "wrapperCommandArgs(ENABLE_COVERAGE) " << argv[i] << endl;
+    }
+    if(!consume && strcmp("--disable-coverage", argv[i]) == 0) {
+#ifdef COVERAGE
+      GlobalCoverageEnable = false;
+#endif
+cout << "wrapperCommandArgs(DISABLE_COVERAGE) " << argv[i] << endl;
     }
     if(consume > 0) {
       for(int j = 0; j < consume; j++)
@@ -541,7 +567,7 @@ public:
 #endif
       timeCheck = 0;
       lastFlushAt = high_resolution_clock::now();
-      waveEnabled = true;
+      waveEnabled = false;
 ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       val typePrefix = if(signal.dataType.width <= 8) "CData"
       else if(signal.dataType.width <= 16) "SData"
@@ -578,7 +604,8 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
       tfp.close();
 #endif
 #ifdef COVERAGE
-      VERILATED_COV(contextp)write(ResolveCoveragePath(name).c_str());
+      if(GlobalCoverageEnable)
+          VERILATED_COV(contextp)write(ResolveCoveragePath(name).c_str());
 #endif
 
       top = nullptr;
@@ -589,9 +616,11 @@ ${    val signalInits = for((signal, id) <- config.signals.zipWithIndex) yield {
 
     void afterCommandArgs() {
 #ifdef TRACE
+      waveEnabled = GlobalWaveEnable
       VERILATED_CONTEXTP(contextp)traceEverOn(true);
       top->trace(&tfp, GlobalWaveDepth);
 cout << "GlobalWaveDepth=" << GlobalWaveDepth << endl;
+cout << "ResolveWavePath=" << ResolveWavePath(name) << endl;
       tfp.open(ResolveWavePath(name).c_str());
 #endif
     }
