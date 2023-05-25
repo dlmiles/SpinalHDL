@@ -22,6 +22,7 @@ class SpinalSimMultiThreadingDut(offset : Int) extends Component {
 }
 
 class SpinalSimMultiThreadingTest extends SpinalSimFunSuite {
+  val self = this
   test("Test1") {
     var faild = false
     val threads = for (t <- 0 to 3) yield {
@@ -29,7 +30,7 @@ class SpinalSimMultiThreadingTest extends SpinalSimFunSuite {
         override def run() = {
           for (i <- 0 to 5) {
             try {
-              SpinalTesterSimConfig(this, s"Test1_thread${t}_${i}")
+              SpinalTesterSimConfig(self, s"Test1_thr${t}_${i}", this)
                 .withConfig(SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC)))
                 //        .compile()
                 //                .withWave
