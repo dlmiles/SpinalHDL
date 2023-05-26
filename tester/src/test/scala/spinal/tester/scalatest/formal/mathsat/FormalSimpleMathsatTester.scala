@@ -34,7 +34,9 @@ class FormalSimpleMathsatTester extends SpinalFormalFunSuite {
     assume(SpinalTesterFormalConfig.pathContainsBinary("mathsat"), "Skipping: mathsat missing from $PATH")
     startFormalWithBMC(label="Formal_mathsat_Simple_pass")
   }
-  test("Formal_mathsat_Simple_fail") {
+  // See issue https://github.com/YosysHQ/yosys/issues/3785
+  // This test will return ERROR not FAIL
+  ignore("Formal_mathsat_Simple_fail") {
     assume(SpinalTesterFormalConfig.pathContainsBinary("mathsat"), "Skipping: mathsat missing from $PATH")
     shouldFail(startFormalWithBMC(1, label="Formal_mathsat_Simple_fail"))
   }

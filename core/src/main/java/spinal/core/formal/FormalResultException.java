@@ -52,6 +52,8 @@ public class FormalResultException extends Exception {
         List<String> list = new ArrayList<>();
         if(hasResult)
             list.add("COMPLETED");
+        else
+            list.add("ERROR");
         if(isPass)
             list.add("verdict=PASS");
         if(isFail)

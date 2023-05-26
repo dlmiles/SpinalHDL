@@ -194,22 +194,23 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
 
             // We validate that we saw the DONE marker, indicating Yosys execution completed with a result and the full log was written out ok
             //   (as opposed to crashed, terminated due to time limits, disk full log truncations, etc...)
-            if(line.contains(" DONE ")) {
-              hasResult = true
-              PATTERN_verdict.findFirstMatchIn(line) match {
-                case Some(x) => verdict = x.group(1)
+            if(line.contains(" DONE ")) {	// toplevel logfile.txt
+             PATTERN_verdict.findFirstMatchIn(line) match {
+                case Some(x) => verdict = x.group(1)	// "PASS" | "FAIL" | "ERROR"
                 case None =>
               }
               PATTERN_rc.findFirstMatchIn(line) match {
                 case Some(x) => resultCode = x.group(1).toInt
                 case None =>
               }
-            } else if(line.contains("Status: failed")) {
+            } else if(line.contains("Status: failed")) {	// engine_0/logfile.txt
                hasResult = true
                verdict = "FAILED"
-            } else if(line.contains("Status: passed")) {
+            } else if(line.contains("Status: passed")) {	// engine_0/logfile.txt
                hasResult = true
                verdict = "PASSED"
+            } else if(line.contains("Status: error")) {		// engine_0/logfile.txt
+               verdict = "ERROR"
             }
 
             if(line.contains("Assert failed in") || line.contains("Unreached cover statement")){
@@ -249,8 +250,8 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
       val passOrFail: java.lang.Boolean = if(verdict != null) verdict.toUpperCase(Locale.ENGLISH) match {
         case "PASS" => true
         case "PASSED" => true
-        case "FAIL" => false		// exitStatus==0
-        case "FAILED" => false		// exitStatus!=0
+        case "FAIL" => false
+        case "FAILED" => false
         case _ => null
       } else null
 
