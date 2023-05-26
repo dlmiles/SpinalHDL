@@ -24,14 +24,11 @@ import java.io.{File, PrintWriter}
 import org.apache.commons.io.FileUtils
 import spinal.core.internals.{PhaseContext, PhaseNetlist}
 import spinal.core.sim.SimWorkspace
-import spinal.core.{BlackBox, Component, GlobalData, SpinalConfig, SpinalReport}
-import spinal.sim._
+import spinal.core.{BlackBox, Component,  SpinalConfig, SpinalReport}
 
-import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, HashMap, LinkedHashMap}
+import scala.collection.mutable.{ArrayBuffer, LinkedHashMap}
 import scala.io.Source
-import scala.util.Random
-import sys.process._
+
 
 // TYPO: FormalEngine
 trait FormalEngin {}
