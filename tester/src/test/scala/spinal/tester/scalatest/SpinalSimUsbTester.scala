@@ -43,7 +43,7 @@ class SpinalSimUsbTester extends SpinalAnyFunSuite{
 //  }
 
 //  test("UsbLsFsPhy"){
-//    SimConfig.withFstWave.compile(UsbLsFsPhy(4)).doSim{dut =>
+//    SpinalTesterSimConfig(this, "UsbLsFsPhy").withFstWave.compile(UsbLsFsPhy(4)).doSim{dut =>
 //      implicit val cd = dut.clockDomain
 //      cd.forkStimulus(20833)
 //

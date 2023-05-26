@@ -86,7 +86,7 @@ class VerilatorCacheTester extends SpinalAnyFunSuite {
   }
 
   def testComponentA(verilatorCacheUsedChecker: VerilatorCacheUsedChecker, n: Int, x: BigInt, shouldUseCache: Boolean, disableCache: Boolean = false, maxCacheEntries: Int = -1, waveDepth: Int = -1): Long = {
-    var cfg = SimConfig.cachePath(cacheDir.getAbsolutePath())
+    var cfg = SpinalTesterSimConfig(this, s"${n}_${x}_${shouldUseCache}_${disableCache}_${maxCacheEntries}_${waveDepth}").cachePath(cacheDir.getAbsolutePath())
     if (disableCache) cfg = cfg.disableCache
     if (maxCacheEntries >= 0) cfg = cfg.maxCacheEntries(maxCacheEntries)
     if (waveDepth >= 0) cfg = cfg.withWave(waveDepth)
