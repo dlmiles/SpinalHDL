@@ -10,7 +10,7 @@ class FormalSimpleTester extends SpinalFormalFunSuite {
   import spinal.core.formal._
   import spinal.core.GenerationFlags._
 
-  def startDoneTest(maxDelay : Int): Unit ={
+  def startDoneTest(maxDelay : Int, label: String = null): Unit ={
     class StartDoneDut() extends Component {
       val start = in(Bool())
       val done = out(False)
@@ -31,7 +31,7 @@ class FormalSimpleTester extends SpinalFormalFunSuite {
       }
     }
 
-    SpinalTesterFormalConfig(this, "startDoneTest").withProve(25).doVerify(new Component {
+    SpinalTesterFormalConfig(this, label).withProve(25).doVerify(new Component {
       val dut = new StartDoneDut()
       assumeInitial(ClockDomain.current.isResetActive)
 
@@ -52,9 +52,9 @@ class FormalSimpleTester extends SpinalFormalFunSuite {
 
 
   test("StartDoneDut pass") {
-    startDoneTest(16)
+    startDoneTest(16, label="StartDoneDut pass")
   }
   test("StartDoneDut fail") {
-    shouldFail(startDoneTest(15))
+    shouldFail(startDoneTest(15, label="StartDoneDut fail"))
   }
 }

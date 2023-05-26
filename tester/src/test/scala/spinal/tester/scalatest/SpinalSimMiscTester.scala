@@ -73,7 +73,7 @@ class SpinalSimTesterTest extends SpinalAnyFunSuite {
     import env._
 
     test(prefix + "a"){
-      println(SimConfig._backend + " " + durationFactor)
+      println(SpinalTesterSimConfig(this, prefix + "a")._backend + " " + durationFactor)
     }
   }
 }
@@ -146,7 +146,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     def doStdtest(name: String): Unit = {
       test(prefix + name) {
         println("Starting test " + prefix + name)
-        compiled.doSim("testStd")(dut => {
+        compiled.doSim(prefix + name)(dut => {
           dut.clockDomain.forkStimulus(10)
 
           var counterModel = 0
@@ -166,7 +166,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
     def doStdTestUnnamed(name: String): Unit = {
       test(prefix + name) {
         println("Starting test " + name)
-        compiled.doSim(dut => {
+        compiled.doSim(prefix + name)(dut => {
           dut.clockDomain.forkStimulus(10)
 
           var counterModel = 0
@@ -192,7 +192,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "testSimSuccess") {
-      compiled.doSim(dut => {
+      compiled.doSim(prefix + "testSimSuccess")(dut => {
         dut.clockDomain.forkStimulus(10)
 
         var counterModel = 0
@@ -213,7 +213,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
     test(prefix + "testSimFailure") {
       intercept[SimFailure] {
-        compiled.doSim(dut => {
+        compiled.doSim(prefix + "testSimFailure")(dut => {
           dut.clockDomain.forkStimulus(10)
 
           var counterModel = 0
@@ -233,7 +233,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "testWaitSampling") {
-      compiled.doSim(dut => {
+      compiled.doSim(prefix + "testWaitSampling")(dut => {
         dut.clockDomain.forkStimulus(10)
 
         var counterModel = 0
@@ -252,7 +252,7 @@ class SpinalSimMiscTester extends SpinalAnyFunSuite {
       var counterCheck = 0
       var counterClock = 0
       try {
-        compiled.doSimUntilVoid("testdoSimUntilVoid")(dut => {
+        compiled.doSimUntilVoid(prefix + "testdoSimUntilVoid")(dut => {
           fork {
             dut.clockDomain.deassertReset()
             dut.clockDomain.fallingEdge()

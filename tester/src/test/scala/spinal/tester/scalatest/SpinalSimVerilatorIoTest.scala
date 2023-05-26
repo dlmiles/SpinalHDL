@@ -74,8 +74,8 @@ class SpinalSimVerilatorIoTest extends SpinalAnyFunSuite {
     import env._
     var compiled: SimCompiled[SpinalSimVerilatorIoTestTop] = null
 
-    def doTest: Unit = {
-      compiled.doSim { dut =>
+    def doTest(label: String = ""): Unit = {
+      compiled.doSim(prefix + "_doTest" + label) { dut =>
         def checkBoolean(value: Boolean, that: Bool): Unit = {
           that #= value
           sleep(1)
@@ -214,13 +214,13 @@ class SpinalSimVerilatorIoTest extends SpinalAnyFunSuite {
     }
 
     test(prefix + "test1") {
-      doTest
+      doTest("test1")
     }
     test(prefix + "test2") {
-      doTest
+      doTest("test2")
     }
     test(prefix + "test3") {
-      doTest
+      doTest("test3")
     }
 
 
@@ -229,7 +229,7 @@ class SpinalSimVerilatorIoTest extends SpinalAnyFunSuite {
 
       val futures = for (i <- 0 to 8) yield {
         Future {
-          doTest
+          doTest("testMulticore")
         }
       }
       import scala.concurrent.duration._

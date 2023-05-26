@@ -7,6 +7,7 @@ import spinal.lib.bus.regif.AccessType._
 import spinal.lib._
 import spinal.lib.bus.amba4.apb.sim.Apb4Driver
 import spinal.lib.bus.amba4.apb.{Apb4, Apb4Config}
+import spinal.tester.scalatest.SpinalTesterSimConfig
 
 import scala.collection.immutable._
 import scala.language.postfixOps
@@ -157,7 +158,7 @@ class RegIfTester(seed: Int = 0) extends Component with RegIfRef {
 
 object RegIfStrbTesterSim {
   def sim(name: String, withwave: Boolean = false) ={
-    val sc = if(withwave){ SpinalSimConfig() .withFstWave } else SpinalSimConfig()
+    val sc = if(withwave){ SpinalTesterSimConfig(this, name).withFstWave } else SpinalTesterSimConfig(this, name)
       sc
       .compile(new RegIfTester(seed = 0))
       .doSimUntilVoid("test") { dut =>

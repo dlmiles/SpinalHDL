@@ -38,7 +38,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "TestStdSimIntThreadLess") {
-      compiled.doSim { dut =>
+      compiled.doSim(prefix + "TestStdSimIntThreadLess") { dut =>
         dut.clockDomain.forkStimulus(period = 10)
         dut.clockDomain.forkSimSpeedPrinter(0.2)
         dut.io.a.randomize()
@@ -68,7 +68,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "TestStdSimInt") {
-      compiled.doSim { dut =>
+      compiled.doSim(prefix + "TestStdSimInt") { dut =>
         dut.clockDomain.forkStimulus(period = 10)
         dut.clockDomain.forkSimSpeedPrinter(0.2)
 
@@ -94,7 +94,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "TestStdSimIntx2") {
-      compiled.doSim { dut =>
+      compiled.doSim(prefix + "TestStdSimIntx2") { dut =>
         dut.clockDomain.forkStimulus(period = 10)
 
         for (repeat <- 0 until 4) {
@@ -122,7 +122,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
 
 
     test(prefix + "TestStdSimBigInt") {
-      compiled.doSim { dut =>
+      compiled.doSim(prefix + "TestStdSimBigInt") { dut =>
         dut.clockDomain.forkStimulus(period = 10)
 
         for (repeat <- 0 until 4) {
@@ -143,7 +143,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
     }
 
     test(prefix + "TestSleep0") {
-      compiled.doSim { dut =>
+      compiled.doSim(prefix + "TestSleep0") { dut =>
         dut.clockDomain.forkStimulus(period = 10)
 
         for (repeat <- 0 until 4) {
@@ -164,7 +164,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
       val stages = 100
       val states = (100*designFactor).toInt
       val operands = 5
-      SpinalTesterSimConfig(this, "compilationSpeed").withConfig(SpinalConfig(verbose = true)).allOptimisation.doSim(new Component {
+      SpinalTesterSimConfig(this, prefix + "compilationSpeed").withConfig(SpinalConfig(verbose = true)).allOptimisation.doSim(new Component {
         val inputs = Vec(in UInt (8 bits), states)
         val outputs = Vec(out UInt (8 bits), states)
         var ptr = inputs

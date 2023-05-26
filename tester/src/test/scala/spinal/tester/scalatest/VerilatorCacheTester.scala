@@ -77,7 +77,7 @@ object VerilatorCacheTester {
 class VerilatorCacheTester extends SpinalAnyFunSuite {
   import VerilatorCacheTester._
 
-  val cacheDir = new File(SimConfig._workspacePath + "/.cache_cachetest")
+  val cacheDir = new File(SpinalTesterSimConfig(this)._workspacePath + "/.cache_cachetest")
 
   def deleteCache(): Unit = {
     if (cacheDir.exists()) {

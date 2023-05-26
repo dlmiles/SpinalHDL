@@ -16,7 +16,7 @@ class Apb3CCTester extends SpinalSimFunSuite{
       config = Apb3Config(16,8),
       inputClock = ClockDomain.external("input"),
       outputClock = ClockDomain.external("output")
-    )).doSim(seed = 42) { dut =>
+    )).doSim(name = "doIt_seed42_" + name, seed = 42) { dut =>
       dut.inputClock.forkStimulus(pIn)
       dut.outputClock.forkStimulus(pOut)
       val memRef = Array.fill(256)(Random.nextInt(256).toByte)

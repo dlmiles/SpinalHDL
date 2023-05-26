@@ -40,7 +40,7 @@ class SpinalSimSpiXdrMaster extends SpinalAnyFunSuite {
     var compiled: SimCompiled[SpiXdrMasterCtrl.TopLevel] = null
 
     def doCompile(): Unit ={
-      compiled = SpinalTesterSimConfig(this).withConfig(SpinalConfig(verbose = true)).compile(
+      compiled = SpinalTesterSimConfig(this, prefix + "_doCompile").withConfig(SpinalConfig(verbose = true)).compile(
         SpiXdrMasterCtrl(
           SpiXdrMasterCtrl.Parameters(12, 12, SpiXdrParameter(dataWidth = 4, ioRate = 2, ssWidth = 3))
             .addFullDuplex(0, rate = 1, ddr = false)
@@ -75,7 +75,7 @@ class SpinalSimSpiXdrMaster extends SpinalAnyFunSuite {
         if(compiled == null){
           doCompile()
         }
-        compiled.doSim(name, 32) { dut =>
+        compiled.doSim(prefix + name, 32) { dut =>
           SimTimeout(10 * 1000000)
           dut.clockDomain.forkStimulus(10)
           dut.io.config.kind.cpha #= cpha
