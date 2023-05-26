@@ -203,10 +203,14 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
                 case Some(x) => resultCode = x.group(1).toInt
                 case None =>
               }
-            } else if(line.contains("Status: failed")) {	// engine_0/logfile.txt
+            } else if(line.contains("Status: failed")) {	// engine_0/logfile.txt  engine_0/logfile_basecase.txt
                hasResult = true
                verdict = "FAILED"
-            } else if(line.contains("Status: passed")) {	// engine_0/logfile.txt
+            } else if (line.contains("Temporal induction failed!")) { // engine_0/logfile_induction.txt
+              hasResult = true
+              verdict = "FAILED"
+            } else if(line.contains("Status: passed")) {	// engine_0/logfile.txt  engine_0/logfile_induction.txt
+              // engine_0/logfile_induction.txt Also "Temporal induction successful."
                hasResult = true
                verdict = "PASSED"
             } else if(line.contains("Status: error")) {		// engine_0/logfile.txt
