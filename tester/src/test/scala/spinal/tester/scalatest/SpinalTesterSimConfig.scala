@@ -3,13 +3,11 @@ package spinal.tester.scalatest
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.SpinalConfig
 import spinal.core.sim.SpinalSimConfig
-import spinal.lib.DoCmd.isWindows
 
 import java.io.File
 import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.util.concurrent.atomic.AtomicReference
-//import spinal.tester.scalatest.SpinalSimFunSuite
 
 object SpinalTesterSimConfig {
 
@@ -67,11 +65,11 @@ object SpinalTesterSimConfig {
 
     var prefix = ""
     if(simTest != null) {
-      if (simTest.testName.startsWith("verilator_")) {
+      if (simTest.tester.prefix.equals("verilator_")) {
         prefix = "V"
-      } else if (simTest.testName.startsWith("ghdl_")) {
+      } else if (simTest.tester.prefix.equals("ghdl_")) {
         prefix = "G"
-      } else if (simTest.testName.startsWith("iverilog_")) {
+      } else if (simTest.tester.prefix.equals("iverilog_")) {
         prefix = "I"
       }
     }
@@ -96,7 +94,7 @@ object SpinalTesterSimConfig {
     if(workspaceName == null || workspaceName.isEmpty)
       workspaceName = "test"  // fallback
 
-    val config = SpinalSimConfig()
+    val config = if(simTest != null) simTest.SimConfig else SpinalSimConfig()   // simTest configured
 
     // This is configured in SpinalAnyFunSuite so we relocate under there ./simWorkspace
     if(testClassName != null) {
