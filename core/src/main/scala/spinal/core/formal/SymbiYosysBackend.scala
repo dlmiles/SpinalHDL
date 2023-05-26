@@ -5,6 +5,7 @@ import java.nio.file.{Files, Paths}
 import java.security.MessageDigest
 import org.apache.commons.io.FileUtils
 
+import java.util.Locale
 import scala.collection.mutable.{ArrayBuffer, LinkedHashMap}
 import scala.io.Source
 import sys.process._
@@ -101,7 +102,7 @@ class SymbiYosysBackendConfig(
     var toplevelName: String = null,
     var workspacePath: String = null,
     var workspaceName: String = null,
-    var keepDebugInfo: Boolean = false,
+    var keepDebugInfo: Boolean = true,    // See notes below around use for default change
     var skipWireReduce: Boolean = false
 )
 
@@ -162,7 +163,7 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
   }
 
   class Logger extends ProcessLogger {
-    override def err(s: => String): Unit = { if (!s.startsWith("ar: creating ")) println(s) }
+    override def err(s: => String): Unit = { println(s) }
     override def out(s: => String): Unit = {}
     override def buffer[T](f: => T) = f
   }
@@ -171,16 +172,26 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
     println(f"[Progress] Start ${config.toplevelName} formal verification with $name.")
     val isWindows = System.getProperty("os.name").toLowerCase.contains("windows")
     val command = if (isWindows) "sby.exe" else "sby"
-    val success = Process(Seq(command, "-f", sbyFilePath.toString()), workspacePath.toFile()).!(new Logger()) == 0
-    if(!success){
+    val exitStatus = Process(Seq(command, "-f", sbyFilePath.toString()), workspacePath.toFile()).!(new Logger())
+    val success = exitStatus == 0
 
+    var hasResult = false       // did sby process complete and emit logfile end marker
+    var verdict: String = null  // "PASS" | "FAIL"
+    var resultCode: Integer = null  // rc=0
+    var exc: FormalResultException = null
 
+    // Do this always to provide a summary towards getting a formal_results.xml
+    if(true) {
       var assertedLines = ArrayBuffer[String]()
       def analyseLog(file : File): Unit ={
         if(file.exists()){
           val pattern = """(\w+.sv):(\d+).(\d+)-(\d+).(\d+)""".r
+          val PATTERN_verdict = """\s+DONE\s+\(([A-Za-z0-9_$]+)""".r
+          val PATTERN_rc = """rc=(\d+)""".r
           for (line <- Source.fromFile(file).getLines) {
-            println(line)
+            if(!success)    // FIXME this would be better based on unexpected outcome not exitStatus
+              println(line)
+
             if(line.contains("Assert failed in") || line.contains("Unreached cover statement")){
               pattern.findFirstMatchIn(line) match {
                 case Some(x) => {
@@ -191,6 +202,19 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
                   assertedLines += assertString
                   println("--   " +assertString)
                 }
+                case None =>
+              }
+            }
+            // We validate that we saw the DONE marker, indicating Yosys execution completed with a result and the full log was written out ok
+            //   (as opposed to crashed, terminated due to time limits, disk full log truncations, etc...)
+            if(line.contains(" DONE ")) {
+              hasResult = true
+              PATTERN_verdict.findFirstMatchIn(line) match {
+                case Some(x) => verdict = x.group(1)
+                case None =>
+              }
+              PATTERN_rc.findFirstMatchIn(line) match {
+                case Some(x) => resultCode = x.group(1).toInt
                 case None =>
               }
             }
@@ -206,15 +230,35 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
         for (e <- logFileName) analyseLog(workDir.resolve(Paths.get(s"${config.toplevelName}_${name}", "engine_0", e)).toFile())
       }
 
-      val assertedLinesFormated = assertedLines.map{l =>
+      val assertedLinesFormatted = assertedLines.map{l =>
         val splits = l.split("// ")
         "(" + splits(1).replace(":L", ":") + ")  "
       }
-      val assertsReport = assertedLinesFormated.map(e => s"\tissue.triggered.from${e}\n").mkString("")
+      val assertsReport = assertedLinesFormatted.map(e => s"\tissue.triggered.from${e}\n").mkString("")
       val proofAt = "\tproof in " + workDir + s"/${config.toplevelName}_${config.modesWithDepths.head._1}/engine_0"
-      throw new Exception("SymbiYosys failure\n" + assertsReport + proofAt)
+
+      val message = if(success) "SymbiYosys completed" else s"SymbiYosys exit ${exitStatus}"
+
+      val passOrFail: java.lang.Boolean = verdict.toUpperCase(Locale.ENGLISH) match {
+        case "PASS" => true
+        case "FAIL" => false
+        case _ => null
+      }
+
+      exc = FormalResultException.builder(message + "\n" + assertsReport + proofAt, hasResult, exitStatus, passOrFail, resultCode)
     }
-    if (!config.keepDebugInfo) clean()
+    // This has the unwanted behaviour of leaving behind all the failed Yosys (exitStatus) not the failed unit tests (context)
+    //    so it does not cleanup for SpinalFormalFunSuite#shouldFail(), it also cleans up in scenarios of an unexpected pass.
+    // Since we clean before the next start in FormalBootstraps#compile():198 why should the default be to cleanup ?
+    // No other simWorkspace delete the results by default, 'sbt clean' exists in Java space when that is important,
+    // the point being the behaviour is not consistent with expectations from other aspects of development
+    // it is more annoying to delete data you need to diagnose problem, than to have data laying around you can always delete later
+    if (!config.keepDebugInfo && exc == null) clean()
+
+    if(exc != null)
+      throw exc
+
+    throw new Exception("SpinalFormal failure to parse log outputs")
   }
 
   def checks(): Unit = {

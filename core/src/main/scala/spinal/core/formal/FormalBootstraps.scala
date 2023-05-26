@@ -130,6 +130,11 @@ case class SpinalFormalConfig(
     this
   }
 
+  def withoutDebug: this.type = {
+    _keepDebugInfo = false
+    this
+  }
+
   def withOutWireReduce: this.type = {
     _skipWireReduce = true
     this
@@ -196,6 +201,8 @@ case class SpinalFormalConfig(
 
     rootWorkplace.toFile.mkdirs()
     FileUtils.deleteQuietly(workingWorksplace.toFile())
+    if(workingWorksplace.toFile.exists()) // This could be true due to gtkwave have generated VCD open
+      println(s"f[warning] Formal workspace directory could not be deleted before run: ${workingWorksplace}")
     workingWorksplace.toFile.mkdirs()
     rtlDir.toFile.mkdirs()
 

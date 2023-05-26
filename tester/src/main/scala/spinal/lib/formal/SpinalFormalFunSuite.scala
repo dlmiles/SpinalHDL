@@ -2,6 +2,7 @@ package spinal.lib.formal
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.Tag
+import org.scalatest.exceptions.{StackDepthException, TestCanceledException}
 import spinal.core._
 import spinal.core.formal._
 import spinal.idslplugin.Location
@@ -19,14 +20,24 @@ class SpinalFormalFunSuite extends AnyFunSuite{
 
   def test(testName: String)(testFun: => Unit): Unit = {
     super.test("formal_" + testName, SpinalFormal) {
-      testFun
+      shouldPass(testFun)
     }
   }
 
+  def shouldPass(body: => Unit) = assert(try {
+    body
+    true
+  } catch {
+    case e : FormalResultException => println(e); e.isPass
+    case e : Throwable => throw e
+  })
+
   def shouldFail(body: => Unit) = assert(try {
     body
+    // UnexpectedPassException  ?
     false
   } catch {
-    case e : Throwable => println(e); true
+    case e : FormalResultException => println(e); e.isFail
+    case e : Throwable => throw e
   })
 }
