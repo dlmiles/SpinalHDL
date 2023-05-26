@@ -51,17 +51,21 @@ public class FormalResultException extends Exception {
     public String toString() {
         List<String> list = new ArrayList<>();
         if(hasResult)
-            list.add("DONE");
-        if(exitStatus != null)
-            list.add("exitStatus=" + exitStatus);
+            list.add("COMPLETED");
         if(isPass)
             list.add("verdict=PASS");
         if(isFail)
             list.add("verdict=FAIL");
+        if(exitStatus != null && exitStatus != 0)
+            list.add("exitStatus=" + exitStatus);
         if(resultCode != null)
             list.add("rc=" + resultCode);
-        list.add("message=" + getMessage());
+        list.add("message=\"" + getMessage() + "\"");
         return String.join(", ", list);
+    }
+
+    public String toStringPretty() {
+        return FormalResultException.class.getSimpleName() + "(" + toString() + ")";
     }
 
     public static FormalResultException builder(String message, boolean hasResult, Integer exitStatus, Boolean passOrFail, Integer resultCode) {

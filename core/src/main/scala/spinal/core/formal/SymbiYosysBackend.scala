@@ -192,19 +192,6 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
             if(!success)    // FIXME this would be better based on unexpected outcome not exitStatus
               println(line)
 
-            if(line.contains("Assert failed in") || line.contains("Unreached cover statement")){
-              pattern.findFirstMatchIn(line) match {
-                case Some(x) => {
-                  val sourceName = x.group(1)
-                  val assertLine = x.group(2).toInt
-                  val source = Source.fromFile(workspacePath.resolve(Paths.get("rtl", sourceName)).toFile()).getLines.drop(assertLine)
-                  val assertString = source.next().dropWhile(_ == ' ')
-                  assertedLines += assertString
-                  println("--   " +assertString)
-                }
-                case None =>
-              }
-            }
             // We validate that we saw the DONE marker, indicating Yosys execution completed with a result and the full log was written out ok
             //   (as opposed to crashed, terminated due to time limits, disk full log truncations, etc...)
             if(line.contains(" DONE ")) {
@@ -215,6 +202,26 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
               }
               PATTERN_rc.findFirstMatchIn(line) match {
                 case Some(x) => resultCode = x.group(1).toInt
+                case None =>
+              }
+            } else if(line.contains("Status: failed")) {
+               hasResult = true
+               verdict = "FAILED"
+            } else if(line.contains("Status: passed")) {
+               hasResult = true
+               verdict = "PASSED"
+            }
+
+            if(line.contains("Assert failed in") || line.contains("Unreached cover statement")){
+              pattern.findFirstMatchIn(line) match {
+                case Some(x) => {
+                  val sourceName = x.group(1)
+                  val assertLine = x.group(2).toInt
+                  val source = Source.fromFile(workspacePath.resolve(Paths.get("rtl", sourceName)).toFile()).getLines.drop(assertLine)
+                  val assertString = source.next().dropWhile(_ == ' ')
+                  assertedLines += assertString
+                  println("--   " +assertString)
+                }
                 case None =>
               }
             }
@@ -239,11 +246,13 @@ class SymbiYosysBackend(val config: SymbiYosysBackendConfig) extends FormalBacke
 
       val message = if(success) "SymbiYosys completed" else s"SymbiYosys exit ${exitStatus}"
 
-      val passOrFail: java.lang.Boolean = verdict.toUpperCase(Locale.ENGLISH) match {
+      val passOrFail: java.lang.Boolean = if(verdict != null) verdict.toUpperCase(Locale.ENGLISH) match {
         case "PASS" => true
-        case "FAIL" => false
+        case "PASSED" => true
+        case "FAIL" => false		// exitStatus==0
+        case "FAILED" => false		// exitStatus!=0
         case _ => null
-      }
+      } else null
 
       exc = FormalResultException.builder(message + "\n" + assertsReport + proofAt, hasResult, exitStatus, passOrFail, resultCode)
     }
