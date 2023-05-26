@@ -94,19 +94,19 @@ class SpinalSimFunSuite extends SpinalAnyFunSuite{
     super.test("verilator_" + testName) {
       tester = SpinalSimTesterVerilator
       durationFactor = SpinalSimTesterVerilator.durationFactor
-      this.testName = "verilator_" + testName
+      this.testName = tester.prefix + testName
       testFun
     }
     if(ghdlEnabled) super.test("ghdl_" + testName) {
       tester = SpinalSimTesterGhdl
       durationFactor = SpinalSimTesterGhdl.durationFactor
-      this.testName = "ghdl_" + testName
+      this.testName = tester.prefix + testName
       testFun
     }
     if(iverilogEnabled) super.test("iverilog_" + testName) {
       tester = SpinalSimTesterIVerilog
       durationFactor = SpinalSimTesterIVerilog.durationFactor
-      this.testName = "iverilog_" + testName
+      this.testName = tester.prefix + testName
       testFun
     }
   }
