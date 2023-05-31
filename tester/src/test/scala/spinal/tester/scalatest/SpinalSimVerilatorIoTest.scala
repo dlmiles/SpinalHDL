@@ -210,17 +210,17 @@ class SpinalSimVerilatorIoTest extends SpinalAnyFunSuite {
     }
 
     test(prefix + "compile") {
-      compiled = SpinalTesterSimConfig(this, "compile").compile(new SpinalSimVerilatorIoTest.SpinalSimVerilatorIoTestTop)
+      compiled = SpinalTesterSimConfig(this, prefix + "compile").compile(new SpinalSimVerilatorIoTest.SpinalSimVerilatorIoTestTop)
     }
 
     test(prefix + "test1") {
-      doTest("test1")
+      doTest("_test1")
     }
     test(prefix + "test2") {
-      doTest("test2")
+      doTest("_test2")
     }
     test(prefix + "test3") {
-      doTest("test3")
+      doTest("_test3")
     }
 
 
@@ -229,7 +229,7 @@ class SpinalSimVerilatorIoTest extends SpinalAnyFunSuite {
 
       val futures = for (i <- 0 to 8) yield {
         Future {
-          doTest("testMulticore")
+          doTest("testMulticore_" + i)
         }
       }
       import scala.concurrent.duration._
