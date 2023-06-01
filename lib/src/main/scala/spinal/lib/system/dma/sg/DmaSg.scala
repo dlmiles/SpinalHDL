@@ -2411,7 +2411,7 @@ object SgDmaTestsParameter{
 
   import spinal.core.sim._
 
-  def test(p: Parameter) = {
+  def test(p: Parameter, label: String = "") = {
     val pCtrl = BmbParameter(
       addressWidth = DmaSg.ctrlAddressWidth,
       dataWidth    = 32,
@@ -2420,7 +2420,7 @@ object SgDmaTestsParameter{
       lengthWidth  = 2
     )
 
-    SimConfig.allOptimisation.compile(new DmaSg.Core[Bmb](p, ctrlType = HardType(Bmb(pCtrl)), BmbSlaveFactory(_))).doSim(seed=42){ dut =>
+    SimConfig.workspaceName(s"SgDmaTestsParameter_$label").allOptimisation.compile(new DmaSg.Core[Bmb](p, ctrlType = HardType(Bmb(pCtrl)), BmbSlaveFactory(_))).doSim(seed=42){ dut =>
       dut.clockDomain.forkStimulus(10)
       dut.clockDomain.forkSimSpeedPrinter(1.0)
 
