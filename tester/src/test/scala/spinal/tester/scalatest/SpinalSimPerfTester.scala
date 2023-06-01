@@ -30,7 +30,7 @@ class SpinalSimPerfTester extends SpinalAnyFunSuite {
     var compiled: SimCompiled[SpinalSimPerfTester.SpinalSimPerfTesterDut] = null
 
     test(prefix + "compile") {
-      compiled = SpinalTesterSimConfig(this, "compile")
+      compiled = SpinalTesterSimConfig(this, prefix + "compile")
         .allOptimisation
         //      .withGhdl
         .compile(new SpinalSimPerfTester.SpinalSimPerfTesterDut())

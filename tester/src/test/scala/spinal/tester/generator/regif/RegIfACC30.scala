@@ -11,6 +11,7 @@ import spinal.lib.bus.amba4.apb.sim.Apb4Driver
 import spinal.lib.bus.regif.AccessType._
 import spinal.lib.bus.regif._
 import spinal.lib.bus.wishbone.Wishbone
+import spinal.tester.scalatest.SpinalTesterSimConfig
 
 import scala.language.postfixOps
 
@@ -425,7 +426,7 @@ object BasicTest{
       resetActiveLevel = LOW
     ),
     defaultClockDomainFrequency = FixedFrequency(200 MHz),
-    targetDirectory = "./out/rtl/",
+    targetDirectory = "./simWorkspace/out/rtl/",
     headerWithDate = true,
     inlineConditionalExpression = true,
     oneFilePerComponent = false,
@@ -434,7 +435,7 @@ object BasicTest{
     anonymSignalPrefix = "t",
     mergeAsyncProcess = true)
 
-  val simcfg = SpinalSimConfig().withConfig(spinalConfig)
+  val simcfg = SpinalTesterSimConfig(this).withConfig(spinalConfig)
 
   def genrtl(name: String = "apb4") = {
     name match {

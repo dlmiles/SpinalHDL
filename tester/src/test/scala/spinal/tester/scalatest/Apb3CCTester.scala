@@ -8,11 +8,10 @@ import spinal.lib.bus.amba3.apb.sim._
 import scala.util.Random
 
 class Apb3CCTester extends SpinalSimFunSuite{
-  ghdlEnabled = false
-  iverilogEnabled = false
+  onlyVerilator()
 
   def doIt(name : String, pIn : Int, pOut : Int) = test(name) {
-    SpinalTesterSimConfig(this).compile(new Apb3CC(
+    SpinalTesterSimConfig(this, s"${name}_${pIn}_${pOut}").compile(new Apb3CC(
       config = Apb3Config(16,8),
       inputClock = ClockDomain.external("input"),
       outputClock = ClockDomain.external("output")

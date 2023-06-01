@@ -11,12 +11,12 @@ import org.scalatest.{ParallelTestExecution, BeforeAndAfterAll}
 class SpinalSimDmaSgTester extends SpinalAnyFunSuite {
   Random.setSeed(42)
   for((name, p) <- SgDmaTestsParameter(allowSmallerStreams = false)) test(name){
-      SgDmaTestsParameter.test(p)
+      SgDmaTestsParameter.test(p, name)
   }
   for(testId <- 0 until 5){
     val p = SgDmaTestsParameter.random()
     test(s"random_$testId") {
-      SgDmaTestsParameter.test(p)
+      SgDmaTestsParameter.test(p, s"random_$testId")
     }
   }
 }
