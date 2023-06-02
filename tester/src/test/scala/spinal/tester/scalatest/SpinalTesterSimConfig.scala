@@ -53,10 +53,10 @@ object SpinalTesterSimConfig {
     * @return SpinalSimConfig
     */
   def apply(testObject: Any, suffix: String = null, suffixObject: Any = null) = {
-    val test: AnyFunSuite = testObject match {
-      case suite: AnyFunSuite => suite
-      case _ => null
-    }
+//    val test: AnyFunSuite = testObject match {
+//      case suite: AnyFunSuite => suite
+//      case _ => null
+//    }
     // It looked useful to have visibility on this
     val simTest: SpinalSimFunSuite = testObject match {
       case suite: SpinalSimFunSuite => suite
@@ -74,8 +74,8 @@ object SpinalTesterSimConfig {
       }
     }
 
-    assert(test != null)
-    val testClassName = if(test != null) test.getClass.getSimpleName else "test"
+    //assert(test != null, "test != null")
+    val testClassName = if(testObject != null) testObject.getClass.getSimpleName else "test"
     val suffixCanon = if(suffix != null) suffix else ""
     val suffixObjectToString = if(suffixObject != null) "_" + suffixObject.toString else ""
 
