@@ -449,6 +449,7 @@ object BasicTest{
   def main(args: Array[String] = Array("apb4")) = {
     val bus = args.head
     simcfg
+      .workspaceName(s"regif_${bus}_test")
       .compile(new RegIfBasicAccessTest(bus))
       .doSimUntilVoid(s"regif_${bus}_test") { dut =>
         dut.regression()
