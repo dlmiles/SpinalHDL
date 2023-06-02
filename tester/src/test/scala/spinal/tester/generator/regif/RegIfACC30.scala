@@ -427,7 +427,7 @@ object BasicTest{
     ),
     defaultClockDomainFrequency = FixedFrequency(200 MHz),
     targetDirectory = "./simWorkspace/out/rtl/",
-    headerWithDate = true,
+    headerWithDate = false,   // set false, was true, as in CI will inhibit incremental building
     inlineConditionalExpression = true,
     oneFilePerComponent = false,
     nameWhenByFile = false,
