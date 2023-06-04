@@ -1000,26 +1000,42 @@ case class SpinalSimConfig(
     _workspaceName = SimWorkspace.allocateWorkspace(_workspacePath, _workspaceName)
 
     println(f"[Progress] Simulation workspace in ${new File(s"${_workspacePath}/${_workspaceName}").getAbsolutePath}")
-    new File(s"${_workspacePath}").mkdirs()
-    FileUtils.deleteQuietly(new File(s"${_workspacePath}/${_workspaceName}"))
-    new File(s"${_workspacePath}/${_workspaceName}").mkdirs()
-    new File(s"${_workspacePath}/${_workspaceName}/rtl").mkdirs()
+    val rootWorkplace = new File(_workspacePath).getAbsoluteFile.toPath
+    val workingWorkspace = rootWorkplace.resolve(_workspaceName)
+    val rtlDir = workingWorkspace.resolve("rtl")
 
-    val rtlDir = new File(s"${_workspacePath}/${_workspaceName}/rtl")
+    rootWorkplace.toFile.mkdirs()
+    FileUtils.deleteQuietly(workingWorkspace.toFile)
+    if (workingWorkspace.toFile.exists()) // This could be true due to gtkwave have generated VCD open
+      println(s"f[warning] Formal workspace directory could not be deleted before run: ${workingWorkspace}")
+    workingWorkspace.toFile.mkdirs()
+    rtlDir.toFile.mkdirs()
+
+    val rtlFiles = new ArrayBuffer[String]()
 //    val rtlPath = rtlDir.getAbsolutePath
     report.generatedSourcesPaths.foreach { srcPath =>
       val src = new File(srcPath)
-      val lines = Source.fromFile(src).getLines.toArray
+      val lines = Source.fromFile(src).withClose(() => {}).getLines().toArray
+      assert(lines != null && !lines.isEmpty)
+      println(s"SimBootstraps ${src} has ${lines.size} lines")
       val w = new PrintWriter(src)
       for(line <- lines){
           val str = if(line.contains("readmem")){
+            println(s"SimBootstraps ${src}:nnn has ${lines.size} lines and has ${line}")
             val exprPattern = """.*\$readmem.*\(\"(.+)\".+\).*""".r
             val absline = line match {
               case exprPattern(relpath) => {
+                println(s"SimBootstraps ${src}:nnn has ${lines.size} lines and has ${line} exprPattern")
                 val windowsfix = relpath.replace(".\\", "")
+                println(s"relpath=${relpath}")
+                println(s"windowsfix=${windowsfix}")
                 val abspath = new File(src.getParent + "/" + windowsfix).getAbsolutePath
+                println(s"abspath=${abspath}")
                 val ret = line.replace(relpath, abspath)
-                ret.replace("\\", "\\\\") //windows escape "\"
+                println(s"ret=${ret}")
+                val foo = ret.replace("\\", "\\\\") //windows escape "\"
+                println(s"ret=${ret}")
+                println(s"foo=${foo}")
               }
               case _ => new Exception("readmem abspath replace failed")
             }
@@ -1031,9 +1047,11 @@ case class SpinalSimConfig(
         }
       w.close()
 
-      val dst = new File(rtlDir.getAbsolutePath + "/" + src.getName)
-      FileUtils.copyFileToDirectory(src, rtlDir)
+      val dst = rtlDir.resolve(src.getName)
+      FileUtils.copyFileToDirectory(src, rtlDir.toFile)
+      rtlFiles.append(dst.toString)
     }
+    println(s"SimBootstraps ${workingWorkspace} rtlFiles${rtlFiles.mkString(" ")}")
 
     _backend match {
       case SpinalSimBackendSel.VERILATOR =>
