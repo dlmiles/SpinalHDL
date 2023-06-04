@@ -193,14 +193,14 @@ case class SpinalFormalConfig(
       f"[Progress] Formal verification workspace in ${new File(s"${_workspacePath}/${_workspaceName}").getAbsolutePath}"
     )
     val rootWorkplace = new File(_workspacePath).getAbsoluteFile.toPath()
-    val workingWorksplace = rootWorkplace.resolve(_workspaceName)
-    val rtlDir = workingWorksplace.resolve("rtl")
+    val workingWorkspace = rootWorkplace.resolve(_workspaceName)
+    val rtlDir = workingWorkspace.resolve("rtl")
 
     rootWorkplace.toFile.mkdirs()
-    FileUtils.deleteQuietly(workingWorksplace.toFile())
-    if(workingWorksplace.toFile.exists()) // This could be true due to gtkwave have generated VCD open
-      println(s"f[warning] Formal workspace directory could not be deleted before run: ${workingWorksplace}")
-    workingWorksplace.toFile.mkdirs()
+    FileUtils.deleteQuietly(workingWorkspace.toFile())
+    if(workingWorkspace.toFile.exists()) // This could be true due to gtkwave have generated VCD open
+      println(s"f[warning] Formal workspace directory could not be deleted before run: ${workingWorkspace}")
+    workingWorkspace.toFile.mkdirs()
     rtlDir.toFile.mkdirs()
 
     val rtlFiles = new ArrayBuffer[String]()
@@ -239,7 +239,7 @@ case class SpinalFormalConfig(
         println(f"[Progress] Yosys compilation started")
         val startAt = System.nanoTime()
         val vConfig = new SymbiYosysBackendConfig(
-          workspacePath = workingWorksplace.toString(),
+          workspacePath = workingWorkspace.toString(),
           workspaceName = "formal",
           toplevelName = report.toplevelName,
           modesWithDepths = _modesWithDepths,
