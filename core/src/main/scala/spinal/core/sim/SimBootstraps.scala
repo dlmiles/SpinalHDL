@@ -23,6 +23,7 @@ package spinal.core.sim
 import java.io.{File, PrintWriter}
 import org.apache.commons.io.FileUtils
 import spinal.core.internals.{BaseNode, DeclarationStatement, GraphUtils, PhaseCheck, PhaseContext, PhaseNetlist}
+import spinal.core.util.Util
 import spinal.core.{BaseType, Bits, BlackBox, Bool, Component, GlobalData, InComponent, Mem, MemSymbolesMapping, MemSymbolesTag, SInt, ScopeProperty, SpinalConfig, SpinalEnumCraft, SpinalReport, SpinalTag, SpinalTagReady, TimeNumber, UInt, Verilator, noLatchCheck}
 import spinal.sim._
 
@@ -1016,30 +1017,14 @@ case class SpinalSimConfig(
     report.generatedSourcesPaths.foreach { srcPath =>
       val src = new File(srcPath)
       val lines = Source.fromFile(src).withClose(() => {}).getLines().toArray
-      assert(lines != null && !lines.isEmpty)
-      println(s"SimBootstraps ${src} has ${lines.size} lines")
+      println(s"SimBootstraps ${src} has ${lines.length} lines")
       val w = new PrintWriter(src)
       for(line <- lines){
-          val str = if(line.contains("readmem")){
-            println(s"SimBootstraps ${src}:nnn has ${lines.size} lines and has ${line}")
-            val exprPattern = """.*\$readmem.*\(\"(.+)\".+\).*""".r
-            val absline = line match {
-              case exprPattern(relpath) => {
-                println(s"SimBootstraps ${src}:nnn has ${lines.size} lines and has ${line} exprPattern")
-                val windowsfix = relpath.replace(".\\", "")
-                println(s"relpath=${relpath}")
-                println(s"windowsfix=${windowsfix}")
-                val abspath = new File(src.getParent + "/" + windowsfix).getAbsolutePath
-                println(s"abspath=${abspath}")
-                val ret = line.replace(relpath, abspath)
-                println(s"ret=${ret}")
-                val foo = ret.replace("\\", "\\\\") //windows escape "\"
-                println(s"ret=${ret}")
-                println(s"foo=${foo}")
-              }
-              case _ => new Exception("readmem abspath replace failed")
-            }
-            absline
+          val str = if(line.contains('$' + "readmem")){
+            println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${line}")
+            val newline = Util.fixupVerilogDollarReadmemPath(line)
+            println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${newline}")
+            newline
           } else {
             line
           }

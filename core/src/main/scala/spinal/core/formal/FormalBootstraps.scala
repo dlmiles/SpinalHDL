@@ -24,7 +24,8 @@ import java.io.{File, PrintWriter}
 import org.apache.commons.io.FileUtils
 import spinal.core.internals.{PhaseContext, PhaseNetlist}
 import spinal.core.sim.SimWorkspace
-import spinal.core.{BlackBox, Component,  SpinalConfig, SpinalReport}
+import spinal.core.util.Util
+import spinal.core.{BlackBox, Component, SpinalConfig, SpinalReport}
 
 import scala.collection.mutable.{ArrayBuffer, LinkedHashMap}
 import scala.io.Source
@@ -207,21 +208,15 @@ case class SpinalFormalConfig(
 //    val rtlPath = rtlDir.getAbsolutePath
     report.generatedSourcesPaths.foreach { srcPath =>
       val src = new File(srcPath)
-      val lines = Source.fromFile(src).getLines.toArray
+      val lines = Source.fromFile(src).withClose(() => {}).getLines.toArray
+      println(s"FormalBootstraps ${src} has ${lines.length} lines")
       val w = new PrintWriter(src)
       for (line <- lines) {
-        val str = if (line.contains("readmem")) {
-          val exprPattern = """.*\$readmem.*\(\"(.+)\".+\).*""".r
-          val absline = line match {
-            case exprPattern(relpath) => {
-              val windowsfix = relpath.replace(".\\", "")
-              val abspath = new File(src.getParent + "/" + windowsfix).getAbsolutePath
-              val ret = line.replace(relpath, abspath)
-              ret.replace("\\", "\\\\") // windows escape "\"
-            }
-            case _ => new Exception("readmem abspath replace failed")
-          }
-          absline
+        val str = if (line.contains('$' + "readmem")) {
+          println(s"FormalBootstraps ${src}:nnn has ${lines.length} lines and has ${line}")
+          val newline = Util.fixupVerilogDollarReadmemPath(line)
+          println(s"FormalBootstraps ${src}:nnn has ${lines.length} lines and has ${newline}")
+          newline
         } else {
           line
         }
