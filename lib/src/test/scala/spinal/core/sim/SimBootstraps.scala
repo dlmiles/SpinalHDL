@@ -3,12 +3,15 @@ package spinal.core.sim
 import org.scalatest.funsuite.AnyFunSuite
 import spinal.core.util.Util
 
+import java.io.File
 import java.util.regex.Pattern
+import scala.collection.mutable
+import scala.reflect.io.Path
 
 class SimBootstraps extends AnyFunSuite {
 
   test("verilog_$readmem_path_replace_regex") {
-    val map = Map(
+    val map = mutable.LinkedHashMap(
 
         "   $readmemb(\"/work/path/dir/MyTestFile.v_toplevel_ram_foobar0.bin\",ram_symbol0);  " ->
         "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar0.bin\",ram_symbol0);  ",
@@ -22,14 +25,21 @@ class SimBootstraps extends AnyFunSuite {
         "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar3.bin\");  " ->
         "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar3.bin\");  ",
 
+        // mixed
         "   $readmemb(\"/work\\path/dir\\MyTestFile.v_toplevel_ram_foobar4.bin\");  " ->
         "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar4.bin\");  ",
 
         "   $readmemb(\"\\MyTestFile.v_toplevel_ram_foobar5.bin\", ram_symbol5);  " ->
         "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar5.bin\", ram_symbol5);  ",
 
-        "$readmemb(\"C:\\dir\\MyTestFile.v_toplevel_ram_foobar6.bin\", ram_symbol6);  " ->
-        "$readmemb(\"MyTestFile.v_toplevel_ram_foobar6.bin\", ram_symbol6);  "
+        // windows
+        "$readmemb(\"C:\\work\\path\\dir\\MyTestFile.v_toplevel_ram_foobar6.bin\", ram_symbol6);  " ->
+        "$readmemb(\"MyTestFile.v_toplevel_ram_foobar6.bin\", ram_symbol6);  ",
+
+        // windows MSYS2
+        "   $readmemb(\"/C:/work/path/dir/MyTestFile.v_toplevel_ram_foobar7.bin\", ram_symbol7);" ->
+        "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar7.bin\", ram_symbol7);"
+
     )
 
 
@@ -42,15 +52,66 @@ class SimBootstraps extends AnyFunSuite {
     for((input,expected) <- map) {
       //println(s"INPUT: >>${input}<<")
       val extracted = testExtractVerilogDollarReadmemPath(PATTERN, input)
-      val basename = Util.filepathBasename(extracted, true)
+      val basename = Util.filepathBasename(extracted, backslashAlways = true)
       val replaced = input.replace(extracted, basename)
       //println(s"EXPCT: >>${expected}<<")
-      assert(expected == replaced)
+      assert(replaced == expected)
 
       // Now try with the real version: PATTERN_extract_readmem_path
-      assert(expected == Util.fixupVerilogDollarReadmemPath(input))
+
+      assert(Util.fixupVerilogDollarReadmemPath(input, backslashAlways = true) == expected)
+
+      val canon = Path(extracted).toCanonical.path    // expect input but with canonical paths
+      val inputAfterCanon = input.replace(extracted, Util.backslashEscapeForString(canon))
+      assert(Util.fixupVerilogDollarReadmemPath(input, Path(""), backslashAlways = true) == inputAfterCanon)
+
+      assert(Util.fixupVerilogDollarReadmemPath(input, Path("."), backslashAlways = true) == expected)
     }
   }
+
+  test("verilog_$readmem_path_replace_regex_abs") {
+    val map = mutable.LinkedHashMap(
+
+      "   $readmemb(\"/work/path/dir/MyTestFile.v_toplevel_ram_foobar0.bin\",ram_symbol0);  " ->
+        "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar0.bin\",ram_symbol0);  ",
+
+      "   $readmemb(\"/work/path/dir/MyTestFile.v_toplevel_ram_foobar2.bin\");  //end" ->
+        "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar2.bin\");  //end",
+
+      // mixed
+      "   $readmemb(\"/work\\path/dir\\MyTestFile.v_toplevel_ram_foobar4.bin\");  " ->
+        "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar4.bin\");  ",
+
+      // windows
+      "$readmemb(\"C:\\work\\path\\dir\\MyTestFile.v_toplevel_ram_foobar6.bin\", ram_symbol6);  " ->
+        "$readmemb(\"MyTestFile.v_toplevel_ram_foobar6.bin\", ram_symbol6);  ",
+
+      // windows MSYS2
+      "   $readmemb(\"/C:/work/path/dir/MyTestFile.v_toplevel_ram_foobar7.bin\", ram_symbol7);" ->
+        "   $readmemb(\"MyTestFile.v_toplevel_ram_foobar7.bin\", ram_symbol7);"
+
+    )
+
+    for ((input, expected) <- map) {
+      //println(s"INPUT: >>${input}<<")
+      val extracted = testExtractVerilogDollarReadmemPath(Util.PATTERN_extract_readmem_path, input)
+      val basename = Util.filepathBasename(extracted, backslashAlways = true)
+      val replaced = input.replace(extracted, basename)
+      //println(s"EXPCT: >>${expected}<<")
+      assert(replaced == expected)
+
+      val dirname = extracted.replace(basename, "")
+
+      // Now try with the real version: PATTERN_extract_readmem_path
+
+      val expectedPrefix = Util.backslashEscapeForString(".." + File.separator + "dir" + File.separator)
+      assert(Util.fixupVerilogDollarReadmemPath(input, Path("/work/path/rtl"), backslashAlways = true) == expected.replace("(\"", "(\"" + expectedPrefix))
+
+      assert(Util.fixupVerilogDollarReadmemPath(input, Path(dirname), backslashAlways = true) == expected)
+    }
+
+  }
+
 
   def testExtractVerilogDollarReadmemPath(pattern: Pattern, str: String): String = {
     assert(str.contains('$' + "readmem")) // Check the $readmem was not string formatted out of input data

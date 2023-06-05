@@ -29,6 +29,7 @@ import spinal.core.{BlackBox, Component, SpinalConfig, SpinalReport}
 
 import scala.collection.mutable.{ArrayBuffer, LinkedHashMap}
 import scala.io.Source
+import scala.reflect.io.Path
 
 
 // TYPO: FormalEngine
@@ -214,7 +215,7 @@ case class SpinalFormalConfig(
       for (line <- lines) {
         val str = if (line.contains('$' + "readmem")) {
           println(s"FormalBootstraps ${src}:nnn has ${lines.length} lines and has ${line}")
-          val newline = Util.fixupVerilogDollarReadmemPath(line)
+          val newline = Util.fixupVerilogDollarReadmemPath(line, Path(workingWorkspace.toAbsolutePath.toFile))
           println(s"FormalBootstraps ${src}:nnn has ${lines.length} lines and has ${newline}")
           newline
         } else {

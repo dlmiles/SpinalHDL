@@ -2,15 +2,39 @@ package spinal.core.util
 
 import java.io.File
 import java.util.regex.Pattern
+import scala.reflect.io.Path
 
 object Util {
 
   val PATTERN_extract_readmem_path = Pattern.compile(".*\\$\\breadmem.*\\b\\(\"(.+)\".*\\).*")
 
-  def fixupVerilogDollarReadmemPath(input: String, backslashAlways: Boolean = autoBackslashAlways()): String = {
+  /**
+    *
+    * @param input The verbatim Verilog line to rewrite the path of a $readmem[bh] directive.
+    * @param workingDirectory null will convert input to basename (directory components removed)
+    *   Path("") will ensure an absolute path to returned
+    *   Path(".") will
+    *   Path(anyOtherValue) will emit a relative path to target file base on this working directory.
+    * @param backslashAlways default to true on windows and false on linux, or can be overriden.
+    * @return The Verilog line transformed and rewritten.
+    */
+  def fixupVerilogDollarReadmemPath(input: String, workingDirectory: Path = null, backslashAlways: Boolean = autoBackslashAlways()): String = {
     val extracted = extractVerilogDollarReadmemPath(input)
-    val basename = Util.filepathBasename(extracted, backslashAlways)
-    input.replace(extracted, basename)
+    if(workingDirectory != null && !workingDirectory.path.equals(".")) {
+      val pathCanonical = Path(extracted).toCanonical
+      var newPath: String = null
+      if(workingDirectory.path.equals("")) {
+        newPath = pathCanonical.path
+      } else {
+        newPath = workingDirectory.toCanonical.relativize(pathCanonical).path
+      }
+      val relPathEscaped = backslashEscapeForString(newPath)
+      input.replace(extracted, relPathEscaped)
+    } else {
+      val basename = Util.filepathBasename(extracted, backslashAlways)
+      // no separator to escape
+      input.replace(extracted, basename)
+    }
   }
 
   def extractVerilogDollarReadmemPath(str: String): String = {
@@ -41,6 +65,10 @@ object Util {
   def autoBackslashAlways(): Boolean = {
     // isWindows()
     File.separator.equals("\\")
+  }
+
+  def backslashEscapeForString(s: String): String = {
+    s.replace("\\", "\\\\")
   }
 
 }

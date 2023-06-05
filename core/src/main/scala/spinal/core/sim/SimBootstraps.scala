@@ -30,6 +30,7 @@ import spinal.sim._
 import scala.collection.{Seq, mutable}
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
+import scala.reflect.io.Path
 import scala.util.Random
 import sys.process._
 
@@ -1022,7 +1023,7 @@ case class SpinalSimConfig(
       for(line <- lines){
           val str = if(line.contains('$' + "readmem")){
             println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${line}")
-            val newline = Util.fixupVerilogDollarReadmemPath(line)
+            val newline = Util.fixupVerilogDollarReadmemPath(line, Path(workingWorkspace.toAbsolutePath.toFile))
             println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${newline}")
             newline
           } else {
