@@ -13,7 +13,7 @@ object Util {
     * @param input The verbatim Verilog line to rewrite the path of a $readmem[bh] directive.
     * @param workingDirectory null will convert input to basename (directory components removed)
     *   Path("") will ensure an absolute path to returned
-    *   Path(".") will
+    *   Path(".") will make path relative as-if we are in the correct directory
     *   Path(anyOtherValue) will emit a relative path to target file base on this working directory.
     * @param backslashAlways default to true on windows and false on linux, or can be overriden.
     * @return The Verilog line transformed and rewritten.
@@ -26,7 +26,13 @@ object Util {
       if(workingDirectory.path.equals("")) {
         newPath = pathCanonical.path
       } else {
+        println(s"fixupVerilogDollarReadmemPath(input=$input, workingDirectory=$workingDirectory, backslashAlways=$backslashAlways)")
+        println(s"fixupVerilogDollarReadmemPath()  pathCanonical=$pathCanonical")
+        println(s"fixupVerilogDollarReadmemPath()  workingDirectory=$workingDirectory")
+        println(s"fixupVerilogDollarReadmemPath()  toCanonical=${workingDirectory.toCanonical}")
+        println(s"fixupVerilogDollarReadmemPath()  relativize=${workingDirectory.toCanonical.relativize(pathCanonical)}")
         newPath = workingDirectory.toCanonical.relativize(pathCanonical).path
+        println(s"fixupVerilogDollarReadmemPath()  newPath=$newPath")
       }
       val relPathEscaped = backslashEscapeForString(newPath)
       input.replace(extracted, relPathEscaped)
