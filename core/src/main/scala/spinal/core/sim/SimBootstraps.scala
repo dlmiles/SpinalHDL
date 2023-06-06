@@ -1023,7 +1023,10 @@ case class SpinalSimConfig(
       for(line <- lines){
           val str = if(line.contains('$' + "readmem")){
             println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${line}")
-            val newline = Util.fixupVerilogDollarReadmemPath(line, Path(workingWorkspace.toAbsolutePath.toFile))
+            // CWD from the simulator runtime perspective, so there is an extra directory which we use
+            //  using the name "simulatorName" to be an arbitrary directory name to act as CWD during sim execution
+            val currentWorkingDirectoryPath = Path(workingWorkspace.resolve("simulatorName").toAbsolutePath.toFile)
+            val newline = Util.fixupVerilogDollarReadmemPath(line, currentWorkingDirectoryPath)
             println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${newline}")
             newline
           } else {

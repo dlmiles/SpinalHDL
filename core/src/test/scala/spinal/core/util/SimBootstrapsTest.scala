@@ -1,14 +1,13 @@
-package spinal.core.sim
+package spinal.core.util
 
 import org.scalatest.funsuite.AnyFunSuite
-import spinal.core.util.Util
 
 import java.io.File
 import java.util.regex.Pattern
 import scala.collection.mutable
 import scala.reflect.io.Path
 
-class SimBootstraps extends AnyFunSuite {
+class SimBootstrapsTest extends AnyFunSuite {
 
   test("verilog_$readmem_path_replace_regex") {
     val map = mutable.LinkedHashMap(
@@ -45,9 +44,9 @@ class SimBootstraps extends AnyFunSuite {
 
     // NOTE this PATTERN exists at spinal.core.util.Util.PATTERN_extract_readmem_path
     //val exprPattern = """.*\$readmem.*\(\"(.+)\".+\).*""".r.pattern   // original
-    val exprPattern = """.*\$\breadmem.*\b\(\"(.+)\".*\).*""".r.pattern
+    val exprPattern = """.*\$\breadmem[bh]\b\(\"(.+)\".*\).*""".r.pattern
     //val PATTERN = exprPattern
-    val PATTERN = Pattern.compile(".*\\$\\breadmem.*\\b\\(\"(.+)\".*\\).*")
+    val PATTERN = Pattern.compile(".*\\$\\breadmem[bh]\\b\\(\"(.+)\".*\\).*")
 
     for((input,expected) <- map) {
       //println(s"INPUT: >>${input}<<")
@@ -112,6 +111,18 @@ class SimBootstraps extends AnyFunSuite {
 
   }
 
+
+  test("test_validate_working_example") {
+
+    val workingWorkspace = Path("/work/spinalhdl/simWorkspace/SpinalSimWishboneArbiterTester/MemoryArbitration")
+    val path = workingWorkspace.resolve("simulatorName")
+    val currentWorkingDirectoryPath = path.toAbsolute.toFile
+    val line = "  $readmemh(\"/work/spinalhdl/tmp/job_529/WishBoneRom.v_toplevel_ram_symbol0.bin\",ram_symbol0);   // end"
+    val newline = Util.fixupVerilogDollarReadmemPath(line, currentWorkingDirectoryPath)
+
+    assert(newline.contains("\"..\\\\..\\\\..\\\\..\\\\tmp\\\\job_529\\\\WishBoneRom.v_toplevel_ram_symbol0.bin\""))
+
+  }
 
   def testExtractVerilogDollarReadmemPath(pattern: Pattern, str: String): String = {
     assert(str.contains('$' + "readmem")) // Check the $readmem was not string formatted out of input data

@@ -6,7 +6,7 @@ import scala.reflect.io.Path
 
 object Util {
 
-  val PATTERN_extract_readmem_path = Pattern.compile(".*\\$\\breadmem.*\\b\\(\"(.+)\".*\\).*")
+  val PATTERN_extract_readmem_path = Pattern.compile(".*\\$\\breadmem[bh]\\b\\(\"(.+)\".*\\).*")
 
   /**
     *
