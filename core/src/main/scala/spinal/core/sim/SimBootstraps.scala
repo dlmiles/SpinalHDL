@@ -1026,7 +1026,8 @@ case class SpinalSimConfig(
             // CWD from the simulator runtime perspective, so there is an extra directory which we use
             //  using the name "simulatorName" to be an arbitrary directory name to act as CWD during sim execution
             val currentWorkingDirectoryPath = Path(workingWorkspace.resolve("simulatorName").toAbsolutePath.toFile)
-            val newline = Util.fixupVerilogDollarReadmemPath(line, currentWorkingDirectoryPath)
+            val targetDirectoryPath = Path(workingWorkspace.resolve("rtl").toAbsolutePath.toFile)
+            val newline = Util.fixupVerilogDollarReadmemPath(line, currentWorkingDirectoryPath, targetDirectoryPath)
             println(s"SimBootstraps ${src}:nnn has ${lines.length} lines and has ${newline}")
             newline
           } else {

@@ -18,20 +18,58 @@ object Util {
     * @param backslashAlways default to true on windows and false on linux, or can be overriden.
     * @return The Verilog line transformed and rewritten.
     */
-  def fixupVerilogDollarReadmemPath(input: String, workingDirectory: Path = null, backslashAlways: Boolean = autoBackslashAlways()): String = {
+  def fixupVerilogDollarReadmemPath(input: String, workingDirectory: Path = null, targetDirectory: Path = null, backslashAlways: Boolean = autoBackslashAlways()): String = {
     val extracted = extractVerilogDollarReadmemPath(input)
     if(workingDirectory != null && !workingDirectory.path.equals(".")) {
       val pathCanonical = Path(extracted).toCanonical
       var newPath: String = null
       if(workingDirectory.path.equals("")) {
-        newPath = pathCanonical.path
+        // toCanonical will make a relative path absolute based around the JVM CWD not the one supplied as argument here
+        // but on Windows it will no relativize a path that starts "C:\" and another that starts "/" which is a real headache
+        //  for cross-platform unit testing
+        newPath = Path(extracted).toCanonical.path
       } else {
-        println(s"fixupVerilogDollarReadmemPath(input=$input, workingDirectory=$workingDirectory, backslashAlways=$backslashAlways)")
+        println(s"fixupVerilogDollarReadmemPath(input='${input}', workingDirectory=$workingDirectory, targetDirectory=$targetDirectory, backslashAlways=$backslashAlways)")
         println(s"fixupVerilogDollarReadmemPath()  pathCanonical=$pathCanonical")
         println(s"fixupVerilogDollarReadmemPath()  workingDirectory=$workingDirectory")
         println(s"fixupVerilogDollarReadmemPath()  toCanonical=${workingDirectory.toCanonical}")
-        println(s"fixupVerilogDollarReadmemPath()  relativize=${workingDirectory.toCanonical.relativize(pathCanonical)}")
-        newPath = workingDirectory.toCanonical.relativize(pathCanonical).path
+        try {
+          println(s"fixupVerilogDollarReadmemPath()  relativize=${workingDirectory.toCanonical.relativize(extracted)}")
+        } catch {
+          case e: Throwable => println(s"fixupVerilogDollarReadmemPath()  relativize=${e.getClass.getName}: ${e.getMessage}")
+        }
+        if(targetDirectory != null) {
+          try {
+            println(s"fixupVerilogDollarReadmemPath()  relativize1=${workingDirectory.toCanonical.relativize(targetDirectory)}")
+          } catch {
+            case e: Throwable => println(s"fixupVerilogDollarReadmemPath()  relativize1=${e.getClass.getName}: ${e.getMessage}")
+          }
+          try {
+            println(s"fixupVerilogDollarReadmemPath()  relativize2=${targetDirectory.toCanonical.relativize(extracted)}")
+          } catch {
+            case e: Throwable => println(s"fixupVerilogDollarReadmemPath()  relativize1=${e.getClass.getName}: ${e.getMessage}")
+          }
+          try {
+            println(s"fixupVerilogDollarReadmemPath()  relativize3=${targetDirectory.toCanonical.relativize(workingDirectory)}")
+          } catch {
+            case e: Throwable => println(s"fixupVerilogDollarReadmemPath()  relativize1=${e.getClass.getName}: ${e.getMessage}")
+          }
+        }
+        try {
+          newPath = workingDirectory.toCanonical.relativize(extracted).path
+        } catch {
+          case e: Throwable => {
+            println(s"fixupVerilogDollarReadmemPath()  newPath=${e.getClass.getName}: ${e.getMessage}")
+            try {
+              newPath =workingDirectory.toCanonical.relativize(pathCanonical).path
+            } catch {
+              case e: Throwable => {
+                println(s"fixupVerilogDollarReadmemPath()  newPath2=${e.getClass.getName}: ${e.getMessage}")
+                newPath = "NOTSET"
+              }
+            }
+          }
+        }
         println(s"fixupVerilogDollarReadmemPath()  newPath=$newPath")
       }
       val relPathEscaped = backslashEscapeForString(newPath)

@@ -133,4 +133,8 @@ class SimBootstrapsTest extends AnyFunSuite {
     res
   }
 
+  private def prefix(): String = {
+    if(File.separatorChar == '\\') "C:\\" else "/"
+  }
+
 }
